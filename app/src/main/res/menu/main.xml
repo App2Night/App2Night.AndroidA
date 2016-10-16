@@ -11,7 +11,7 @@
         android:id="@+id/action_search"
         android:orderInCategory="200"
         android:title="Search"
-        android:icon="@drawable/ic_menu_search"
+        android:icon="@mipmap/ic_search_black_24dp"
         app:showAsAction="ifRoom"
         ></item>
 </menu>
