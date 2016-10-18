@@ -1,5 +1,6 @@
 package de.dhbw.partyup;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -10,9 +11,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
+
+import static de.dhbw.partyup.JasonInterpreter.buildJSON;
+
+
+
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    public TextView view;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +39,8 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        view = (TextView) findViewById(R.id.textview1);
     }
 
     @Override
@@ -59,6 +70,9 @@ public class MainActivity extends AppCompatActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
 
+            // Intent erzeugen und Starten der AktiendetailActivity mit explizitem Intent
+            Intent settingsIntent = new Intent(this, SettingsActivity.class);
+            startActivity(settingsIntent);
 
 
             return true;
@@ -66,6 +80,7 @@ public class MainActivity extends AppCompatActivity
 
         return super.onOptionsItemSelected(item);
     }
+
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -78,6 +93,11 @@ public class MainActivity extends AppCompatActivity
             // Intent erzeugen und Starten der AktiendetailActivity mit explizitem Intent
             Intent settingsIntent = new Intent(this, SettingsActivity.class);
             startActivity(settingsIntent);
+        }
+
+        else if (id == R.id.nav_findEvent) {
+            RestBackendCommunication bc = new RestBackendCommunication();
+            bc.postRequest("bla",null,this);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

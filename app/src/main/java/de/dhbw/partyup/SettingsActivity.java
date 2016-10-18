@@ -2,6 +2,7 @@ package de.dhbw.partyup;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,7 +13,7 @@ import static de.dhbw.partyup.R.layout.activity_settings;
  * Created by Tobias Berner on 16.10.2016.
  */
 
-public class SettingsActivity extends Activity {
+public class SettingsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,7 +21,7 @@ public class SettingsActivity extends Activity {
         setContentView(R.layout.app_bar_settings);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarSettings);
-        setSupportActionBar(toolbar);
+        
     }
 
     @Override
