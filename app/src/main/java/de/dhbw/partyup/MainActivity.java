@@ -94,6 +94,11 @@ public class MainActivity extends AppCompatActivity
             Intent settingsIntent = new Intent(this, SettingsActivity.class);
             startActivity(settingsIntent);
         }
+        else if (id == R.id.nav_addEvent) {
+            RestBackendCommunication bc = new RestBackendCommunication();
+            bc.view = (TextView) findViewById(R.id.textview1);
+            bc.getRequest("bla",this);
+        }
 
         else if (id == R.id.nav_findEvent) {
             RestBackendCommunication bc = new RestBackendCommunication();

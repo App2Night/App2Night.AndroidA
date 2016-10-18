@@ -5,10 +5,12 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
@@ -24,13 +26,13 @@ import org.json.JSONObject;
  */
 public class RestBackendCommunication {
 
-
+    public TextView view;
 
     // When user clicks button, calls AsyncTask.
     // Before attempting to fetch the URL, makes sure that there is a network connection.
     public void getRequest(String url, Context c) {
         // Gets the URL from the UI's text field.
-        // url = "http://192.168.240.1/arduino/digital/13";
+         url = "http://app2nightapi.azurewebsites.net/api/Party";
         Context context = c;
         ConnectivityManager connMgr = (ConnectivityManager)
                 context.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -99,13 +101,16 @@ public class RestBackendCommunication {
 
         InputStream is = null;
         OutputStream os = null;
+        String contentAsString = "";
         // Only display the first 500 characters of the retrieved
         // web page content.
         int len = 500;
 
         try {
-            URL url = new URL("http://google.de");
+            URL url = new URL("http://app2nightapi.azurewebsites.net/api/Party");
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestProperty("Content-Type", "application/json");
+
             conn.setReadTimeout(10000 /* milliseconds */);
             conn.setConnectTimeout(15000 /* milliseconds */);
             conn.setRequestMethod("POST");
@@ -116,9 +121,11 @@ public class RestBackendCommunication {
 
             os = conn.getOutputStream();
             //JSONObject jObj = new JSONObject(jString);
-            os.write("q=bla".getBytes());
-            os.flush();
-            os.close();
+            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os));
+
+            bw.write("{\"partyName\": \"string\", \"partyDate\": \"2016-10-18T17:21:27.909Z\"}");
+            bw.flush();
+            bw.close();
 
 
             // Starts the query
@@ -129,7 +136,8 @@ public class RestBackendCommunication {
             is = conn.getInputStream();
 
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
-            String contentAsString = br.readLine();
+            contentAsString = br.readLine();
+
             return contentAsString;
 
             // Makes sure that the InputStream is closed after the app is
@@ -141,6 +149,8 @@ public class RestBackendCommunication {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
+        }catch (Exception e)    {
+            e.printStackTrace();
         } finally {
             if (is != null) {
                 try {
@@ -151,7 +161,7 @@ public class RestBackendCommunication {
             }
         }
 
-    return null;
+        return contentAsString;
 
     }
 
@@ -164,7 +174,7 @@ public class RestBackendCommunication {
         // onPostExecute displays the results of the AsyncTask.
         @Override
         protected void onPostExecute(String result) {
-           result.charAt(1);
+           view.setText(result);
         }
     }
 
@@ -183,7 +193,7 @@ public class RestBackendCommunication {
         // onPostExecute displays the results of the AsyncTask.
         @Override
         protected void onPostExecute(String result) {
-            // view.setText(result);
+             view.setText(result);
         }
     }
 }
