@@ -1,4 +1,4 @@
-package de.dhbw.partyup;
+package de.dhbw.app2night;
 
 import org.junit.Test;
 

@@ -1,4 +1,4 @@
-package de.dhbw.partyup;
+package de.dhbw.app2night;
 
 import android.content.Context;
 import android.content.Intent;

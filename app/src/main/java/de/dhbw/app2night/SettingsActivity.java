@@ -1,4 +1,4 @@
-package de.dhbw.partyup;
+package de.dhbw.app2night;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -21,7 +21,7 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.app_bar_settings);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarSettings);
-        
+
     }
 
     @Override
