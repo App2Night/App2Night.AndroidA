@@ -174,7 +174,8 @@ public class RestBackendCommunication {
         // onPostExecute displays the results of the AsyncTask.
         @Override
         protected void onPostExecute(String result) {
-           view.setText(result);
+            if (result != null)
+                view.setText(result);
         }
     }
 
@@ -193,7 +194,8 @@ public class RestBackendCommunication {
         // onPostExecute displays the results of the AsyncTask.
         @Override
         protected void onPostExecute(String result) {
-             view.setText(result);
+            if (result != null)
+                view.setText(result);
         }
     }
 }

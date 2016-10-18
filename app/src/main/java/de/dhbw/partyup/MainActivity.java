@@ -102,6 +102,7 @@ public class MainActivity extends AppCompatActivity
 
         else if (id == R.id.nav_findEvent) {
             RestBackendCommunication bc = new RestBackendCommunication();
+            bc.view = (TextView) findViewById(R.id.textview1);
             bc.postRequest("bla",null,this);
         }
 
