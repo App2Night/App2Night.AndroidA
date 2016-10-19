@@ -7,7 +7,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import static de.dhbw.partyup.R.layout.activity_settings;
+
 
 /**
  * Created by Tobias Berner on 16.10.2016.

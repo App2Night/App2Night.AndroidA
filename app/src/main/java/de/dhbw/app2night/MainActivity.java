@@ -1,6 +1,5 @@
 package de.dhbw.app2night;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -13,9 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import static de.dhbw.partyup.JasonInterpreter.buildJSON;
-
-
+import de.dhbw.BackEndCommunication.RestBackendCommunication;
 
 
 public class MainActivity extends AppCompatActivity
@@ -103,7 +100,11 @@ public class MainActivity extends AppCompatActivity
         else if (id == R.id.nav_findEvent) {
             RestBackendCommunication bc = new RestBackendCommunication();
             bc.view = (TextView) findViewById(R.id.textview1);
-            bc.postRequest("bla",null,this);
+            bc.postJsonObjectToUrl("bla",null,this);
+        }
+        else if (id == R.id.nav_profile){
+            RestBackendCommunication bc = new RestBackendCommunication();
+            bc.getRequest("bla",this);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

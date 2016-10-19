@@ -1,6 +1,9 @@
-package de.dhbw.partyup;
+package de.dhbw.BackEndCommunication;
 
 
+import android.app.Activity;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -28,5 +31,13 @@ public class JasonInterpreter {
 
     }
 
+
+        public static JSONArray getJsonArray(String jString){
+
+
+
+
+        return null;
+        }
 
 }
