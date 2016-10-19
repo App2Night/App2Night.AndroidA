@@ -120,7 +120,6 @@ public class RestBackendCommunication {
        }
    }
 
-
     /**
      *  Führt einen PostRequest an die URL aus.
      *
@@ -322,54 +321,8 @@ public class RestBackendCommunication {
         }
     }
 
-    private class postToServerTask extends AsyncTask<String, Void, String> {
-
-        @Override
-        //eingabe[0] -> url; eingabe[1] -> JSON String
-        protected String doInBackground(String... eingabe) {
-                //return postRequest(eingabe[0],eingabe[1]);
-            return "";
-        }
-        // onPostExecute displays the results of the AsyncTask.
-        @Override
-        protected void onPostExecute(String result) {
-            if (result != null && view != null)
-                view.setText(result);
-        }
-    }
 
 
-    private class DownloadWebpageTask extends AsyncTask<String, Void, Boolean> {
-        @Override
-        protected Boolean doInBackground(String... urls) {
-
-           /* // params comes from the execute() call: params[0] is the url.
-            try {
-               // return getRequest(urls[0],new Context());
-            } catch (IOException e) {
-                return "Unable to retrieve web page. URL may be invalid.";
-            }*/
-            return true;
-        }
-        // onPostExecute displays the results of the AsyncTask.
-        @Override
-        protected void onPostExecute(Boolean result) {
-           /* if (result != null && view != null)
-                view.setText(result);
-
-            try {
-                JSONArray jArray = new JSONArray(result);
-                view.setText(jArray.getJSONObject(0).getString("name"));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
 
 
-             */
-            if(result){
-                //blabla
-            }
-
-        }
-    }
 }
