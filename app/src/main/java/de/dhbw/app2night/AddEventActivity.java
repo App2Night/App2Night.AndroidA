@@ -1,8 +1,6 @@
 package de.dhbw.app2night;
 
-import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -13,23 +11,20 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
-import java.io.IOException;
-import de.dhbw.BackEndCommunication.RestBackendCommunication;
-import de.dhbw.exceptions.BackendCommunicationException;
-import de.dhbw.exceptions.NetworkUnavailableException;
 
+/**
+ * Created by Flo on 19.10.2016.
+ */
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
-    public Context context = this;
+public class AddEventActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     public TextView view;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_addevent);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarMain);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarAddEvent);
         setSupportActionBar(toolbar);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -40,6 +35,7 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
 
         view = (TextView) findViewById(R.id.textview1);
     }
@@ -68,10 +64,8 @@ public class MainActivity extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
 
-            // Intent erzeugen und Starten der AktiendetailActivity mit explizitem Intent
             Intent settingsIntent = new Intent(this, SettingsActivity.class);
             startActivity(settingsIntent);
 
@@ -99,11 +93,9 @@ public class MainActivity extends AppCompatActivity
         }
 
         else if (id == R.id.nav_findEvent) {
-            new getTask().execute("bla");
-        }
-        else if (id == R.id.nav_profile){
-            new postTask().execute("bla","{\"partyName\": \"string\", \"partyDate\": \"2016-10-19T14:21:10.914Z\",\"creationDate\": \"2016-10-19T14:21:10.914Z\"}");
-
+            RestBackendCommunication bc = new RestBackendCommunication();
+            bc.view = (TextView) findViewById(R.id.textview1);
+            bc.postRequest("bla",null,this);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -111,61 +103,4 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    /**
-     * Muss per "new getTask().execute()" aufgerufen werden. Dabei muss die URL für den
-     * Get-Request als einzigen Parameter mitgegeben werden
-     *
-     */
-    private class getTask extends AsyncTask<String, Void, String> {
-        @Override
-        protected String doInBackground(String... urls) {
-            try{
-                RestBackendCommunication rbc = new RestBackendCommunication();
-                return rbc.getRequest(urls[0],context);
-            } catch (IOException e) {
-                return "Unable to retrieve web page. URL may be invalid.";
-            } catch (BackendCommunicationException e) {
-                e.printStackTrace();
-            } catch (NetworkUnavailableException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-        // onPostExecute displays the results of the AsyncTask.
-        @Override
-        protected void onPostExecute(String result) {
-            if (result != null && view != null)
-                view.setText(result);
-
-        }
-    }
-
-
-    private class postTask extends AsyncTask<String, Void, String> {
-
-        @Override
-        protected String doInBackground(String... eingabe) {
-
-            try {
-                RestBackendCommunication rbc = new RestBackendCommunication();
-                return rbc.postRequest(eingabe[0],eingabe[1],context);
-            } catch (NetworkUnavailableException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (BackendCommunicationException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-        // onPostExecute displays the results of the AsyncTask.
-        @Override
-        protected void onPostExecute(String result) {
-            if (result != null && view != null)
-                view.setText(result);
-        }
-    }
 }
-
-
-
