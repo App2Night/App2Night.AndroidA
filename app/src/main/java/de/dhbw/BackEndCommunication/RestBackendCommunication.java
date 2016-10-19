@@ -75,7 +75,7 @@ public class RestBackendCommunication {
      * @throws BackendCommunicationException - Wenn get Request fehlschlägt
      * @throws NetworkUnavailableException - Wenn keine Internetverbindung besteht
      */
-   private String getRequest(String myurl, Context context) throws IOException, BackendCommunicationException, NetworkUnavailableException {
+   public String getRequest(String myurl, Context context) throws IOException, BackendCommunicationException, NetworkUnavailableException {
        InputStream is = null;
        String jStringFromServer;
 
@@ -122,22 +122,19 @@ public class RestBackendCommunication {
 
 
     /**
-     *  Führt einen PostRequest an die URL durch. Dabei wird ein JSON Objekt als String
-     *  mitgeschickt und die Antwort des Servers wird zurückgegeben.
+     *  Führt einen PostRequest an die URL aus.
      *
      * @param myurl - URL für den Post Request
-     * @param jString - JSON Objekt als String, das an URL gepostet werden soll
+     * @param jString - JSON Objekt als String, das an URL geschickt werden soll
      * @param context - Aufrufende Activity
      * @return  Body der Serverantwort
      * @throws NetworkUnavailableException - Wenn keine Internetverbindung besteht
      * @throws IOException - Wenn bei dem Zugriff auf den Input oder Output Stream ein Fehler auftritt
      * @throws BackendCommunicationException -  Wenn post Request fehlschlägt
      */
-    private String postRequest(String myurl, String jString, Context context) throws NetworkUnavailableException, IOException, BackendCommunicationException {
-
+    public String postRequest(String myurl, String jString, Context context) throws NetworkUnavailableException, IOException, BackendCommunicationException {
         InputStream is = null;
         OutputStream os = null;
-
         ConnectivityManager connMgr = (ConnectivityManager)
                 context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
@@ -163,10 +160,8 @@ public class RestBackendCommunication {
                 bw.flush();
                 bw.close();
 
-
                 conn.connect();
                 int response = conn.getResponseCode();
-
                 if (response == HttpURLConnection.HTTP_CREATED) {
                     is = conn.getInputStream();
                     BufferedReader br = new BufferedReader(new InputStreamReader(is));
@@ -174,7 +169,7 @@ public class RestBackendCommunication {
                     br.close();
                     return jsonAsString;
                 } else {
-                   throw new BackendCommunicationException(Integer.toString(response));
+                    throw new BackendCommunicationException(Integer.toString(response));
                 }
             } finally {
                 if (is != null) {
@@ -198,6 +193,134 @@ public class RestBackendCommunication {
         }
     }
 
+    /**
+     *  Führt einen Put-Request an die URL aus.
+     *
+     * @param myurl - URL für den Post Request
+     * @param jString - JSON Objekt als String, das an URL geschickt werden soll
+     * @param context - Aufrufende Activity
+     * @return Body der Serverantwort
+     * @throws NetworkUnavailableException - Wenn keine Internetverbindung besteht
+     * @throws IOException - Wenn bei dem Zugriff auf den Input oder Output Stream ein Fehler auftritt
+     * @throws BackendCommunicationException -  Wenn post Request fehlschlägt
+     */
+    public String putRequest(String myurl, String jString, Context context) throws NetworkUnavailableException, IOException, BackendCommunicationException {
+        InputStream is = null;
+        OutputStream os = null;
+        ConnectivityManager connMgr = (ConnectivityManager)
+                context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnected()) {
+
+            try {
+                myurl = "http://app2nightapi.azurewebsites.net/api/Values/1";
+                URL url = new URL(myurl);
+
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setRequestProperty("Content-Type", "application/json");
+
+                conn.setReadTimeout(10000 /* milliseconds */);
+                conn.setConnectTimeout(15000 /* milliseconds */);
+                conn.setRequestMethod("PUT");
+
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+
+                os = conn.getOutputStream();
+                BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os));
+                bw.write(jString);
+                bw.flush();
+                bw.close();
+
+                conn.connect();
+                int response = conn.getResponseCode();
+                if (response == HttpURLConnection.HTTP_CREATED) {
+                    is = conn.getInputStream();
+                    BufferedReader br = new BufferedReader(new InputStreamReader(is));
+                    String jsonAsString = br.readLine();
+                    br.close();
+                    return jsonAsString;
+                } else {
+                    throw new BackendCommunicationException(Integer.toString(response));
+                }
+            } finally {
+                if (is != null) {
+                    try {
+                        is.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if(os != null){
+                    try {
+                        os.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+        }else {
+            throw new NetworkUnavailableException("Network not connected");
+        }
+    }
+
+    /**
+     * Führt ein Delete-Request and die URL aus.
+     *
+     * @param myurl - URL für den Delete-Request
+     * @param context - Aufrufende Activity
+     * @return true, wenn löschen erfolgreich
+     * @throws NetworkUnavailableException - Wenn keine Internetverbindung besteht
+     * @throws IOException - Wenn bei dem Zugriff auf den Input oder Output Stream ein Fehler auftritt
+     * @throws BackendCommunicationException -  Wenn post Request fehlschlägt
+     */
+    public boolean deleteRequest(String myurl, Context context) throws NetworkUnavailableException, IOException, BackendCommunicationException {
+        InputStream is = null;
+        OutputStream os = null;
+        ConnectivityManager connMgr = (ConnectivityManager)
+                context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnected()) {
+
+            try {
+                myurl = "http://app2nightapi.azurewebsites.net/api/Values/1";
+                URL url = new URL(myurl);
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setReadTimeout(10000 /* milliseconds */);
+                conn.setConnectTimeout(15000 /* milliseconds */);
+                conn.setRequestMethod("DELETE");
+
+                conn.connect();
+                int response = conn.getResponseCode();
+
+                if (response == HttpURLConnection.HTTP_OK) {
+                    //delete erfolgreich
+                    return true;
+                } else {
+                    throw new BackendCommunicationException(Integer.toString(response));
+                }
+            } finally {
+                if (is != null) {
+                    try {
+                        is.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if(os != null){
+                    try {
+                        os.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+        }else {
+            throw new NetworkUnavailableException("Network not connected");
+        }
+    }
 
     private class postToServerTask extends AsyncTask<String, Void, String> {
 
@@ -216,9 +339,9 @@ public class RestBackendCommunication {
     }
 
 
-    private class DownloadWebpageTask extends AsyncTask<String, Void, String> {
+    private class DownloadWebpageTask extends AsyncTask<String, Void, Boolean> {
         @Override
-        protected String doInBackground(String... urls) {
+        protected Boolean doInBackground(String... urls) {
 
            /* // params comes from the execute() call: params[0] is the url.
             try {
@@ -226,12 +349,12 @@ public class RestBackendCommunication {
             } catch (IOException e) {
                 return "Unable to retrieve web page. URL may be invalid.";
             }*/
-            return "";
+            return true;
         }
         // onPostExecute displays the results of the AsyncTask.
         @Override
-        protected void onPostExecute(String result) {
-            if (result != null && view != null)
+        protected void onPostExecute(Boolean result) {
+           /* if (result != null && view != null)
                 view.setText(result);
 
             try {
@@ -241,6 +364,11 @@ public class RestBackendCommunication {
                 e.printStackTrace();
             }
 
+
+             */
+            if(result){
+                //blabla
+            }
 
         }
     }
