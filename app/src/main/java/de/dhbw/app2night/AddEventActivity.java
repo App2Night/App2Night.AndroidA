@@ -12,6 +12,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import de.dhbw.BackEndCommunication.RestBackendCommunication;
+
 /**
  * Created by Flo on 19.10.2016.
  */
@@ -93,9 +95,7 @@ public class AddEventActivity extends AppCompatActivity implements NavigationVie
         }
 
         else if (id == R.id.nav_findEvent) {
-            RestBackendCommunication bc = new RestBackendCommunication();
-            bc.view = (TextView) findViewById(R.id.textview1);
-            bc.postRequest("bla",null,this);
+
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
