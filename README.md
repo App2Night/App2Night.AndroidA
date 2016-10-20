@@ -1,1 +1,1 @@
-PartyUp verbindet Menschen.
+App2Night verbindet Menschen.
