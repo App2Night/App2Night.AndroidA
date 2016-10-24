@@ -13,13 +13,13 @@ import de.dhbw.exceptions.NetworkUnavailableException;
  * Created by Tobias Berner on 20.10.2016.
  */
 
-public class deletePartyByIdTask extends AsyncTask<String,Void,Boolean> {
+public class DeletePartyByIdTask extends AsyncTask<String,Void,Boolean> {
 
     final String url="http://app2nightapi.azurewebsites.net/api/Party";
 
     MainActivity mainActivity;
 
-    public deletePartyByIdTask(MainActivity mA, String id){
+    public DeletePartyByIdTask(MainActivity mA, String id){
         mainActivity = mA;
         prepare(id);
     }

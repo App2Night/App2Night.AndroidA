@@ -13,10 +13,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import de.dhbw.backendTasks.party.changePartyByIdTask;
-import de.dhbw.backendTasks.party.deletePartyByIdTask;
-import de.dhbw.backendTasks.party.getPartyListTask;
-import de.dhbw.backendTasks.party.postPartyTask;
+import de.dhbw.backendTasks.party.ChangePartyByIdTask;
+import de.dhbw.backendTasks.party.DeletePartyByIdTask;
+import de.dhbw.backendTasks.party.GetPartyListTask;
+import de.dhbw.backendTasks.party.PostPartyTask;
 
 
 public class MainActivity extends AppCompatActivity
@@ -93,13 +93,42 @@ public class MainActivity extends AppCompatActivity
             startActivity(settingsIntent);
         }
         else if (id == R.id.nav_findEvent) {
-            new getPartyListTask(this);
+            new GetPartyListTask(this);
         }
         else if (id == R.id.nav_profile){
-            new postPartyTask(this,"{\"partyName\": \"string\", \"partyDate\": \"2016-10-19T14:21:10.914Z\",\"creationDate\": \"2016-10-19T14:21:10.914Z\"}");
+            new PostPartyTask(this,"{\"partyName\": \"string\", "+
+                    "\"partyDate\": \"2016-10-24T17:58:34.538Z\", "+
+                    " \"musicGenre\": 0," +
+                    " \"location\": {" +
+                    "\"countryName\": \"string\","+
+                    "\"cityName\": \"string\","+
+                    "\"streetName\": \"string\","+
+                    "\"houseNumber\": 0,"+
+                    "\"houseNumberAdditional\": \"string\","+
+                    "\"zipcode\": 0,"+
+                    " \"latitude\": 0,"+
+                    " \"longitude\": 0}," +
+                    "\"partyType\": 0," +
+                    "\"description\": \"string\"}");
         }
         else  if (id == R.id.nav_settings) {
-            new changePartyByIdTask(this,"1","{\"partyName\": \"string\", \"partyDate\": \"2016-10-19T14:21:10.914Z\",\"creationDate\": \"2016-10-19T14:21:10.914Z\"}");
+
+            new DeletePartyByIdTask(this, "2acec5b0-37e1-4c88-4692-08d3fc41e1f5");
+
+            new ChangePartyByIdTask(this,"2acec5b0-37e1-4c88-4692-08d3fc41e1f5","{\"partyName\": \"string\", "+
+                    "\"partyDate\": \"2016-10-24T17:58:34.538Z\", "+
+                    " \"musicGenre\": 0," +
+                    " \"location\": {" +
+                    "\"countryName\": \"string\","+
+                    "\"cityName\": \"string\","+
+                    "\"streetName\": \"string\","+
+                    "\"houseNumber\": 0,"+
+                    "\"houseNumberAdditional\": \"string\","+
+                    "\"zipcode\": 0,"+
+                    " \"latitude\": 0,"+
+                    " \"longitude\": 0}," +
+                    "\"partyType\": 0," +
+                    "\"description\": \"string\"}");
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

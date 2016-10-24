@@ -1,6 +1,8 @@
 package de.dhbw.app2night;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -44,6 +46,14 @@ public class SettingsActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+
+    public void reloadSettings(){
+        SharedPreferences sharedPrefs = this.getPreferences(Context.MODE_PRIVATE);
+
+
+
     }
 
 

@@ -13,13 +13,13 @@ import de.dhbw.exceptions.NetworkUnavailableException;
  * Created by Tobias Berner on 20.10.2016.
  */
 
-public class changePartyByIdTask extends AsyncTask<String, Void, Boolean> {
+public class ChangePartyByIdTask extends AsyncTask<String, Void, Boolean> {
 
     final String url="http://app2nightapi.azurewebsites.net/api/Party";
 
     MainActivity mainActivity;
 
-    public changePartyByIdTask(MainActivity mA, String id , String jString){
+    public ChangePartyByIdTask(MainActivity mA, String id , String jString){
         mainActivity = mA;
         prepare(id, jString);
     }

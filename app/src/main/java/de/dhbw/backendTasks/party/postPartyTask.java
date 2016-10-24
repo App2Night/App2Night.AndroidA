@@ -14,18 +14,18 @@ import de.dhbw.exceptions.NetworkUnavailableException;
  * Created by Tobias Berner on 20.10.2016.
  */
 
-public class postPartyTask extends AsyncTask<String,Void,String> {
+public class PostPartyTask extends AsyncTask<String,Void,String> {
 
     final String url="http://app2nightapi.azurewebsites.net/api/Party";
     AddEventActivity addEventActivity;
     MainActivity mainActivity;
 
-    public postPartyTask(AddEventActivity aEA, String jString){
+    public PostPartyTask(AddEventActivity aEA, String jString){
         addEventActivity = aEA;
         prepare(jString);
     }
 
-    public postPartyTask(MainActivity mA, String jString){
+    public PostPartyTask(MainActivity mA, String jString){
         mainActivity = mA;
         prepare(jString);
     }

@@ -14,7 +14,7 @@ import de.dhbw.exceptions.NetworkUnavailableException;
  * Created by Tobias Berner on 20.10.2016.
  */
 
-public class getPartyListTask extends AsyncTask<String, Void, String> {
+public class GetPartyListTask extends AsyncTask<String, Void, String> {
 
 
     final String url="http://app2nightapi.azurewebsites.net/api/Party";
@@ -22,8 +22,10 @@ public class getPartyListTask extends AsyncTask<String, Void, String> {
     MainActivity mainActivity;
 
 
-    public getPartyListTask(MainActivity mA){
+    public GetPartyListTask(MainActivity mA){
         mainActivity = mA;
+        this.execute(url);
+
     }
 
     private void prepare(){
