@@ -39,7 +39,7 @@ public class AddEventActivity extends AppCompatActivity implements NavigationVie
         navigationView.setNavigationItemSelectedListener(this);
 
 
-        view = (TextView) findViewById(R.id.textview1);
+        view = (TextView) findViewById(R.id.addevent_textview1);
     }
 
     @Override
@@ -79,23 +79,26 @@ public class AddEventActivity extends AppCompatActivity implements NavigationVie
     }
 
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_settings) {
+
+        if (id == R.id.nav_addEvent) {
+            //Nutzer ist bereits in der AddEventActivity -> keine Aktion noetig
+        }
+        else if (id == R.id.nav_findEvent) {
+            Intent findEventIntent = new Intent(this, MainActivity.class);
+            startActivity(findEventIntent);
+        }
+        else if (id == R.id.nav_profile){
+            Intent profileIntent = new Intent(this, ProfileActivity.class);
+            startActivity(profileIntent);
+        }
+        else  if (id == R.id.nav_settings) {
             Intent settingsIntent = new Intent(this, SettingsActivity.class);
             startActivity(settingsIntent);
-        }
-        else if (id == R.id.nav_addEvent) {
-            Intent settingsIntent = new Intent(this, AddEventActivity.class);
-            startActivity(settingsIntent);
-        }
-
-        else if (id == R.id.nav_findEvent) {
-
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

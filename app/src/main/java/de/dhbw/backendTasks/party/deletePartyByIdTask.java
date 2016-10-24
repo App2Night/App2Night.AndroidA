@@ -55,9 +55,9 @@ public class DeletePartyByIdTask extends AsyncTask<String,Void,Boolean> {
         //Verarbeitung bei Aufruf von MainApp
         if (mainActivity != null){
             if (result)
-                mainActivity.view.setText("Löschen erfolgreich");
+                mainActivity.viewStatus.setText("Löschen erfolgreich");
             else
-                mainActivity.view.setText("Löschen nicht erfolgreich");
+                mainActivity.viewStatus.setText("Löschen nicht erfolgreich");
         }
     }
 }

@@ -10,14 +10,14 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="de.dhbw.app2night.AddEventActivity"
-    tools:showIn="@layout/app_bar_addevent">
+    tools:context="de.dhbw.app2night.ProfileActivity"
+    tools:showIn="@layout/app_bar_profile">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        android:id="@+id/addevent_textview1" />
+        android:text="Das ist die Profilübersicht!"
+        android:id="@+id/profile_textview1" />
 
     <ListView
         android:layout_width="match_parent"

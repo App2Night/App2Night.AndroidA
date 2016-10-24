@@ -55,9 +55,9 @@ public class ChangePartyByIdTask extends AsyncTask<String, Void, Boolean> {
         //Verarbeitung bei Aufruf von MainApp
         if (mainActivity != null){
             if (result)
-                mainActivity.view.setText("Put erfolgreich");
+                mainActivity.viewStatus.setText("Put erfolgreich");
             else
-                mainActivity.view.setText("Put nicht erfolgreich");
+                mainActivity.viewStatus.setText("Put nicht erfolgreich");
         }
     }
 }

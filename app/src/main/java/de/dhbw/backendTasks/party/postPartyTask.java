@@ -60,7 +60,7 @@ public class PostPartyTask extends AsyncTask<String,Void,String> {
             addEventActivity.view.setText(result);
         }
         else if (mainActivity != null){
-            mainActivity.view.setText(result);
+            mainActivity.viewStatus.setText(result);
         }
     }
 }

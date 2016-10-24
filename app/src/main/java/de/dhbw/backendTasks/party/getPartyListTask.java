@@ -53,7 +53,7 @@ public class GetPartyListTask extends AsyncTask<String, Void, String> {
 
         //Verarbeitung bei Aufruf von MainApp
         if (mainActivity != null){
-                mainActivity.view.setText(result);
+                mainActivity.viewStatus.setText(result);
         }
     }
 }
