@@ -2,7 +2,6 @@ package de.dhbw.app2night;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -13,10 +12,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
-import java.io.IOException;
-import de.dhbw.BackEndCommunication.RestBackendCommunication;
-import de.dhbw.exceptions.BackendCommunicationException;
-import de.dhbw.exceptions.NetworkUnavailableException;
+
+import de.dhbw.backendTasks.party.changePartyByIdTask;
+import de.dhbw.backendTasks.party.deletePartyByIdTask;
+import de.dhbw.backendTasks.party.getPartyListTask;
+import de.dhbw.backendTasks.party.postPartyTask;
 
 
 public class MainActivity extends AppCompatActivity
@@ -82,88 +82,29 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_settings) {
-            Intent settingsIntent = new Intent(this, SettingsActivity.class);
-            startActivity(settingsIntent);
-        }
-        else if (id == R.id.nav_addEvent) {
+
+        if (id == R.id.nav_addEvent) {
             Intent settingsIntent = new Intent(this, AddEventActivity.class);
             startActivity(settingsIntent);
         }
-
         else if (id == R.id.nav_findEvent) {
-            new getTask().execute("bla");
+            new getPartyListTask(this);
         }
         else if (id == R.id.nav_profile){
-            new postTask().execute("bla","{\"partyName\": \"string\", \"partyDate\": \"2016-10-19T14:21:10.914Z\",\"creationDate\": \"2016-10-19T14:21:10.914Z\"}");
-
+            new postPartyTask(this,"{\"partyName\": \"string\", \"partyDate\": \"2016-10-19T14:21:10.914Z\",\"creationDate\": \"2016-10-19T14:21:10.914Z\"}");
+        }
+        else  if (id == R.id.nav_settings) {
+            new changePartyByIdTask(this,"1","{\"partyName\": \"string\", \"partyDate\": \"2016-10-19T14:21:10.914Z\",\"creationDate\": \"2016-10-19T14:21:10.914Z\"}");
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-    /**
-     * Muss per "new getTask().execute()" aufgerufen werden. Dabei muss die URL für den
-     * Get-Request als einzigen Parameter mitgegeben werden
-     *
-     */
-    private class getTask extends AsyncTask<String, Void, String> {
-        @Override
-        protected String doInBackground(String... urls) {
-            try{
-                RestBackendCommunication rbc = new RestBackendCommunication();
-                return rbc.getRequest(urls[0],context);
-            } catch (IOException e) {
-                return "Unable to retrieve web page. URL may be invalid.";
-            } catch (BackendCommunicationException e) {
-                e.printStackTrace();
-            } catch (NetworkUnavailableException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-        // onPostExecute displays the results of the AsyncTask.
-        @Override
-        protected void onPostExecute(String result) {
-            if (result != null && view != null)
-                view.setText(result);
-
-        }
-    }
-
-
-    private class postTask extends AsyncTask<String, Void, String> {
-
-        @Override
-        protected String doInBackground(String... eingabe) {
-
-            try {
-                RestBackendCommunication rbc = new RestBackendCommunication();
-                return rbc.postRequest(eingabe[0],eingabe[1],context);
-            } catch (NetworkUnavailableException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (BackendCommunicationException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-        // onPostExecute displays the results of the AsyncTask.
-        @Override
-        protected void onPostExecute(String result) {
-            if (result != null && view != null)
-                view.setText(result);
-        }
     }
 }
 
