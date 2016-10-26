@@ -14,18 +14,21 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
 import de.dhbw.backendTasks.party.ChangePartyByIdTask;
 import de.dhbw.backendTasks.party.DeletePartyByIdTask;
 import de.dhbw.backendTasks.party.GetPartyListTask;
 import de.dhbw.backendTasks.party.PostPartyTask;
+import de.dhbw.exceptions.IllegalKeyException;
+
+import static de.dhbw.hilfsfunktionen.SettingsAdministration.getSettingString;
+import static de.dhbw.hilfsfunktionen.SettingsAdministration.putSettingString;
 
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     public TextView viewStatus;
-    private Button buttonGet, buttonPost, buttonPut, buttonDelete;
+    private Button buttonGet, buttonPost, buttonPut, buttonDelete, buttonSettings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,11 +52,13 @@ public class MainActivity extends AppCompatActivity
         buttonPost = (Button) findViewById(R.id.main_button_post);
         buttonPut = (Button) findViewById(R.id.main_button_put);
         buttonDelete = (Button) findViewById(R.id.main_button_delete);
+        buttonSettings = (Button) findViewById(R.id.main_button_settings);
 
         buttonGet.setOnClickListener(this);
         buttonPost.setOnClickListener(this);
         buttonPut.setOnClickListener(this);
         buttonDelete.setOnClickListener(this);
+        buttonSettings.setOnClickListener(this);
     }
 
     @Override
@@ -94,12 +99,12 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+
+
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
-
         if (id == R.id.nav_addEvent) {
             Intent addEventIntent = new Intent(this, AddEventActivity.class);
             startActivity(addEventIntent);
@@ -125,10 +130,56 @@ public class MainActivity extends AppCompatActivity
     public void onClick(View v) {
         int id = v.getId();
         switch(id){
-            case R.id.main_button_get: viewStatus.setText("Get!"); break;
-            case R.id.main_button_post: viewStatus.setText("Post!"); break;
-            case R.id.main_button_put: viewStatus.setText("Put!"); break;
-            case R.id.main_button_delete: viewStatus.setText("Delete!"); break;
+            case R.id.main_button_settings:
+                try {
+                    viewStatus.setText(getSettingString("radius",this));
+                    /*Thread.sleep(1000);
+                    putSettingString("test","Test erfolgreich!",this);
+                    viewStatus.setText(getSettingString("test",this));*/
+                } catch (IllegalKeyException e) {
+                    e.printStackTrace();
+                }
+
+
+                break;
+            case R.id.main_button_get:
+                new GetPartyListTask(this);
+                break;
+            case R.id.main_button_post:
+                new PostPartyTask(this,"{\"partyName\": \"string\", "+
+                        "\"partyDate\": \"2016-10-24T17:58:34.538Z\", "+
+                        " \"musicGenre\": 0," +
+                        " \"location\": {" +
+                        "\"countryName\": \"string\","+
+                        "\"cityName\": \"string\","+
+                        "\"streetName\": \"string\","+
+                        "\"houseNumber\": 0,"+
+                        "\"houseNumberAdditional\": \"string\","+
+                        "\"zipcode\": 0,"+
+                        " \"latitude\": 0,"+
+                        " \"longitude\": 0}," +
+                        "\"partyType\": 0," +
+                        "\"description\": \"string\"}");
+                break;
+            case R.id.main_button_put:
+                new ChangePartyByIdTask(this,"2acec5b0-37e1-4c88-4692-08d3fc41e1f5","{\"partyName\": \"string\", "+
+                        "\"partyDate\": \"2016-10-24T17:58:34.538Z\", "+
+                        " \"musicGenre\": 0," +
+                        " \"location\": {" +
+                        "\"countryName\": \"string\","+
+                        "\"cityName\": \"string\","+
+                        "\"streetName\": \"string\","+
+                        "\"houseNumber\": 0,"+
+                        "\"houseNumberAdditional\": \"string\","+
+                        "\"zipcode\": 0,"+
+                        " \"latitude\": 0,"+
+                        " \"longitude\": 0}," +
+                        "\"partyType\": 0," +
+                        "\"description\": \"string\"}");
+                break;
+            case R.id.main_button_delete:
+                new DeletePartyByIdTask(this, "2acec5b0-37e1-4c88-4692-08d3fc41e1f5");
+                break;
         }
     }
 }

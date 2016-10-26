@@ -56,5 +56,14 @@
         android:layout_alignParentBottom="true"
         android:layout_alignStart="@+id/main_button_post" />
 
+    <Button
+        android:text="Settings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:id="@+id/main_button_settings"
+        android:layout_above="@+id/main_button_get"
+        android:layout_toEndOf="@+id/main_button_get" />
+
 
 </RelativeLayout>
