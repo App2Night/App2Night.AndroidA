@@ -53,6 +53,13 @@
             android:screenOrientation="portrait">
         </activity>
 
+        <activity
+            android:name=".TestActivity"
+            android:label="TestActivity"
+            android:parentActivityName="de.dhbw.app2night.MainActivity"
+            android:screenOrientation="portrait">
+        </activity>
+
     </application>
 
 </manifest>

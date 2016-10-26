@@ -1,6 +1,5 @@
 package de.dhbw.app2night;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -14,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
 import de.dhbw.backendTasks.party.ChangePartyByIdTask;
 import de.dhbw.backendTasks.party.DeletePartyByIdTask;
 import de.dhbw.backendTasks.party.GetPartyListTask;
@@ -21,7 +21,6 @@ import de.dhbw.backendTasks.party.PostPartyTask;
 import de.dhbw.exceptions.IllegalKeyException;
 
 import static de.dhbw.hilfsfunktionen.SettingsAdministration.getSettingString;
-import static de.dhbw.hilfsfunktionen.SettingsAdministration.putSettingString;
 
 
 public class MainActivity extends AppCompatActivity
@@ -120,6 +119,10 @@ public class MainActivity extends AppCompatActivity
             Intent settingsIntent = new Intent(this, SettingsActivity.class);
             startActivity(settingsIntent);
         }
+        else if(id == R.id.nav_test){
+            Intent testIntent = new Intent(this, TestActivity.class);
+            startActivity(testIntent);
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -182,6 +185,8 @@ public class MainActivity extends AppCompatActivity
                 break;
         }
     }
+
+
 }
 
 
