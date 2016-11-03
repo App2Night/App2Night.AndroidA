@@ -1,4 +1,4 @@
-package de.dhbw.hilfsfunktionen;
+package de.dhbw.utils;
 
 
 import java.util.regex.Matcher;
@@ -10,13 +10,23 @@ import java.util.regex.Pattern;
 
 public class PruefungBenutzereingabe {
 
+    private static PruefungBenutzereingabe pbe = null;
+    private PruefungBenutzereingabe(){}
+
+    public static PruefungBenutzereingabe getInstance(){
+        if (pbe == null)
+            pbe = new PruefungBenutzereingabe();
+        return pbe;
+    }
+
+
     /**
      * Wertet aus, ob eine E-Mail akzeptiert wird.
      *
      * @param email - zu überprüfende Email
      * @return true, wenn Email aktzeptiert
      */
-    public static boolean acceptEmail(String email){
+    public boolean acceptEmail(String email){
         String emailPattern = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
         Pattern compareTo = Pattern.compile(emailPattern);
         Matcher m = compareTo.matcher(email);
@@ -29,7 +39,7 @@ public class PruefungBenutzereingabe {
      * @param nickname - zu überprüfender Nickname
      * @return true, wenn Nickname aktzeptiert
      */
-    public static boolean acceptNickname(String nickname){
+    public boolean acceptNickname(String nickname){
         String nicknamePattern = "[A-Za-z][A-Za-z0-9-]{0,29}";
         Pattern compareTo = Pattern.compile(nicknamePattern);
         Matcher m = compareTo.matcher(nickname);
@@ -43,7 +53,7 @@ public class PruefungBenutzereingabe {
      * @param password - zu überprüfendes Passwort
      * @return true, wenn Passwort aktzeptiert
      */
-    public static boolean checkPassword(String password){
+    public boolean checkPassword(String password){
         //"Eingabeklassen":
         boolean grossbuchstaben = false;
         boolean kleinbuchstaben = false;

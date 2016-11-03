@@ -1,9 +1,7 @@
 package de.dhbw.BackEndCommunication;
-
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.AsyncTask;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -12,15 +10,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
-
-import android.widget.TextView;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-
 import de.dhbw.exceptions.BackendCommunicationException;
 import de.dhbw.exceptions.NetworkUnavailableException;
 
@@ -29,6 +19,68 @@ import de.dhbw.exceptions.NetworkUnavailableException;
  *
  */
 public class RestBackendCommunication {
+
+    private static RestBackendCommunication RBC = null;
+
+    private RestBackendCommunication(){    }
+
+    public static RestBackendCommunication getInstance(){
+        if (RBC == null)
+            RBC = new RestBackendCommunication();
+        return RBC;
+    }
+
+    public String getToken (String myurl, String body, Context context) throws BackendCommunicationException, IOException, NetworkUnavailableException {
+        InputStream is = null;
+        OutputStream os = null;
+        String token;
+
+        ConnectivityManager connMgr = (ConnectivityManager)
+                context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnected()) {
+            try {
+                URL url = new URL(myurl);
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setRequestMethod("POST");
+               // conn.setRequestProperty("Content-Type","application/x-wwww-form-urlencoded");
+
+                conn.setDoOutput(true);
+                conn.setDoInput(true);
+
+               os = conn.getOutputStream();
+                BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os));
+                bw.write(body);
+                bw.flush();
+                bw.close();
+
+                conn.connect();
+
+                String str = conn.getResponseMessage();
+                int response = conn.getResponseCode();
+
+               if (response == HttpURLConnection.HTTP_OK) {
+                    is = conn.getInputStream();
+                    BufferedReader br = new BufferedReader(new InputStreamReader(is));
+                    token = br.readLine();
+                    br.close();
+               } else {
+                    throw new BackendCommunicationException(Integer.toString(response));
+               }
+                return token;
+            } finally {
+                //Stream schließen
+                if (is != null)
+                    is.close();
+                if (os != null)
+                    os.close();
+            }
+
+        } else {
+            //Netzwerk nicht verbunden
+            throw new NetworkUnavailableException("Network not connected");
+        }
+    }
 
     /**
      * Führt einen Get-Request an die URL aus und gibt den Body der Serverantwort zurück.
@@ -48,11 +100,8 @@ public class RestBackendCommunication {
                context.getSystemService(Context.CONNECTIVITY_SERVICE);
        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
        if (networkInfo != null && networkInfo.isConnected()) {
-
            try {
-
                URL url = new URL(myurl);
-
                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                conn.setReadTimeout(10000 /* milliseconds */);
                conn.setConnectTimeout(15000 /* milliseconds */);
@@ -70,7 +119,6 @@ public class RestBackendCommunication {
                } else {
                    throw new BackendCommunicationException(Integer.toString(response));
                }
-
                return jStringFromServer;
            } finally {
                //Stream schließen

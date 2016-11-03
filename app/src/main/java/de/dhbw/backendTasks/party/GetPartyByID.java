@@ -3,53 +3,50 @@ package de.dhbw.backendTasks.party;
 import android.content.Context;
 import android.os.AsyncTask;
 
-import com.google.gson.Gson;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.IOException;
-import java.util.ArrayList;
 
 import de.dhbw.BackEndCommunication.RestBackendCommunication;
 import de.dhbw.app2night.MainActivity;
 import de.dhbw.exceptions.BackendCommunicationException;
 import de.dhbw.exceptions.NetworkUnavailableException;
-import de.dhbw.model.Party;
-import de.dhbw.utils.JSONHelper;
 import de.dhbw.utils.PropertyUtil;
 
 /**
  * Created by Tobias Berner on 20.10.2016.
  */
 
-public class GetPartyListTask extends AsyncTask<String, Void, String> implements ApiPartyTask {
+public class GetPartyByID extends AsyncTask<String, Void, String> implements ApiPartyTask{
 
     //Initialisert von PropertyUtil
     private static String url;
     MainActivity mainActivity;
 
-    public void setUrl(String urlParm) {
+    public void setUrl(String urlParm){
         url = urlParm;
     }
 
-    public GetPartyListTask(MainActivity mA) {
+
+    public GetPartyByID(MainActivity mA, String id){
         mainActivity = mA;
-        prepare(mA);
+        prepare(mA,id);
     }
 
-    private void prepare(Context c) {
-        PropertyUtil.getInstance().init(this, c);
-        this.execute(url);
+    private void prepare(Context c, String id){
+        PropertyUtil.getInstance().init(this,c);
+        String urlId = buildGetUrl(id);
+        this.execute(urlId);
+    }
+
+    private  String buildGetUrl(String id){
+        return url+"/id=" + id;
     }
 
     @Override
     protected String doInBackground(String... params) {
-        try {
+        try{
             RestBackendCommunication rbc = RestBackendCommunication.getInstance();
-            if (mainActivity != null)
-                return rbc.getRequest(params[0], mainActivity);
+            if(mainActivity != null)
+                return rbc.getRequest(params[0],mainActivity);
         } catch (IOException e) {
             return "Unable to retrieve web page. URL may be invalid.";
         } catch (BackendCommunicationException e) {
@@ -61,15 +58,11 @@ public class GetPartyListTask extends AsyncTask<String, Void, String> implements
     }
 
     @Override
-    protected void onPostExecute(String result) {
+    protected void onPostExecute(String result){
 
-        Party[] parties = new Gson().fromJson(result, Party[].class);
-        for (Party p : parties){
-            System.out.println(p.getPartId());
-            System.out.println(p.getLocation().getCityName());
-
+        //Verarbeitung bei Aufruf von MainApp
+        if (mainActivity != null){
+                mainActivity.viewStatus.setText(result);
         }
-
     }
 }
-

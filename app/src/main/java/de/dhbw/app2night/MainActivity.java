@@ -1,5 +1,6 @@
 package de.dhbw.app2night;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -14,23 +15,34 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import de.dhbw.backendTasks.token.GetToken;
+import de.dhbw.exceptions.GPSUnavailableException;
+
 import de.dhbw.backendTasks.party.ChangePartyByIdTask;
 import de.dhbw.backendTasks.party.DeletePartyByIdTask;
 import de.dhbw.backendTasks.party.GetPartyListTask;
 import de.dhbw.backendTasks.party.PostPartyTask;
 import de.dhbw.exceptions.IllegalKeyException;
-
-import static de.dhbw.hilfsfunktionen.SettingsAdministration.getSettingString;
+import de.dhbw.utils.Gps;
+import de.dhbw.utils.SettingsAdministration;
 
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     public TextView viewStatus;
-    private Button buttonGet, buttonPost, buttonPut, buttonDelete, buttonSettings;
+    private Button buttonGet, buttonPost, buttonPut, buttonDelete, buttonSettings, buttonGPS;
+    private static Context mainApplicationContext;
+
+
+    public static Context getContext() {
+        return mainApplicationContext;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+         mainApplicationContext = this;
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -52,12 +64,15 @@ public class MainActivity extends AppCompatActivity
         buttonPut = (Button) findViewById(R.id.main_button_put);
         buttonDelete = (Button) findViewById(R.id.main_button_delete);
         buttonSettings = (Button) findViewById(R.id.main_button_settings);
+        buttonGPS = (Button) findViewById(R.id.main_button_gps);
 
         buttonGet.setOnClickListener(this);
         buttonPost.setOnClickListener(this);
         buttonPut.setOnClickListener(this);
         buttonDelete.setOnClickListener(this);
         buttonSettings.setOnClickListener(this);
+        buttonGPS.setOnClickListener(this);
+
     }
 
     @Override
@@ -133,9 +148,18 @@ public class MainActivity extends AppCompatActivity
     public void onClick(View v) {
         int id = v.getId();
         switch(id){
+            case R.id.main_button_gps:
+                double ergebnis[] = new double[0];
+                try {
+                    ergebnis = Gps.getInstance().getGPSCoordinates(this);
+                    viewStatus.setText("Breitengrad: " + ergebnis[0] + "; Längengrad: " + ergebnis[1]);
+                } catch (GPSUnavailableException e) {
+                    viewStatus.setText("Gps nicht verfügbar");
+                }
+                break;
             case R.id.main_button_settings:
                 try {
-                    viewStatus.setText(getSettingString("radius",this));
+                    viewStatus.setText(SettingsAdministration.getInstance().getSetting("radius", this));
                     /*Thread.sleep(1000);
                     putSettingString("test","Test erfolgreich!",this);
                     viewStatus.setText(getSettingString("test",this));*/

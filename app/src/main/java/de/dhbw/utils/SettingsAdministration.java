@@ -1,9 +1,10 @@
-package de.dhbw.hilfsfunktionen;
+package de.dhbw.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 import java.util.HashMap;
 import java.util.Map;
 
+import de.dhbw.app2night.MainActivity;
 import de.dhbw.exceptions.IllegalKeyException;
 
 /**
@@ -11,37 +12,44 @@ import de.dhbw.exceptions.IllegalKeyException;
  */
 
 public class SettingsAdministration {
-    private final static String sharedPreferencesSettings = "settings";
-    private static Map<String,String> defaultSettingsStrings;
-    private static Map<String,Boolean> defaultSettingsBoolean;
-    static{
-        defaultSettingsStrings = new HashMap<String, String>();
-        defaultSettingsStrings.put("radius","10000");
-        defaultSettingsStrings.put("test","TEST");
+    private static SettingsAdministration sa = null;
+
+    //Wird über PropertyUtil initialisiert
+    private String sharedPreferencesSettings;
+    private Map<String,String> defaultSettingsStrings = new HashMap<>();
 
 
-        defaultSettingsBoolean = new HashMap<String, Boolean>();
-        defaultSettingsBoolean.put("boolean",true);
+    private SettingsAdministration(){
+
+    }
+
+    public static SettingsAdministration getInstance(){
+        if (sa == null){
+            sa = new SettingsAdministration();
+            PropertyUtil.getInstance().init(sa, MainActivity.getContext());
+        }
+        return sa;
+    }
+
+    public void setDefaultSetting(String key, String value){
+        defaultSettingsStrings.put(key, value);
+    }
+
+    public void setSharedPrefs(String filename){
+        sharedPreferencesSettings=filename;
     }
 
 
-    public static String getSettingString(String key, Context context) throws IllegalKeyException {
+    public String getSetting(String key, Context context) throws IllegalKeyException {
         if(!defaultSettingsStrings.containsKey(key))
             throw new IllegalKeyException(key + "entspricht keinem gespeicherten Schlüssel");
 
         SharedPreferences sp = context.getApplicationContext().getSharedPreferences(sharedPreferencesSettings,Context.MODE_PRIVATE);
-        return sp.getString(key,(String) defaultSettingsStrings.get(key));
+        return sp.getString(key,defaultSettingsStrings.get(key));
     }
 
-    public static boolean getSettingBoolean(String key, Context context) throws IllegalKeyException {
-        if(!defaultSettingsBoolean.containsKey(key))
-            throw new IllegalKeyException(key + "entspricht keinem gespeicherten Schlüssel");
 
-        SharedPreferences sp = context.getApplicationContext().getSharedPreferences(sharedPreferencesSettings,Context.MODE_PRIVATE);
-        return sp.getBoolean(key,(Boolean) defaultSettingsBoolean.get(key));
-    }
-
-    public static void putSettingString(String key, String value, Context context) throws IllegalKeyException {
+    public void putSettingString(String key, String value, Context context) throws IllegalKeyException {
         if(!defaultSettingsStrings.containsKey(key))
             throw new IllegalKeyException(key + "entspricht keinem Settingschlüssel");
 
@@ -49,17 +57,6 @@ public class SettingsAdministration {
         key = key.toLowerCase();
         SharedPreferences.Editor editor = sp.edit();
         editor.putString(key,value);
-        editor.commit();
-    }
-
-    public static void putSettingBoolean(String key, boolean value, Context context) throws IllegalKeyException {
-        if(!defaultSettingsBoolean.containsKey(key))
-            throw new IllegalKeyException(key + "entspricht keinem Settingschlüssel");
-
-        SharedPreferences sp = context.getApplicationContext().getSharedPreferences(sharedPreferencesSettings,Context.MODE_PRIVATE);
-        key = key.toLowerCase();
-        SharedPreferences.Editor editor = sp.edit();
-        editor.putBoolean(key,value);
         editor.commit();
     }
 

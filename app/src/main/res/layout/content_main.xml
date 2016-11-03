@@ -60,10 +60,18 @@
         android:text="Settings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"
+        android:layout_marginBottom="16dp"
         android:id="@+id/main_button_settings"
         android:layout_above="@+id/main_button_get"
-        android:layout_toEndOf="@+id/main_button_get" />
+        android:layout_alignStart="@+id/main_button_get" />
+
+    <Button
+        android:text="GPS"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/main_button_settings"
+        android:layout_alignEnd="@+id/main_button_post"
+        android:id="@+id/main_button_gps" />
 
 
 </RelativeLayout>
