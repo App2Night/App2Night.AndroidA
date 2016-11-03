@@ -30,36 +30,6 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name="de.dhbw.app2night.SettingsActivity"
-            android:label="@string/title_activity_settings"
-            android:parentActivityName="de.dhbw.app2night.MainActivity"
-            android:screenOrientation="portrait" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="de.dhbw.app2night.MainActivity" />
-        </activity>
-
-        <activity
-            android:name=".AddEventActivity"
-            android:label="@string/action_addEvent"
-            android:screenOrientation="portrait" >
-        </activity>
-
-        <activity
-            android:name=".ProfileActivity"
-            android:label="@string/action_profile"
-            android:parentActivityName="de.dhbw.app2night.MainActivity"
-            android:screenOrientation="portrait">
-        </activity>
-
-        <activity
-            android:name=".TestActivity"
-            android:label="TestActivity"
-            android:parentActivityName="de.dhbw.app2night.MainActivity"
-            android:screenOrientation="portrait">
-        </activity>
-
     </application>
 
 </manifest>

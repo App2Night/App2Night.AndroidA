@@ -1,12 +1,14 @@
 package de.dhbw.backendTasks.party;
 
 import android.content.Context;
+import android.app.Activity;
 import android.os.AsyncTask;
 
 import java.io.IOException;
 
 import de.dhbw.BackEndCommunication.RestBackendCommunication;
 import de.dhbw.app2night.MainActivity;
+import de.dhbw.app2night.TestFragment;
 import de.dhbw.exceptions.BackendCommunicationException;
 import de.dhbw.exceptions.NetworkUnavailableException;
 import de.dhbw.utils.PropertyUtil;
@@ -19,6 +21,8 @@ public class DeletePartyByIdTask extends AsyncTask<String,Void,Boolean> implemen
     //Initialisert von PropertyUtil
     private static String url;
     MainActivity mainActivity;
+    TestFragment testFragment;
+    Activity activity;
 
     public void setUrl(String urlParm){
         url = urlParm;
@@ -27,6 +31,12 @@ public class DeletePartyByIdTask extends AsyncTask<String,Void,Boolean> implemen
     public DeletePartyByIdTask(MainActivity mA, String id){
         mainActivity = mA;
         prepare(id, mA);
+    }
+
+    public DeletePartyByIdTask(TestFragment tF, String id){
+        testFragment = tF;
+        activity = tF.getActivity();
+        prepare(id, MainActivity.getContext());
     }
 
     private  String buildDeleteUrl(String id){
@@ -42,9 +52,9 @@ public class DeletePartyByIdTask extends AsyncTask<String,Void,Boolean> implemen
     @Override
     protected Boolean  doInBackground(String... params) {
         try {
-            RestBackendCommunication rbc = RestBackendCommunication.getInstance();;
-            if (mainActivity != null)
-                return rbc.deleteRequest(params[0], mainActivity);
+            RestBackendCommunication rbc = new RestBackendCommunication();
+            if (activity != null)
+                return rbc.deleteRequest(params[0], activity);
         } catch (IOException e) {
             return false;
         } catch (BackendCommunicationException e) {
@@ -57,12 +67,11 @@ public class DeletePartyByIdTask extends AsyncTask<String,Void,Boolean> implemen
 
     @Override
     protected void onPostExecute(Boolean result){
-        //Verarbeitung bei Aufruf von MainApp
-        if (mainActivity != null){
+        if (testFragment != null){
             if (result)
-                mainActivity.viewStatus.setText("Löschen erfolgreich");
+                testFragment.viewStatus.setText("Löschen erfolgreich");
             else
-                mainActivity.viewStatus.setText("Löschen nicht erfolgreich");
+                testFragment.viewStatus.setText("Löschen nicht erfolgreich");
         }
     }
 }

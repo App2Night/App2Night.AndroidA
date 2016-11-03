@@ -8,11 +8,17 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
 
-
+    <string name="action_home">Home</string>
     <string name="action_settings">Settings</string>
-    <string name="action_addEvent">Veranstaltung erstellen</string>
-    <string name="action_findEvent">Veranstaltung finden</string>
+    <string name="action_addevent">Veranstaltung erstellen</string>
+    <string name="action_findevent">Veranstaltung finden</string>
     <string name="action_profile">Profil</string>
+    <string name="action_test">Test</string>
 
-
+    <string name="title_home">HomeFragment</string>
+    <string name="title_settings">SettingsFragment</string>
+    <string name="title_addevent">AddEventFragment</string>
+    <string name="title_findevent">FindEventFragment</string>
+    <string name="title_profile">ProfileFragment</string>
+    <string name="title_test">TestFragment</string>
 </resources>

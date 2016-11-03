@@ -1,4 +1,4 @@
-package de.dhbw.app2night.fragments;
+package de.dhbw.app2night;
 
 import android.support.v4.app.Fragment;
 import android.content.Context;
@@ -13,8 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import de.dhbw.app2night.R;
 
 
 /**

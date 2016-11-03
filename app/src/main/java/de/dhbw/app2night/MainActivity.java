@@ -4,6 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -11,9 +14,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 
 import de.dhbw.backendTasks.token.GetToken;
 import de.dhbw.exceptions.GPSUnavailableException;
@@ -26,12 +26,13 @@ import de.dhbw.exceptions.IllegalKeyException;
 import de.dhbw.utils.Gps;
 import de.dhbw.utils.SettingsAdministration;
 
+/**
+ * Created by Bro on 26.10.2016.
+ */
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
+        implements NavigationView.OnNavigationItemSelectedListener{
 
-    public TextView viewStatus;
-    private Button buttonGet, buttonPost, buttonPut, buttonDelete, buttonSettings, buttonGPS;
     private static Context mainApplicationContext;
 
 
@@ -58,20 +59,9 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        viewStatus = (TextView) findViewById(R.id.main_statusTextView);
-        buttonGet = (Button) findViewById(R.id.main_button_get);
-        buttonPost = (Button) findViewById(R.id.main_button_post);
-        buttonPut = (Button) findViewById(R.id.main_button_put);
-        buttonDelete = (Button) findViewById(R.id.main_button_delete);
-        buttonSettings = (Button) findViewById(R.id.main_button_settings);
-        buttonGPS = (Button) findViewById(R.id.main_button_gps);
+        // display the first navigation drawer view on app launch
+        displayView(R.layout.fragment_home);
 
-        buttonGet.setOnClickListener(this);
-        buttonPost.setOnClickListener(this);
-        buttonPut.setOnClickListener(this);
-        buttonDelete.setOnClickListener(this);
-        buttonSettings.setOnClickListener(this);
-        buttonGPS.setOnClickListener(this);
 
     }
 
@@ -98,15 +88,9 @@ public class MainActivity extends AppCompatActivity
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-
-            // Intent erzeugen und Starten der AktiendetailActivity mit explizitem Intent
-            Intent settingsIntent = new Intent(this, SettingsActivity.class);
-            startActivity(settingsIntent);
-
-
+            displayView(R.layout.fragment_settings);
             return true;
         }
 
@@ -119,99 +103,71 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        if (id == R.id.nav_addEvent) {
-            Intent addEventIntent = new Intent(this, AddEventActivity.class);
-            startActivity(addEventIntent);
+        switch (id) {
+            case R.id.nav_home:
+                displayView(R.layout.fragment_home);
+                break;
+            case R.id.nav_addEvent:
+                displayView(R.layout.fragment_addevent);
+                break;
+            case R.id.nav_findEvent:
+                displayView(R.layout.fragment_findevent);
+                break;
+            case R.id.nav_profile:
+                displayView(R.layout.fragment_profile);
+                break;
+            case R.id.nav_settings:
+                displayView(R.layout.fragment_settings);
+                break;
+            case R.id.nav_test:
+                displayView(R.layout.fragment_test);
+                break;
         }
-        else if (id == R.id.nav_findEvent) {
-            //Nutzer ist bereits in der FindEventActivity -> keine Aktion noetig
-        }
-        else if (id == R.id.nav_profile){
-            Intent profileIntent = new Intent(this, ProfileActivity.class);
-            startActivity(profileIntent);
-        }
-        else  if (id == R.id.nav_settings) {
-            Intent settingsIntent = new Intent(this, SettingsActivity.class);
-            startActivity(settingsIntent);
-        }
-        else if(id == R.id.nav_test){
-            Intent testIntent = new Intent(this, TestActivity.class);
-            startActivity(testIntent);
-        }
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
-    @Override
-    public void onClick(View v) {
-        int id = v.getId();
-        switch(id){
-            case R.id.main_button_gps:
-                double ergebnis[] = new double[0];
-                try {
-                    ergebnis = Gps.getInstance().getGPSCoordinates(this);
-                    viewStatus.setText("Breitengrad: " + ergebnis[0] + "; Längengrad: " + ergebnis[1]);
-                } catch (GPSUnavailableException e) {
-                    viewStatus.setText("Gps nicht verfügbar");
-                }
+    private void displayView(int id) {
+        Fragment fragment = null;
+        String title = getString(R.string.app_name);
+        switch (id) {
+            case R.layout.fragment_home:
+                fragment = new HomeFragment();
+                title = getString(R.string.title_home);
                 break;
-            case R.id.main_button_settings:
-                try {
-                    viewStatus.setText(SettingsAdministration.getInstance().getSetting("radius", this));
-                    /*Thread.sleep(1000);
-                    putSettingString("test","Test erfolgreich!",this);
-                    viewStatus.setText(getSettingString("test",this));*/
-                } catch (IllegalKeyException e) {
-                    e.printStackTrace();
-                }
+            case R.layout.fragment_addevent:
+                fragment = new AddEventFragment();
+                title = getString(R.string.title_addevent);
+                break;
+            case R.layout.fragment_findevent:
+                fragment = new FindEventFragment();
+                title = getString(R.string.title_findevent);
+                break;
+            case R.layout.fragment_profile:
+                fragment = new ProfileFragment();
+                title = getString(R.string.title_profile);
+                break;
+            case R.layout.fragment_settings:
+                fragment = new SettingsFragment();
+                title = getString(R.string.title_settings);
+                break;
+            case R.layout.fragment_test:
+                fragment = new TestFragment();
+                title = getString(R.string.title_test);
+                break;
+            default:
+                break;
+        }
+        if (fragment != null) {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.container_body, fragment);
+            fragmentTransaction.commit();
 
-
-                break;
-            case R.id.main_button_get:
-                new GetPartyListTask(this);
-                break;
-            case R.id.main_button_post:
-                new PostPartyTask(this,"{\"partyName\": \"string\", "+
-                        "\"partyDate\": \"2016-10-24T17:58:34.538Z\", "+
-                        " \"musicGenre\": 0," +
-                        " \"location\": {" +
-                        "\"countryName\": \"string\","+
-                        "\"cityName\": \"string\","+
-                        "\"streetName\": \"string\","+
-                        "\"houseNumber\": 0,"+
-                        "\"houseNumberAdditional\": \"string\","+
-                        "\"zipcode\": 0,"+
-                        " \"latitude\": 0,"+
-                        " \"longitude\": 0}," +
-                        "\"partyType\": 0," +
-                        "\"description\": \"string\"}");
-                break;
-            case R.id.main_button_put:
-                new ChangePartyByIdTask(this,"2acec5b0-37e1-4c88-4692-08d3fc41e1f5","{\"partyName\": \"string\", "+
-                        "\"partyDate\": \"2016-10-24T17:58:34.538Z\", "+
-                        " \"musicGenre\": 0," +
-                        " \"location\": {" +
-                        "\"countryName\": \"string\","+
-                        "\"cityName\": \"string\","+
-                        "\"streetName\": \"string\","+
-                        "\"houseNumber\": 0,"+
-                        "\"houseNumberAdditional\": \"string\","+
-                        "\"zipcode\": 0,"+
-                        " \"latitude\": 0,"+
-                        " \"longitude\": 0}," +
-                        "\"partyType\": 0," +
-                        "\"description\": \"string\"}");
-                break;
-            case R.id.main_button_delete:
-                new DeletePartyByIdTask(this, "2acec5b0-37e1-4c88-4692-08d3fc41e1f5");
-                break;
+            // set the toolbar title
+            getSupportActionBar().setTitle(title);
         }
     }
 
-
 }
-
-
-

@@ -21,9 +21,6 @@ import de.dhbw.exceptions.NetworkUnavailableException;
 public class RestBackendCommunication {
 
     private static RestBackendCommunication RBC = null;
-
-    private RestBackendCommunication(){    }
-
     public static RestBackendCommunication getInstance(){
         if (RBC == null)
             RBC = new RestBackendCommunication();
