@@ -13,6 +13,8 @@ import de.dhbw.backendTasks.party.ChangePartyByIdTask;
 import de.dhbw.backendTasks.party.DeletePartyByIdTask;
 import de.dhbw.backendTasks.party.GetPartyListTask;
 import de.dhbw.backendTasks.party.PostPartyTask;
+import de.dhbw.backendTasks.token.GetToken;
+import de.dhbw.backendTasks.token.RefreshToken;
 import de.dhbw.exceptions.IllegalKeyException;
 import de.dhbw.utils.SettingsAdministration;
 
@@ -73,9 +75,6 @@ public class TestFragment extends Fragment implements View.OnClickListener{
             case R.id.main_button_settings:
                 try {
                     viewStatus.setText(SettingsAdministration.getInstance().getSetting("radius", this.getActivity()));
-                    /*Thread.sleep(1000);
-                    putSettingString("test","Test erfolgreich!",this);
-                    viewStatus.setText(getSettingString("test",this));*/
                 } catch (IllegalKeyException e) {
                     e.printStackTrace();
                 }
@@ -83,7 +82,8 @@ public class TestFragment extends Fragment implements View.OnClickListener{
 
                 break;
             case R.id.main_button_get:
-                new GetPartyListTask(this);
+                new GetToken("test","test",this);
+                new RefreshToken();
                 break;
             case R.id.main_button_post:
                 new PostPartyTask(this,"{\"partyName\": \"string\", "+

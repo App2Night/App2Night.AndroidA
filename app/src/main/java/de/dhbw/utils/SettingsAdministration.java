@@ -26,7 +26,7 @@ public class SettingsAdministration {
     public static SettingsAdministration getInstance(){
         if (sa == null){
             sa = new SettingsAdministration();
-            PropertyUtil.getInstance().init(sa, MainActivity.getContext());
+            PropertyUtil.getInstance().init(sa);
         }
         return sa;
     }

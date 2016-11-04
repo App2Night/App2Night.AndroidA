@@ -41,7 +41,7 @@ public class ChangePartyByIdTask extends AsyncTask<String, Void, Boolean> implem
 
     private void prepare(String id, String jString, Context c){
         String putUrl = buildPutUrl(id);
-        PropertyUtil.getInstance().init(this,c);
+        PropertyUtil.getInstance().init(this);
         this.execute(putUrl, jString);
     }
 
@@ -50,7 +50,7 @@ public class ChangePartyByIdTask extends AsyncTask<String, Void, Boolean> implem
         try {
             RestBackendCommunication rbc = new RestBackendCommunication();
             if (activity != null)
-                return rbc.putRequest(params[0], params[1], activity);
+                return rbc.putRequest(params[0], params[1]);
         } catch (IOException e) {
             return false;
         } catch (BackendCommunicationException e) {

@@ -11,6 +11,7 @@ import de.dhbw.app2night.MainActivity;
 import de.dhbw.app2night.TestFragment;
 import de.dhbw.exceptions.BackendCommunicationException;
 import de.dhbw.exceptions.NetworkUnavailableException;
+import de.dhbw.exceptions.NoTokenFoundException;
 import de.dhbw.utils.PropertyUtil;
 
 /**
@@ -35,7 +36,7 @@ public class PostPartyTask extends AsyncTask<String,Void,String> implements ApiP
     }
 
     private void prepare(String jString){
-        PropertyUtil.getInstance().init(this,MainActivity.getContext());
+        PropertyUtil.getInstance().init(this);
         this.execute(url,jString);
     }
 
@@ -44,12 +45,14 @@ public class PostPartyTask extends AsyncTask<String,Void,String> implements ApiP
         try{
             RestBackendCommunication rbc = new RestBackendCommunication();
             if(activity != null)
-                return rbc.postRequest(params[0],params[1],activity);
+                return rbc.postRequest(params[0],params[1]);
         } catch (IOException e) {
             return "Unable to retrieve web page. URL may be invalid.";
         } catch (BackendCommunicationException e) {
             e.printStackTrace();
         } catch (NetworkUnavailableException e) {
+            e.printStackTrace();
+        } catch (NoTokenFoundException e) {
             e.printStackTrace();
         }
         return null;

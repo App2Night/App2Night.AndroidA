@@ -36,7 +36,7 @@ public class GetPartyByID extends AsyncTask<String, Void, String> implements Api
     }
 
     private void prepare(Context c, String id){
-        PropertyUtil.getInstance().init(this,c);
+        PropertyUtil.getInstance().init(this);
         String urlId = buildGetUrl(id);
         this.execute(urlId);
     }
@@ -50,7 +50,7 @@ public class GetPartyByID extends AsyncTask<String, Void, String> implements Api
         try{
             RestBackendCommunication rbc = RestBackendCommunication.getInstance();
             if(activity != null)
-                return rbc.getRequest(params[0],activity);
+                return rbc.getRequest(params[0]);
         } catch (IOException e) {
             return "Unable to retrieve web page. URL may be invalid.";
         } catch (BackendCommunicationException e) {
