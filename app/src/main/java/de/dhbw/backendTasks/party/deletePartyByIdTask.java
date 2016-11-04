@@ -45,7 +45,7 @@ public class DeletePartyByIdTask extends AsyncTask<String,Void,Boolean> implemen
 
     private void prepare(String id,Context c){
         String deleteUrl = buildDeleteUrl(id);
-        PropertyUtil.getInstance().init(this,c);
+        PropertyUtil.getInstance().init(this);
         this.execute(deleteUrl);
     }
 
@@ -54,7 +54,7 @@ public class DeletePartyByIdTask extends AsyncTask<String,Void,Boolean> implemen
         try {
             RestBackendCommunication rbc = new RestBackendCommunication();
             if (activity != null)
-                return rbc.deleteRequest(params[0], activity);
+                return rbc.deleteRequest(params[0]);
         } catch (IOException e) {
             return false;
         } catch (BackendCommunicationException e) {

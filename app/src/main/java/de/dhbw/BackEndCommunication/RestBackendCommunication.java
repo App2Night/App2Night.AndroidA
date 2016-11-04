@@ -11,8 +11,14 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.concurrent.ExecutionException;
+
+import de.dhbw.app2night.MainActivity;
+import de.dhbw.backendTasks.token.RefreshToken;
 import de.dhbw.exceptions.BackendCommunicationException;
 import de.dhbw.exceptions.NetworkUnavailableException;
+import de.dhbw.exceptions.NoTokenFoundException;
+import de.dhbw.utils.Token;
 
 /**
  * Created by Tobias Berner on 17.10.2016.
@@ -27,11 +33,11 @@ public class RestBackendCommunication {
         return RBC;
     }
 
-    public String getToken (String myurl, String body, Context context) throws BackendCommunicationException, IOException, NetworkUnavailableException {
+    public String getToken (String myurl, String body) throws BackendCommunicationException, IOException, NetworkUnavailableException, NoTokenFoundException {
         InputStream is = null;
         OutputStream os = null;
         String token;
-
+        Context context = MainActivity.getContext();
         ConnectivityManager connMgr = (ConnectivityManager)
                 context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
@@ -41,6 +47,7 @@ public class RestBackendCommunication {
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestMethod("POST");
                // conn.setRequestProperty("Content-Type","application/x-wwww-form-urlencoded");
+
 
                 conn.setDoOutput(true);
                 conn.setDoInput(true);
@@ -79,20 +86,66 @@ public class RestBackendCommunication {
         }
     }
 
+    public Boolean refreshToken (String myurl, String body) throws BackendCommunicationException, IOException, NetworkUnavailableException, NoTokenFoundException {
+        InputStream is = null;
+        OutputStream os = null;
+        Context context = MainActivity.getContext();
+        ConnectivityManager connMgr = (ConnectivityManager)
+                context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnected()) {
+            try {
+                URL url = new URL(myurl);
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setRequestMethod("POST");
+                // conn.setRequestProperty("Content-Type","application/x-wwww-form-urlencoded");
+                conn.setRequestProperty("Authorization", Token.getInstance().getAuthorization());
+
+                conn.setDoOutput(true);
+                conn.setDoInput(true);
+
+                os = conn.getOutputStream();
+                BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os));
+                bw.write(body);
+                bw.flush();
+                bw.close();
+
+                conn.connect();
+
+                String str = conn.getResponseMessage();
+                int response = conn.getResponseCode();
+
+                if (response == HttpURLConnection.HTTP_OK) {
+                    return true;
+                } else {
+                    throw new BackendCommunicationException(Integer.toString(response));
+                }
+            } finally {
+                //Stream schließen
+                if (is != null)
+                    is.close();
+                if (os != null)
+                    os.close();
+            }
+        } else {
+            //Netzwerk nicht verbunden
+            throw new NetworkUnavailableException("Network not connected");
+        }
+    }
+
     /**
      * Führt einen Get-Request an die URL aus und gibt den Body der Serverantwort zurück.
      *
      * @param myurl  - URL für Get-Request
-     * @param context - Aufrufende Activity
      * @return - Body der Serverantwort
      * @throws IOException - Wenn bei dem Zugriff auf den Input Stream ein Fehler auftritt
      * @throws BackendCommunicationException - Wenn get Request fehlschlägt
      * @throws NetworkUnavailableException - Wenn keine Internetverbindung besteht
      */
-   public String getRequest(String myurl, Context context) throws IOException, BackendCommunicationException, NetworkUnavailableException {
+   public String getRequest(String myurl) throws IOException, BackendCommunicationException, NetworkUnavailableException {
        InputStream is = null;
        String jStringFromServer;
-
+       Context context = MainActivity.getContext();
        ConnectivityManager connMgr = (ConnectivityManager)
                context.getSystemService(Context.CONNECTIVITY_SERVICE);
        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
@@ -103,17 +156,16 @@ public class RestBackendCommunication {
                conn.setReadTimeout(10000 /* milliseconds */);
                conn.setConnectTimeout(15000 /* milliseconds */);
                conn.setRequestMethod("GET");
-
                conn.setDoInput(true);
                conn.connect();
-
                int response = conn.getResponseCode();
                if (response == HttpURLConnection.HTTP_OK) {
                    is = conn.getInputStream();
                    BufferedReader br = new BufferedReader(new InputStreamReader(is));
                    jStringFromServer = br.readLine();
                    br.close();
-               } else {
+               }
+               else {
                    throw new BackendCommunicationException(Integer.toString(response));
                }
                return jStringFromServer;
@@ -135,39 +187,35 @@ public class RestBackendCommunication {
      *
      * @param myurl - URL für den Post Request
      * @param jString - JSON Objekt als String, das an URL geschickt werden soll
-     * @param context - Aufrufende Activity
      * @return  Body der Serverantwort
      * @throws NetworkUnavailableException - Wenn keine Internetverbindung besteht
      * @throws IOException - Wenn bei dem Zugriff auf den Input oder Output Stream ein Fehler auftritt
      * @throws BackendCommunicationException -  Wenn post Request fehlschlägt
      */
-    public String postRequest(String myurl, String jString, Context context) throws NetworkUnavailableException, IOException, BackendCommunicationException {
+    public String postRequest(String myurl, String jString) throws NetworkUnavailableException, IOException, BackendCommunicationException, NoTokenFoundException {
         InputStream is = null;
         OutputStream os = null;
+        Context context = MainActivity.getContext();
         ConnectivityManager connMgr = (ConnectivityManager)
                 context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         if (networkInfo != null && networkInfo.isConnected()) {
-
             try {
-
                 URL url = new URL(myurl);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestProperty("Content-Type", "application/json");
-
+                String authorization = Token.getInstance().getAuthorization();
+                conn.setRequestProperty("Authorization", Token.getInstance().getAuthorization());
                 conn.setReadTimeout(10000 /* milliseconds */);
                 conn.setConnectTimeout(15000 /* milliseconds */);
                 conn.setRequestMethod("POST");
-
                 conn.setDoInput(true);
                 conn.setDoOutput(true);
-
                 os = conn.getOutputStream();
                 BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os));
                 bw.write(jString);
                 bw.flush();
                 bw.close();
-
                 conn.connect();
                 int response = conn.getResponseCode();
                 if (response == HttpURLConnection.HTTP_CREATED) {
@@ -176,7 +224,10 @@ public class RestBackendCommunication {
                     String jsonAsString = br.readLine();
                     br.close();
                     return jsonAsString;
-                } else {
+                } else if (response == HttpURLConnection.HTTP_UNAUTHORIZED){
+                    //To Do
+                    return "UNAUTHORIZED";
+                }else {
                     throw new BackendCommunicationException(Integer.toString(response));
                 }
             } finally {
@@ -198,15 +249,15 @@ public class RestBackendCommunication {
      *
      * @param myurl - URL für den Post Request
      * @param jString - JSON Objekt als String, das an URL geschickt werden soll
-     * @param context - Aufrufende Activity
      * @return Body der Serverantwort
      * @throws NetworkUnavailableException - Wenn keine Internetverbindung besteht
      * @throws IOException - Wenn bei dem Zugriff auf den Input oder Output Stream ein Fehler auftritt
      * @throws BackendCommunicationException -  Wenn post Request fehlschlägt
      */
-    public boolean putRequest(String myurl, String jString, Context context) throws NetworkUnavailableException, IOException, BackendCommunicationException {
+    public boolean putRequest(String myurl, String jString) throws NetworkUnavailableException, IOException, BackendCommunicationException {
         InputStream is = null;
         OutputStream os = null;
+        Context context = MainActivity.getContext();
         ConnectivityManager connMgr = (ConnectivityManager)
                 context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
@@ -257,14 +308,13 @@ public class RestBackendCommunication {
      * Führt ein Delete-Request and die URL aus.
      *
      * @param myurl - URL für den Delete-Request
-     * @param context - Aufrufende Activity
      * @return true, wenn löschen erfolgreich
      * @throws NetworkUnavailableException - Wenn keine Internetverbindung besteht
      * @throws IOException - Wenn bei dem Zugriff auf den Input oder Output Stream ein Fehler auftritt
      * @throws BackendCommunicationException -  Wenn post Request fehlschlägt
      */
-    public boolean deleteRequest(String myurl, Context context) throws NetworkUnavailableException, IOException, BackendCommunicationException {
-
+    public boolean deleteRequest(String myurl) throws NetworkUnavailableException, IOException, BackendCommunicationException {
+        Context context = MainActivity.getContext();
         ConnectivityManager connMgr = (ConnectivityManager)
                 context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
@@ -289,9 +339,5 @@ public class RestBackendCommunication {
             throw new NetworkUnavailableException("Network not connected");
         }
     }
-
-
-
-
 
 }

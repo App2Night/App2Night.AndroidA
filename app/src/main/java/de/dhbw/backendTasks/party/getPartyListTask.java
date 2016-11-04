@@ -6,12 +6,7 @@ import android.os.AsyncTask;
 
 import com.google.gson.Gson;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.IOException;
-import java.util.ArrayList;
 
 import de.dhbw.BackEndCommunication.RestBackendCommunication;
 import de.dhbw.app2night.MainActivity;
@@ -19,7 +14,6 @@ import de.dhbw.app2night.TestFragment;
 import de.dhbw.exceptions.BackendCommunicationException;
 import de.dhbw.exceptions.NetworkUnavailableException;
 import de.dhbw.model.Party;
-import de.dhbw.utils.JSONHelper;
 import de.dhbw.utils.PropertyUtil;
 
 /**
@@ -45,7 +39,7 @@ public class GetPartyListTask extends AsyncTask<String, Void, String> implements
 
 
     private void prepare(Context c) {
-        PropertyUtil.getInstance().init(this, c);
+        PropertyUtil.getInstance().init(this);
         this.execute(url);
     }
 
@@ -65,7 +59,7 @@ public class GetPartyListTask extends AsyncTask<String, Void, String> implements
         try {
             RestBackendCommunication rbc = new RestBackendCommunication();
             if (activity != null)
-                return rbc.getRequest(params[0], activity);
+                return rbc.getRequest(params[0]);
         } catch (IOException e) {
             return "Unable to retrieve web page. URL may be invalid.";
         } catch (BackendCommunicationException e) {
