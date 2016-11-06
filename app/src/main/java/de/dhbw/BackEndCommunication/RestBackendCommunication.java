@@ -33,6 +33,17 @@ public class RestBackendCommunication {
         return RBC;
     }
 
+    /**
+     * Ruft Token von Server ab.
+     *
+     * @param myurl Url zum anbfragen des Tokens
+     * @param body Body um das Token abzufragen
+     * @return Json, welches unter anderem Token und Refresh Token enthält
+     * @throws IOException - Wenn bei dem Zugriff auf den Input Stream ein Fehler auftritt
+     * @throws BackendCommunicationException - Wenn Request fehlschlägt
+     * @throws NetworkUnavailableException - Wenn keine Internetverbindung besteht
+     * @throws NoTokenFoundException - Wenn kein Token zur Authentifizierung gefunden wird
+     */
     public String getToken (String myurl, String body) throws BackendCommunicationException, IOException, NetworkUnavailableException, NoTokenFoundException {
         InputStream is = null;
         OutputStream os = null;
@@ -86,6 +97,17 @@ public class RestBackendCommunication {
         }
     }
 
+    /**
+     * Refresht das Token.
+     *
+     * @param myurl Url zum anbfragen des Tokens
+     * @param body Body um das Token abzufragen
+     * @return true, wenn refresh erfolgreich war
+     * @throws IOException - Wenn bei dem Zugriff auf den Input Stream ein Fehler auftritt
+     * @throws BackendCommunicationException - Wenn Request fehlschlägt
+     * @throws NetworkUnavailableException - Wenn keine Internetverbindung besteht
+     * @throws NoTokenFoundException - Wenn kein Token zur Authentifizierung gefunden wird
+     */
     public Boolean refreshToken (String myurl, String body) throws BackendCommunicationException, IOException, NetworkUnavailableException, NoTokenFoundException {
         InputStream is = null;
         OutputStream os = null;
@@ -98,7 +120,6 @@ public class RestBackendCommunication {
                 URL url = new URL(myurl);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestMethod("POST");
-                // conn.setRequestProperty("Content-Type","application/x-wwww-form-urlencoded");
                 conn.setRequestProperty("Authorization", Token.getInstance().getAuthorization());
 
                 conn.setDoOutput(true);
@@ -204,7 +225,6 @@ public class RestBackendCommunication {
                 URL url = new URL(myurl);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestProperty("Content-Type", "application/json");
-                String authorization = Token.getInstance().getAuthorization();
                 conn.setRequestProperty("Authorization", Token.getInstance().getAuthorization());
                 conn.setReadTimeout(10000 /* milliseconds */);
                 conn.setConnectTimeout(15000 /* milliseconds */);
@@ -254,7 +274,7 @@ public class RestBackendCommunication {
      * @throws IOException - Wenn bei dem Zugriff auf den Input oder Output Stream ein Fehler auftritt
      * @throws BackendCommunicationException -  Wenn post Request fehlschlägt
      */
-    public boolean putRequest(String myurl, String jString) throws NetworkUnavailableException, IOException, BackendCommunicationException {
+    public boolean putRequest(String myurl, String jString) throws NetworkUnavailableException, IOException, BackendCommunicationException, NoTokenFoundException {
         InputStream is = null;
         OutputStream os = null;
         Context context = MainActivity.getContext();
@@ -269,6 +289,7 @@ public class RestBackendCommunication {
 
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestProperty("Content-Type", "application/json");
+                conn.setRequestProperty("Authorization", Token.getInstance().getAuthorization());
 
                 conn.setReadTimeout(10000 /* milliseconds */);
                 conn.setConnectTimeout(15000 /* milliseconds */);
@@ -292,7 +313,7 @@ public class RestBackendCommunication {
             } finally {
                 //Streams schließen
                 if (is != null) {
-                    is.close();
+                        is.close();
                     if (os != null) {
                         os.close();
                     }
@@ -313,7 +334,7 @@ public class RestBackendCommunication {
      * @throws IOException - Wenn bei dem Zugriff auf den Input oder Output Stream ein Fehler auftritt
      * @throws BackendCommunicationException -  Wenn post Request fehlschlägt
      */
-    public boolean deleteRequest(String myurl) throws NetworkUnavailableException, IOException, BackendCommunicationException {
+    public boolean deleteRequest(String myurl) throws NetworkUnavailableException, IOException, BackendCommunicationException, NoTokenFoundException {
         Context context = MainActivity.getContext();
         ConnectivityManager connMgr = (ConnectivityManager)
                 context.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -325,6 +346,8 @@ public class RestBackendCommunication {
                 conn.setReadTimeout(10000 /* milliseconds */);
                 conn.setConnectTimeout(15000 /* milliseconds */);
                 conn.setRequestMethod("DELETE");
+                 String aut = Token.getInstance().getAuthorization();
+                conn.setRequestProperty("Authorization", Token.getInstance().getAuthorization());
 
                 conn.connect();
                 int response = conn.getResponseCode();

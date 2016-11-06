@@ -20,33 +20,39 @@ import de.dhbw.utils.PropertyUtil;
  * Created by Tobias Berner on 20.10.2016.
  */
 
-public class GetPartyListTask extends AsyncTask<String, Void, String> implements ApiPartyTask {
+public class GetPartyByIdTaks extends AsyncTask<String, Void, String> implements ApiPartyTask{
 
     //Initialisert von PropertyUtil
     private static String url;
-    GetPartyList fragment;
+    Activity activity;
+    GetPartyById fragment;
 
-
-    public void setUrl(String urlParm) {
+    public void setUrl(String urlParm){
         url = urlParm;
     }
 
-    private void prepare() {
-        PropertyUtil.getInstance().init(this);
-        this.execute(url);
-    }
 
-    public GetPartyListTask(GetPartyList fr) {
+    public GetPartyByIdTaks(GetPartyById fr, String id){
         fragment = fr;
-        prepare();
+        prepare(activity,id);
     }
 
+    private void prepare(Context c, String id){
+        PropertyUtil.getInstance().init(this);
+        String urlId = buildGetUrl(id);
+        this.execute(urlId);
+    }
+
+    private  String buildGetUrl(String id){
+        return url+"/id=" + id;
+    }
 
     @Override
     protected String doInBackground(String... params) {
-        try {
-            RestBackendCommunication rbc = new RestBackendCommunication();
-            return rbc.getRequest(params[0]);
+        try{
+            RestBackendCommunication rbc = RestBackendCommunication.getInstance();
+            if(activity != null)
+                return rbc.getRequest(params[0]);
         } catch (IOException e) {
             return "Unable to retrieve web page. URL may be invalid.";
         } catch (BackendCommunicationException e) {
@@ -58,10 +64,8 @@ public class GetPartyListTask extends AsyncTask<String, Void, String> implements
     }
 
     @Override
-    protected void onPostExecute(String result) {
-            Party[] parties = new Gson().fromJson(result, Party[].class);
-            fragment.onFinishGetPartyList(parties);
-        }
+    protected void onPostExecute(String result){
+        Party party = new Gson().fromJson(result, Party.class);
+        fragment.onFinishGetPartyById(party);
     }
-
-
+}

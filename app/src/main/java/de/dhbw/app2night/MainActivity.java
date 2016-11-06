@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity
 
         // display the first navigation drawer view on app launch
         displayView(R.layout.fragment_home);
+        new GetToken("test","test");
 
 
     }
