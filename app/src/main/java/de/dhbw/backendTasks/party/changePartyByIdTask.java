@@ -3,15 +3,15 @@ package de.dhbw.backendTasks.party;
 import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.support.v4.app.Fragment;
+
 
 import java.io.IOException;
 
 import de.dhbw.BackEndCommunication.RestBackendCommunication;
 import de.dhbw.app2night.MainActivity;
-import de.dhbw.app2night.TestFragment;
 import de.dhbw.exceptions.BackendCommunicationException;
 import de.dhbw.exceptions.NetworkUnavailableException;
+import de.dhbw.exceptions.NoTokenFoundException;
 import de.dhbw.utils.PropertyUtil;
 
 /**
@@ -20,14 +20,13 @@ import de.dhbw.utils.PropertyUtil;
 
 public class ChangePartyByIdTask extends AsyncTask<String, Void, Boolean> implements ApiPartyTask{
     Activity activity;
-    TestFragment testFragment;
+    ChangePartyById fragment;
 
     //Initialisert von PropertyUtil
     private static String url;
 
-    public ChangePartyByIdTask(TestFragment tF, String id , String jString) {
-        testFragment = tF;
-        activity = tF.getActivity();
+    public ChangePartyByIdTask(ChangePartyById fr, String id , String jString) {
+        fragment = fr;
         prepare(id, jString, MainActivity.getContext());
     }
     public void setUrl(String urlParm){
@@ -57,17 +56,14 @@ public class ChangePartyByIdTask extends AsyncTask<String, Void, Boolean> implem
             return false;
         } catch (NetworkUnavailableException e) {
             return false;
+        } catch (NoTokenFoundException e) {
+            e.printStackTrace();
         }
         return false;
     }
 
     @Override
     protected void onPostExecute(Boolean result){
-        if (testFragment != null){
-            if (result)
-                testFragment.viewStatus.setText("Put erfolgreich");
-            else
-                testFragment.viewStatus.setText("Put nicht erfolgreich");
-        }
+        fragment.onFinischChangePartyById(result);
     }
 }

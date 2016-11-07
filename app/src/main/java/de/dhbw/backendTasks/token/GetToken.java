@@ -17,16 +17,12 @@ import de.dhbw.utils.Token;
 public class GetToken extends AsyncTask<String,Void,String> {
 
     String url;
-    Activity activity;
-    TestFragment testFragment;
 
     public void setUrl(String urlParam){
         url = urlParam;
 }
 
-    public GetToken(String username, String password, TestFragment tF){
-        testFragment = tF;
-        activity = tF.getActivity();
+    public GetToken(String username, String password){
         PropertyUtil.getInstance().init(this);
         String body = PropertyUtil.getInstance().getBodyOfGetToken(username,password);
         this.execute(url, body);
@@ -36,7 +32,6 @@ public class GetToken extends AsyncTask<String,Void,String> {
     @Override
     protected String  doInBackground(String... params) {
         try {
-            if (activity != null)
             return RestBackendCommunication.getInstance().getToken(params[0],params[1]);
         } catch (BackendCommunicationException e) {
             e.printStackTrace();
@@ -52,8 +47,6 @@ public class GetToken extends AsyncTask<String,Void,String> {
 
     @Override
     protected void onPostExecute(String result){
-
-
         Token.getInstance().saveTokenAwnser(result);
     }
 

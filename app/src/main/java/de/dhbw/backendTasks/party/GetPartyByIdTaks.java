@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 
+import com.google.gson.Gson;
+
 import java.io.IOException;
 
 import de.dhbw.BackEndCommunication.RestBackendCommunication;
@@ -11,27 +13,27 @@ import de.dhbw.app2night.MainActivity;
 import de.dhbw.app2night.TestFragment;
 import de.dhbw.exceptions.BackendCommunicationException;
 import de.dhbw.exceptions.NetworkUnavailableException;
+import de.dhbw.model.Party;
 import de.dhbw.utils.PropertyUtil;
 
 /**
  * Created by Tobias Berner on 20.10.2016.
  */
 
-public class GetPartyByID extends AsyncTask<String, Void, String> implements ApiPartyTask{
+public class GetPartyByIdTaks extends AsyncTask<String, Void, String> implements ApiPartyTask{
 
     //Initialisert von PropertyUtil
     private static String url;
     Activity activity;
-    TestFragment testFragment;
+    GetPartyById fragment;
 
     public void setUrl(String urlParm){
         url = urlParm;
     }
 
 
-    public GetPartyByID(TestFragment tF, String id){
-        testFragment = tF;
-        activity = tF.getActivity();
+    public GetPartyByIdTaks(GetPartyById fr, String id){
+        fragment = fr;
         prepare(activity,id);
     }
 
@@ -63,10 +65,7 @@ public class GetPartyByID extends AsyncTask<String, Void, String> implements Api
 
     @Override
     protected void onPostExecute(String result){
-
-        //Verarbeitung bei Aufruf von MainApp
-        if (testFragment != null){
-                testFragment.viewStatus.setText(result);
-        }
+        Party party = new Gson().fromJson(result, Party.class);
+        fragment.onFinishGetPartyById(party);
     }
 }

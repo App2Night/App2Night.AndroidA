@@ -4,6 +4,8 @@ import android.content.Context;
 import android.app.Activity;
 import android.os.AsyncTask;
 
+import com.google.gson.Gson;
+
 import java.io.IOException;
 
 import de.dhbw.BackEndCommunication.RestBackendCommunication;
@@ -12,6 +14,7 @@ import de.dhbw.app2night.TestFragment;
 import de.dhbw.exceptions.BackendCommunicationException;
 import de.dhbw.exceptions.NetworkUnavailableException;
 import de.dhbw.exceptions.NoTokenFoundException;
+import de.dhbw.model.Party;
 import de.dhbw.utils.PropertyUtil;
 
 /**
@@ -21,30 +24,28 @@ import de.dhbw.utils.PropertyUtil;
 public class PostPartyTask extends AsyncTask<String,Void,String> implements ApiPartyTask {
     //Initialisert von PropertyUtil
     private static String url;
-    TestFragment testFragment;
-    Activity activity;
-
+    PostParty fragment;
+    Party toPost;
 
     public void setUrl(String urlParm){
         url = urlParm;
     }
 
-    public PostPartyTask(TestFragment tF, String jString){
-        testFragment = tF;
-        activity = tF.getActivity();
-        prepare(jString);
+    public PostPartyTask(PostParty fr, Party party){
+        fragment = fr;
+        prepare(party);
     }
 
-    private void prepare(String jString){
+    private void prepare(Party party){
         PropertyUtil.getInstance().init(this);
+        String jString = new Gson().toJson(party);
         this.execute(url,jString);
     }
 
     @Override
     protected String doInBackground(String... params) {
         try{
-            RestBackendCommunication rbc = new RestBackendCommunication();
-            if(activity != null)
+                RestBackendCommunication rbc = new RestBackendCommunication();
                 return rbc.postRequest(params[0],params[1]);
         } catch (IOException e) {
             return "Unable to retrieve web page. URL may be invalid.";
@@ -60,8 +61,8 @@ public class PostPartyTask extends AsyncTask<String,Void,String> implements ApiP
 
     @Override
     protected void onPostExecute(String result){
-        if (testFragment != null){
-            testFragment.viewStatus.setText(result);
-        }
+        result = result.substring(1,result.length()-2);
+        toPost.setPartId(result);
+        fragment.onFinishPostParty(toPost);
     }
 }

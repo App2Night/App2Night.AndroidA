@@ -11,6 +11,7 @@ import de.dhbw.app2night.MainActivity;
 import de.dhbw.app2night.TestFragment;
 import de.dhbw.exceptions.BackendCommunicationException;
 import de.dhbw.exceptions.NetworkUnavailableException;
+import de.dhbw.exceptions.NoTokenFoundException;
 import de.dhbw.utils.PropertyUtil;
 
 /**
@@ -18,30 +19,28 @@ import de.dhbw.utils.PropertyUtil;
  */
 
 public class DeletePartyByIdTask extends AsyncTask<String,Void,Boolean> implements ApiPartyTask {
+
     //Initialisert von PropertyUtil
     private static String url;
-    MainActivity mainActivity;
-    TestFragment testFragment;
-    Activity activity;
+    DeletePartyById fragment;
 
     public void setUrl(String urlParm){
         url = urlParm;
     }
 
 
-    public DeletePartyByIdTask(TestFragment tF, String id){
-        testFragment = tF;
-        activity = tF.getActivity();
-        prepare(id, MainActivity.getContext());
+    public DeletePartyByIdTask(DeletePartyById fr, String id){
+        fragment = fr;
+        prepare(id);
     }
 
     private  String buildDeleteUrl(String id){
         return url+"/id=" + id;
     }
 
-    private void prepare(String id,Context c){
-        String deleteUrl = buildDeleteUrl(id);
+    private void prepare(String id){
         PropertyUtil.getInstance().init(this);
+        String deleteUrl = buildDeleteUrl(id);
         this.execute(deleteUrl);
     }
 
@@ -49,25 +48,20 @@ public class DeletePartyByIdTask extends AsyncTask<String,Void,Boolean> implemen
     protected Boolean  doInBackground(String... params) {
         try {
             RestBackendCommunication rbc = new RestBackendCommunication();
-            if (activity != null)
                 return rbc.deleteRequest(params[0]);
         } catch (IOException e) {
             return false;
-        } catch (BackendCommunicationException e) {
+          } catch (BackendCommunicationException e) {
             return false;
         } catch (NetworkUnavailableException e) {
             return false;
+        } catch (NoTokenFoundException e) {
+            return false;
         }
-        return false;
     }
 
     @Override
     protected void onPostExecute(Boolean result){
-        if (testFragment != null){
-            if (result)
-                testFragment.viewStatus.setText("Löschen erfolgreich");
-            else
-                testFragment.viewStatus.setText("Löschen nicht erfolgreich");
-        }
+        fragment.onFinishDeletePartyById(result);
     }
 }

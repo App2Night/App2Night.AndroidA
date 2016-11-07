@@ -24,8 +24,8 @@ public class GetPartyListTask extends AsyncTask<String, Void, String> implements
 
     //Initialisert von PropertyUtil
     private static String url;
-    MainActivity mainActivity;
     GetPartyList fragment;
+
 
     public void setUrl(String urlParm) {
         url = urlParm;
