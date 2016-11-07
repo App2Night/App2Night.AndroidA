@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.dhbw.backendTasks.party.GetPartyList;
+import de.dhbw.backendTasks.party.GetPartyListTask;
 import de.dhbw.model.Party;
 
 
@@ -20,7 +22,7 @@ import de.dhbw.model.Party;
  * Created by Flo on 27.10.2016.
  */
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements GetPartyList {
     private List<Party> partyList = new ArrayList<>();
     private RecyclerView recyclerView;
     private PartiesAdapter pAdapter;
@@ -47,7 +49,9 @@ public class HomeFragment extends Fragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(pAdapter);
 
-        preparePartyData();
+        new GetPartyListTask(this);
+
+
 
         // Inflate the layout for this fragment
         return rootView;
@@ -64,10 +68,12 @@ public class HomeFragment extends Fragment {
 
     }
 
-    private void preparePartyData() {
 
-
+    @Override
+    public void onFinishGetPartyList(Party[] parties) {
+        for (Party party:parties) {
+            partyList.add(party);
+        }
         pAdapter.notifyDataSetChanged();
     }
-
 }

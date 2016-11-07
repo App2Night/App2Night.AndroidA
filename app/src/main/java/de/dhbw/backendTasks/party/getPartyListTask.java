@@ -25,40 +25,28 @@ public class GetPartyListTask extends AsyncTask<String, Void, String> implements
     //Initialisert von PropertyUtil
     private static String url;
     MainActivity mainActivity;
-    TestFragment testFragment;
-    Activity activity;
+    GetPartyList fragment;
 
     public void setUrl(String urlParm) {
         url = urlParm;
     }
 
-    public GetPartyListTask(MainActivity mA) {
-        mainActivity = mA;
-        prepare(mA);
-    }
 
 
-    private void prepare(Context c) {
+    private void prepare() {
         PropertyUtil.getInstance().init(this);
         this.execute(url);
     }
 
-    public GetPartyListTask(TestFragment tF) {
-        testFragment = tF;
-        activity = tF.getActivity();
-        this.execute(url);
-
-    }
-
-    private void prepare() {
-        this.execute(url);
+    public GetPartyListTask(GetPartyList tF) {
+        fragment = tF;
+        prepare();
     }
 
     @Override
     protected String doInBackground(String... params) {
         try {
             RestBackendCommunication rbc = new RestBackendCommunication();
-            if (activity != null)
                 return rbc.getRequest(params[0]);
         } catch (IOException e) {
             return "Unable to retrieve web page. URL may be invalid.";
@@ -72,18 +60,8 @@ public class GetPartyListTask extends AsyncTask<String, Void, String> implements
 
     @Override
     protected void onPostExecute(String result) {
-
-        //Verarbeitung bei Aufruf von MainApp
-        if (testFragment != null) {
-            testFragment.viewStatus.setText(result);
             Party[] parties = new Gson().fromJson(result, Party[].class);
-            for (Party p : parties) {
-                System.out.println(p.getPartId());
-                System.out.println(p.getLocation().getCityName());
-
-            }
-
-        }
+            fragment.onFinishGetPartyList(parties);
     }
 }
 

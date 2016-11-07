@@ -28,10 +28,6 @@ public class DeletePartyByIdTask extends AsyncTask<String,Void,Boolean> implemen
         url = urlParm;
     }
 
-    public DeletePartyByIdTask(MainActivity mA, String id){
-        mainActivity = mA;
-        prepare(id, mA);
-    }
 
     public DeletePartyByIdTask(TestFragment tF, String id){
         testFragment = tF;

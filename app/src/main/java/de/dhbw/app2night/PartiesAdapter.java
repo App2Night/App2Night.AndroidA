@@ -45,7 +45,7 @@ public class PartiesAdapter extends RecyclerView.Adapter<PartiesAdapter.MyViewHo
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Party party = partyList.get(position);
         holder.title.setText(party.getPartyName());
-        holder.genre.setText(party.getPartyType());
+        holder.genre.setText(Integer.toString(party.getPartyType()));
         holder.year.setText(party.getPartyDate());
     }
 
