@@ -47,8 +47,7 @@ public class PostPartyTask extends AsyncTask<String,Void,String> implements ApiP
     @Override
     protected String doInBackground(String... params) {
         try{
-                RestBackendCommunication rbc = new RestBackendCommunication();
-                return rbc.postRequest(params[0],params[1]);
+                return RestBackendCommunication.getInstance().postRequest(params[0],params[1]);
         } catch (IOException e) {
             return "Unable to retrieve web page. URL may be invalid.";
         } catch (BackendCommunicationException e) {
@@ -65,8 +64,11 @@ public class PostPartyTask extends AsyncTask<String,Void,String> implements ApiP
 
     @Override
     protected void onPostExecute(String result){
+        if (result != null){
         result = result.substring(1,result.length()-2);
         toPost.setPartId(result);
         fragment.onFinishPostParty(toPost);
     }
+    }
+
 }

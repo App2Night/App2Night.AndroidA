@@ -1,7 +1,5 @@
 package de.dhbw.utils;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.res.AssetManager;
 import java.io.InputStream;
 import java.io.IOException;
@@ -10,7 +8,6 @@ import java.util.Properties;
 import de.dhbw.backendTasks.party.ApiPartyTask;
 import de.dhbw.app2night.MainActivity;
 import de.dhbw.backendTasks.token.GetToken;
-import de.dhbw.backendTasks.token.RefreshToken;
 import de.dhbw.exceptions.NoTokenFoundException;
 
 /**
@@ -47,26 +44,11 @@ public class PropertyUtil {
         apt.setUrl(props.getProperty("app2night.api.url.party"));
     }
 
-    public void init(RefreshToken refreshToken) {
-        Properties props = getProperties();
-        refreshToken.setUrl(props.getProperty("app2night.api.url.token.refresh"));
-    }
-
     public String getBodyOfGetToken (String username, String password){
         Properties props =  getProperties();
         String body = props.getProperty("app2night.token.get.body");
         body = "username=" + username + "&password=" + password + "&" + body;
         return body;
-    }
-
-    public String getBodyOfRefreshToken() throws NoTokenFoundException {
-        Properties props =  getProperties();
-        String body = props.getProperty("app2night.token.refresh.body");
-        body = body + "&token=" + Token.getInstance().getRefreshToken();
-        return body;
-
-
-
     }
 
     public Properties getProperties(){
@@ -80,5 +62,17 @@ public class PropertyUtil {
             e.printStackTrace();
         }
         return properties;
+    }
+
+    public String getBodyOfRefreshToken() throws NoTokenFoundException {
+        Properties props =  getProperties();
+        String body = props.getProperty("app2night.token.refresh.body");
+        body = body + "&token=" + Token.getInstance().getRefreshToken();
+        return body;
+    }
+
+    public String getRefreshUrl() {
+        Properties props = getProperties();
+        return props.getProperty("app2night.api.url.token.refresh");
     }
 }

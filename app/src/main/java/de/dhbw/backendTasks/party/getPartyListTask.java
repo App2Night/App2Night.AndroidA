@@ -46,8 +46,7 @@ public class GetPartyListTask extends AsyncTask<String, Void, String> implements
     @Override
     protected String doInBackground(String... params) {
         try {
-            RestBackendCommunication rbc = new RestBackendCommunication();
-                return rbc.getRequest(params[0]);
+                return RestBackendCommunication.getInstance().getRequest(params[0]);
         } catch (IOException e) {
             return "Unable to retrieve web page. URL may be invalid.";
         } catch (BackendCommunicationException e) {

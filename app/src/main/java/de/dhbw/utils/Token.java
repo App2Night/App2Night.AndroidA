@@ -6,10 +6,12 @@ import android.content.SharedPreferences;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.concurrent.ExecutionException;
+import java.io.IOException;
 
+import de.dhbw.BackEndCommunication.RestBackendCommunication;
 import de.dhbw.app2night.MainActivity;
-import de.dhbw.backendTasks.token.RefreshToken;
+import de.dhbw.exceptions.BackendCommunicationException;
+import de.dhbw.exceptions.NetworkUnavailableException;
 import de.dhbw.exceptions.NoTokenFoundException;
 import de.dhbw.exceptions.RefreshTokenFailedException;
 
@@ -39,7 +41,8 @@ public class Token {
             JSONObject jObj = new JSONObject (eingabe);
             int duration = jObj.getInt("expires_in");
             //Extra Tupel in JSON, welches beim Abfragen der Authentifikation zu einem Refresh führt) (1000 Karenz)
-            jObj.put("refresh", System.currentTimeMillis()+duration -1000);
+           // jObj.put("refresh", System.currentTimeMillis()+duration -1000);
+            jObj.put("refresh", System.currentTimeMillis());
             toSave = jObj.toString();
         } catch (JSONException e) {
             //Fals Fehler Auftritt, kann Eingabe JSON gespeichert werden
@@ -93,18 +96,12 @@ public class Token {
             e.printStackTrace();
         }
         //Token soll refreshed werden
-        if (isItTimeToRefresh > System.currentTimeMillis()) {
-            RefreshToken rt = new RefreshToken();
-            boolean erfolg = false;
+        if (isItTimeToRefresh < System.currentTimeMillis()) {
             try {
-                //Wartet auf Refresh Token -> sonst macht Authentifizierung keinen Sinn
-                erfolg = rt.get();
-            } catch (InterruptedException | ExecutionException e) {
-                e.printStackTrace();
-            }
-            //Wenn Refresh fehlschlägt -> Exception
-            if (!erfolg)
+                RestBackendCommunication.getInstance().refreshToken();
+            } catch (BackendCommunicationException |IOException |NetworkUnavailableException  e) {
                 throw new RefreshTokenFailedException();
+            }
         }
 
         //Geb Authentifizierung zurück
@@ -115,5 +112,22 @@ public class Token {
             e.printStackTrace();
         }
         throw new NoTokenFoundException();
+    }
+
+    public String getAuthorizationWithoutRefresh() throws NoTokenFoundException {
+        SharedPreferences sp = MainActivity.getContext().getSharedPreferences("token", Context.MODE_PRIVATE);
+        String jString = sp.getString("tokenjson",null);
+        if (jString == null)
+            throw new NoTokenFoundException();
+
+        //Geb Authentifizierung zurück
+        try {
+            JSONObject jObj = new JSONObject(jString);
+            return jObj.getString("token_type") + " " + jObj.getString("access_token");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        throw new NoTokenFoundException();
+
     }
 }

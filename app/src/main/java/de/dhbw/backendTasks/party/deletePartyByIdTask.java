@@ -48,8 +48,7 @@ public class DeletePartyByIdTask extends AsyncTask<String,Void,Boolean> implemen
     @Override
     protected Boolean  doInBackground(String... params) {
         try {
-            RestBackendCommunication rbc = new RestBackendCommunication();
-                return rbc.deleteRequest(params[0]);
+            return RestBackendCommunication.getInstance().deleteRequest(params[0]);
         } catch (IOException e) {
             e.printStackTrace();
             return false;

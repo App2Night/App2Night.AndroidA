@@ -17,6 +17,7 @@ import de.dhbw.exceptions.BackendCommunicationException;
 import de.dhbw.exceptions.NetworkUnavailableException;
 import de.dhbw.exceptions.NoTokenFoundException;
 import de.dhbw.exceptions.RefreshTokenFailedException;
+import de.dhbw.utils.PropertyUtil;
 import de.dhbw.utils.Token;
 
 /**
@@ -26,6 +27,7 @@ import de.dhbw.utils.Token;
 public class RestBackendCommunication {
 
     private static RestBackendCommunication RBC = null;
+    private RestBackendCommunication() {}
     public static RestBackendCommunication getInstance(){
         if (RBC == null)
             RBC = new RestBackendCommunication();
@@ -91,15 +93,13 @@ public class RestBackendCommunication {
     /**
      * Refresht das Token.
      *
-     * @param myurl Url zum anbfragen des Tokens
-     * @param body Body um das Token abzufragen
      * @return true, wenn refresh erfolgreich war
      * @throws IOException - Wenn bei dem Zugriff auf den Input Stream ein Fehler auftritt
      * @throws BackendCommunicationException - Wenn Request fehlschlägt
      * @throws NetworkUnavailableException - Wenn keine Internetverbindung besteht
      * @throws NoTokenFoundException - Wenn kein Token zur Authentifizierung gefunden wird
      */
-    public Boolean refreshToken (String myurl, String body) throws BackendCommunicationException, IOException, NetworkUnavailableException, NoTokenFoundException, RefreshTokenFailedException {
+    public Boolean refreshToken () throws BackendCommunicationException, IOException, NetworkUnavailableException, NoTokenFoundException {
         InputStream is = null;
         OutputStream os = null;
         Context context = MainActivity.getContext();
@@ -108,10 +108,15 @@ public class RestBackendCommunication {
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         if (networkInfo != null && networkInfo.isConnected()) {
             try {
+                //Ermittle benötigte Informationen
+                String myurl = PropertyUtil.getInstance().getRefreshUrl();
+                String body = PropertyUtil.getInstance().getBodyOfRefreshToken();
+
                 URL url = new URL(myurl);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestMethod("POST");
-                conn.setRequestProperty("Authorization", Token.getInstance().getAuthorization());
+                //Hole altes Token (ohne refresh)
+                conn.setRequestProperty("Authorization", Token.getInstance().getAuthorizationWithoutRefresh());
                 conn.setDoOutput(true);
                 conn.setDoInput(true);
                 os = conn.getOutputStream();

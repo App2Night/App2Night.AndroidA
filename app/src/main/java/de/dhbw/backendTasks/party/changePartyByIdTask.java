@@ -48,9 +48,7 @@ public class ChangePartyByIdTask extends AsyncTask<String, Void, Boolean> implem
     @Override
     protected Boolean  doInBackground(String... params) {
         try {
-            RestBackendCommunication rbc = new RestBackendCommunication();
-            if (activity != null)
-                return rbc.putRequest(params[0], params[1]);
+                return RestBackendCommunication.getInstance().putRequest(params[0], params[1]);
         } catch (IOException e) {
             return false;
         } catch (BackendCommunicationException e) {

@@ -9,17 +9,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
-
-import de.dhbw.backendTasks.party.ChangePartyByIdTask;
 import de.dhbw.backendTasks.party.DeletePartyById;
 import de.dhbw.backendTasks.party.DeletePartyByIdTask;
 import de.dhbw.backendTasks.party.GetPartyList;
 import de.dhbw.backendTasks.party.GetPartyListTask;
 import de.dhbw.backendTasks.party.PostParty;
 import de.dhbw.backendTasks.party.PostPartyTask;
-import de.dhbw.backendTasks.token.GetToken;
-import de.dhbw.backendTasks.token.RefreshToken;
 import de.dhbw.exceptions.IllegalKeyException;
 import de.dhbw.model.Location;
 import de.dhbw.model.Party;
