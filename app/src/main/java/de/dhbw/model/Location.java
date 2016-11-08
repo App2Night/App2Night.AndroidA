@@ -16,11 +16,11 @@ public class Location {
     private String CountyName;
     private String CityName;
     private String StreetName;
-    private int HouseNumber;
+    private String HouseNumber;
     private String HouseNumberAdditional;
-    private int Zipcode;
-    private int Latitude;
-    private int Longitude;
+    private String Zipcode;
+    private double Latitude;
+    private double Longitude;
 
     public String getCountyName() {
         return CountyName;
@@ -46,11 +46,11 @@ public class Location {
         this.StreetName = streetName;
     }
 
-    public int getHouseNumber() {
+    public String getHouseNumber() {
         return HouseNumber;
     }
 
-    public void setHouseNumber(int houseNumber) {
+    public void setHouseNumber(String houseNumber) {
         this.HouseNumber = houseNumber;
     }
 
@@ -62,27 +62,27 @@ public class Location {
         this.HouseNumberAdditional = houseNumberAdditional;
     }
 
-    public int getZipcode() {
+    public String getZipcode() {
         return Zipcode;
     }
 
-    public void setZipcode(int zipcode) {
+    public void setZipcode(String zipcode) {
         this.Zipcode = zipcode;
     }
 
-    public int getLatitude() {
+    public double getLatitude() {
         return Latitude;
     }
 
-    public void setLatitude(int latitude) {
+    public void setLatitude(double latitude) {
         this.Latitude = latitude;
     }
 
-    public int getLongitude() {
+    public double getLongitude() {
         return Longitude;
     }
 
-    public void setLongitude(int longitude) {
+    public void setLongitude(double longitude) {
         this.Longitude = longitude;
     }
 

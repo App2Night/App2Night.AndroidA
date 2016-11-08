@@ -20,9 +20,7 @@ import de.dhbw.exceptions.RefreshTokenFailedException;
 public class Token {
 
     private static Token token = null;
-
     private Token(){}
-
     public static Token getInstance(){
         if(token == null)
             token = new Token();

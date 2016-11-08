@@ -107,9 +107,9 @@ public class TestFragment extends Fragment implements View.OnClickListener, Dele
                 l.setCountyName("Musterland");
                 l.setCityName("stadt");
                 l.setStreetName("str");
-                l.setHouseNumber(5);
+                l.setHouseNumber("5");
                 l.setHouseNumberAdditional("b");
-                l.setZipcode(50555);
+                l.setZipcode("50555");
                 l.setLatitude(0);
                 l.setLongitude(0);
 
