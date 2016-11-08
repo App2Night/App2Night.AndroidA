@@ -12,6 +12,7 @@ import de.dhbw.app2night.MainActivity;
 import de.dhbw.exceptions.BackendCommunicationException;
 import de.dhbw.exceptions.NetworkUnavailableException;
 import de.dhbw.exceptions.NoTokenFoundException;
+import de.dhbw.exceptions.RefreshTokenFailedException;
 import de.dhbw.utils.PropertyUtil;
 
 /**
@@ -57,6 +58,8 @@ public class ChangePartyByIdTask extends AsyncTask<String, Void, Boolean> implem
         } catch (NetworkUnavailableException e) {
             return false;
         } catch (NoTokenFoundException e) {
+            e.printStackTrace();
+        } catch (RefreshTokenFailedException e) {
             e.printStackTrace();
         }
         return false;

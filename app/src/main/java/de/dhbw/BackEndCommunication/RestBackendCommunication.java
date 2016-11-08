@@ -11,13 +11,12 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.concurrent.ExecutionException;
 
 import de.dhbw.app2night.MainActivity;
-import de.dhbw.backendTasks.token.RefreshToken;
 import de.dhbw.exceptions.BackendCommunicationException;
 import de.dhbw.exceptions.NetworkUnavailableException;
 import de.dhbw.exceptions.NoTokenFoundException;
+import de.dhbw.exceptions.RefreshTokenFailedException;
 import de.dhbw.utils.Token;
 
 /**
@@ -57,23 +56,15 @@ public class RestBackendCommunication {
                 URL url = new URL(myurl);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestMethod("POST");
-               // conn.setRequestProperty("Content-Type","application/x-wwww-form-urlencoded");
-
-
                 conn.setDoOutput(true);
                 conn.setDoInput(true);
-
-               os = conn.getOutputStream();
+                os = conn.getOutputStream();
                 BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os));
                 bw.write(body);
                 bw.flush();
                 bw.close();
-
                 conn.connect();
-
-                String str = conn.getResponseMessage();
                 int response = conn.getResponseCode();
-
                if (response == HttpURLConnection.HTTP_OK) {
                     is = conn.getInputStream();
                     BufferedReader br = new BufferedReader(new InputStreamReader(is));
@@ -108,7 +99,7 @@ public class RestBackendCommunication {
      * @throws NetworkUnavailableException - Wenn keine Internetverbindung besteht
      * @throws NoTokenFoundException - Wenn kein Token zur Authentifizierung gefunden wird
      */
-    public Boolean refreshToken (String myurl, String body) throws BackendCommunicationException, IOException, NetworkUnavailableException, NoTokenFoundException {
+    public Boolean refreshToken (String myurl, String body) throws BackendCommunicationException, IOException, NetworkUnavailableException, NoTokenFoundException, RefreshTokenFailedException {
         InputStream is = null;
         OutputStream os = null;
         Context context = MainActivity.getContext();
@@ -121,21 +112,16 @@ public class RestBackendCommunication {
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestMethod("POST");
                 conn.setRequestProperty("Authorization", Token.getInstance().getAuthorization());
-
                 conn.setDoOutput(true);
                 conn.setDoInput(true);
-
                 os = conn.getOutputStream();
                 BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os));
                 bw.write(body);
                 bw.flush();
                 bw.close();
-
                 conn.connect();
-
                 String str = conn.getResponseMessage();
                 int response = conn.getResponseCode();
-
                 if (response == HttpURLConnection.HTTP_OK) {
                     return true;
                 } else {
@@ -213,7 +199,7 @@ public class RestBackendCommunication {
      * @throws IOException - Wenn bei dem Zugriff auf den Input oder Output Stream ein Fehler auftritt
      * @throws BackendCommunicationException -  Wenn post Request fehlschlägt
      */
-    public String postRequest(String myurl, String jString) throws NetworkUnavailableException, IOException, BackendCommunicationException, NoTokenFoundException {
+    public String postRequest(String myurl, String jString) throws NetworkUnavailableException, IOException, BackendCommunicationException, NoTokenFoundException, RefreshTokenFailedException {
         InputStream is = null;
         OutputStream os = null;
         Context context = MainActivity.getContext();
@@ -274,7 +260,7 @@ public class RestBackendCommunication {
      * @throws IOException - Wenn bei dem Zugriff auf den Input oder Output Stream ein Fehler auftritt
      * @throws BackendCommunicationException -  Wenn post Request fehlschlägt
      */
-    public boolean putRequest(String myurl, String jString) throws NetworkUnavailableException, IOException, BackendCommunicationException, NoTokenFoundException {
+    public boolean putRequest(String myurl, String jString) throws NetworkUnavailableException, IOException, BackendCommunicationException, NoTokenFoundException, RefreshTokenFailedException {
         InputStream is = null;
         OutputStream os = null;
         Context context = MainActivity.getContext();
@@ -334,7 +320,7 @@ public class RestBackendCommunication {
      * @throws IOException - Wenn bei dem Zugriff auf den Input oder Output Stream ein Fehler auftritt
      * @throws BackendCommunicationException -  Wenn post Request fehlschlägt
      */
-    public boolean deleteRequest(String myurl) throws NetworkUnavailableException, IOException, BackendCommunicationException, NoTokenFoundException {
+    public boolean deleteRequest(String myurl) throws NetworkUnavailableException, IOException, BackendCommunicationException, NoTokenFoundException, RefreshTokenFailedException {
         Context context = MainActivity.getContext();
         ConnectivityManager connMgr = (ConnectivityManager)
                 context.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -346,7 +332,6 @@ public class RestBackendCommunication {
                 conn.setReadTimeout(10000 /* milliseconds */);
                 conn.setConnectTimeout(15000 /* milliseconds */);
                 conn.setRequestMethod("DELETE");
-                 String aut = Token.getInstance().getAuthorization();
                 conn.setRequestProperty("Authorization", Token.getInstance().getAuthorization());
 
                 conn.connect();

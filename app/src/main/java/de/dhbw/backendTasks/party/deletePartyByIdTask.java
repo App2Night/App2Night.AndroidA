@@ -12,6 +12,7 @@ import de.dhbw.app2night.TestFragment;
 import de.dhbw.exceptions.BackendCommunicationException;
 import de.dhbw.exceptions.NetworkUnavailableException;
 import de.dhbw.exceptions.NoTokenFoundException;
+import de.dhbw.exceptions.RefreshTokenFailedException;
 import de.dhbw.utils.PropertyUtil;
 
 /**
@@ -50,12 +51,19 @@ public class DeletePartyByIdTask extends AsyncTask<String,Void,Boolean> implemen
             RestBackendCommunication rbc = new RestBackendCommunication();
                 return rbc.deleteRequest(params[0]);
         } catch (IOException e) {
+            e.printStackTrace();
             return false;
           } catch (BackendCommunicationException e) {
+            e.printStackTrace();
             return false;
         } catch (NetworkUnavailableException e) {
+            e.printStackTrace();
             return false;
         } catch (NoTokenFoundException e) {
+            e.printStackTrace();
+            return false;
+        } catch (RefreshTokenFailedException e) {
+            e.printStackTrace();
             return false;
         }
     }

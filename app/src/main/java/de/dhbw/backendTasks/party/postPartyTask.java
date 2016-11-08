@@ -14,6 +14,7 @@ import de.dhbw.app2night.TestFragment;
 import de.dhbw.exceptions.BackendCommunicationException;
 import de.dhbw.exceptions.NetworkUnavailableException;
 import de.dhbw.exceptions.NoTokenFoundException;
+import de.dhbw.exceptions.RefreshTokenFailedException;
 import de.dhbw.model.Party;
 import de.dhbw.utils.PropertyUtil;
 
@@ -33,6 +34,7 @@ public class PostPartyTask extends AsyncTask<String,Void,String> implements ApiP
 
     public PostPartyTask(PostParty fr, Party party){
         fragment = fr;
+        toPost = party;
         prepare(party);
     }
 
@@ -54,6 +56,8 @@ public class PostPartyTask extends AsyncTask<String,Void,String> implements ApiP
         } catch (NetworkUnavailableException e) {
             e.printStackTrace();
         } catch (NoTokenFoundException e) {
+            e.printStackTrace();
+        } catch (RefreshTokenFailedException e) {
             e.printStackTrace();
         }
         return null;

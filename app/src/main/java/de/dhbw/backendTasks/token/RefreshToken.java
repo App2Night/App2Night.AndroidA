@@ -5,6 +5,7 @@ import de.dhbw.BackEndCommunication.RestBackendCommunication;
 import de.dhbw.exceptions.BackendCommunicationException;
 import de.dhbw.exceptions.NetworkUnavailableException;
 import de.dhbw.exceptions.NoTokenFoundException;
+import de.dhbw.exceptions.RefreshTokenFailedException;
 import de.dhbw.utils.PropertyUtil;
 
 /**
@@ -40,6 +41,8 @@ public class RefreshToken extends AsyncTask<String, Void, Boolean> {
         } catch (NetworkUnavailableException e) {
             e.printStackTrace();
         } catch (NoTokenFoundException e) {
+            e.printStackTrace();
+        } catch (RefreshTokenFailedException e) {
             e.printStackTrace();
         }
         return false;
