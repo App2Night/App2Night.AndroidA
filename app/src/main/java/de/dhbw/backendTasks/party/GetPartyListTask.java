@@ -17,7 +17,7 @@ import de.dhbw.model.Party;
 import de.dhbw.utils.PropertyUtil;
 
 /**
- * Created by Tobias Berner on 20.10.2016.
+ * Created by Tobias Berner on 21.10.2016.
  */
 
 public class GetPartyListTask extends AsyncTask<String, Void, String> implements ApiPartyTask {
