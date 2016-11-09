@@ -82,7 +82,6 @@ public class RestBackendCommunication {
                 if (os != null)
                     os.close();
             }
-
         } else {
             //Netzwerk nicht verbunden
             throw new NetworkUnavailableException("Network not connected");
