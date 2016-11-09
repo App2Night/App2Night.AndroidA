@@ -47,7 +47,8 @@ public class GetToken extends AsyncTask<String,Void,String> {
 
     @Override
     protected void onPostExecute(String result){
-        Token.getInstance().saveTokenAwnser(result);
+        if (result != null)
+            Token.getInstance().saveTokenAwnser(result);
     }
 
 

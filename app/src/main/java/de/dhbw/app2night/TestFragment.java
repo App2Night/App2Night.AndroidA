@@ -109,6 +109,7 @@ public class TestFragment extends Fragment implements View.OnClickListener, Dele
                 l.setLongitude(0);
 
                 p.setLocation(l);
+
                 new PostPartyTask(this, p);
 
                 break;

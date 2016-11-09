@@ -28,7 +28,7 @@ public class ChangePartyByIdTask extends AsyncTask<String, Void, Boolean> implem
 
     public ChangePartyByIdTask(ChangePartyById fr, String id , String jString) {
         fragment = fr;
-        prepare(id, jString, MainActivity.getContext());
+        prepare(id,jString);
     }
     public void setUrl(String urlParm){
         url = urlParm;
@@ -39,7 +39,7 @@ public class ChangePartyByIdTask extends AsyncTask<String, Void, Boolean> implem
         return url+"/id=" + id;
     }
 
-    private void prepare(String id, String jString, Context c){
+    private void prepare(String id, String jString){
         String putUrl = buildPutUrl(id);
         PropertyUtil.getInstance().init(this);
         this.execute(putUrl, jString);

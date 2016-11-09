@@ -40,7 +40,9 @@ public class PostPartyTask extends AsyncTask<String,Void,String> implements ApiP
 
     private void prepare(Party party){
         PropertyUtil.getInstance().init(this);
-        String jString = new Gson().toJson(party);
+        //String jString = new Gson().toJson(party);
+        String jString = "{\"partyName\":\"string\",\"partyDate\":\"2016-11-09T15:01:42.768Z\",\"musicGenre\":0,\"countryName\":\"string\",\"cityName\":\"string\",\"streetName\":\"string\","+
+       "\"houseNumber\":\"string\",\"houseNumberAdditional\":\"string\",\"zipcode\":\"string\",\"partyType\":0,\"description\":\"string\"}";
         this.execute(url,jString);
     }
 
