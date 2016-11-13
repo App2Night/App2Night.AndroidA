@@ -44,6 +44,7 @@ public class PostPartyTask extends AsyncTask<String,Void,String> implements ApiP
         try{
                 //Post
                 String id = RestBackendCommunication.getInstance().postRequest(params[0],params[1]);
+                id=id.substring(1,id.length()-1);
                 //Get zum holen aller Informationen und speichern in Allgemeinem Modell
                 return RestBackendCommunication.getInstance().getRequest(url+"/id="+id);
         } catch (IOException e) {
@@ -63,8 +64,8 @@ public class PostPartyTask extends AsyncTask<String,Void,String> implements ApiP
     @Override
     protected void onPostExecute(String result){
         if (result != null){
-            Party party = new Gson().fromJson(result, Party.class);
-            fragment.onFinishPostParty(party);
+            Party[] party = new Gson().fromJson(result, Party[].class);
+            fragment.onFinishPostParty(party[0]);
     }
     }
 
