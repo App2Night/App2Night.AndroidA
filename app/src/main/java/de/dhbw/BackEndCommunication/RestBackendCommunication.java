@@ -10,8 +10,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
 import de.dhbw.app2night.MainActivity;
 import de.dhbw.exceptions.BackendCommunicationException;
@@ -38,8 +36,6 @@ public class RestBackendCommunication {
     /**
      * Ruft Token von Server ab.
      *
-     * @param myurl Url zum anbfragen des Tokens
-     * @param body Body um das Token abzufragen
      * @return Json, welches unter anderem Token und Refresh Token enthält
      * @throws IOException - Wenn bei dem Zugriff auf den Input Stream ein Fehler auftritt
      * @throws BackendCommunicationException - Wenn Request fehlschlägt

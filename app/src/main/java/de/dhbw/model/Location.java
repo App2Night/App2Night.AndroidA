@@ -13,7 +13,7 @@ import de.dhbw.utils.PropertyUtil;
  */
 
 public class Location {
-    private String CountyName;
+    private String CountryName;
     private String CityName;
     private String StreetName;
     private String HouseNumber;
@@ -23,11 +23,11 @@ public class Location {
     private double Longitude;
 
     public String getCountyName() {
-        return CountyName;
+        return CountryName;
     }
 
     public void setCountyName(String countyName) {
-        this.CountyName = countyName;
+        this.CountryName = countyName;
     }
 
     public String getCityName() {

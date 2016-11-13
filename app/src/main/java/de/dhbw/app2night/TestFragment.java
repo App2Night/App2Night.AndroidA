@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+
 import de.dhbw.backendTasks.party.DeletePartyById;
 import de.dhbw.backendTasks.party.DeletePartyByIdTask;
 import de.dhbw.backendTasks.party.GetPartyList;
@@ -18,6 +20,7 @@ import de.dhbw.backendTasks.party.PostPartyTask;
 import de.dhbw.exceptions.IllegalKeyException;
 import de.dhbw.model.Location;
 import de.dhbw.model.Party;
+import de.dhbw.model.PartyDisplay;
 import de.dhbw.utils.SettingsAdministration;
 
 /**
@@ -99,18 +102,18 @@ public class TestFragment extends Fragment implements View.OnClickListener, Dele
                 p.setPartyType(2);
 
                 Location l = new Location();
-                l.setCountyName("Musterland");
-                l.setCityName("stadt");
-                l.setStreetName("str");
-                l.setHouseNumber("5");
-                l.setHouseNumberAdditional("b");
-                l.setZipcode("50555");
+                l.setCountyName("Germany");
+                l.setCityName("Horb am Neckar");
+                l.setStreetName("Florianstraße");
+                l.setHouseNumber("12");
+                l.setHouseNumberAdditional("");
+                l.setZipcode("72160");
                 l.setLatitude(0);
                 l.setLongitude(0);
 
                 p.setLocation(l);
 
-                new PostPartyTask(this, p);
+                new PostPartyTask(this, new PartyDisplay(p));
 
                 break;
             case R.id.main_button_put:
@@ -124,7 +127,10 @@ public class TestFragment extends Fragment implements View.OnClickListener, Dele
 
     @Override
     public void onFinishDeletePartyById(boolean result) {
-
+            if (result)
+                viewStatus.setText("Löschen erfolgreich");
+            else
+                viewStatus.setText("Löschen nicht erfolgreich");
     }
 
     @Override
@@ -134,6 +140,6 @@ public class TestFragment extends Fragment implements View.OnClickListener, Dele
 
     @Override
     public void onFinishPostParty(Party party) {
-
+            viewStatus.setText(new Gson().toJson(party));
     }
 }

@@ -41,8 +41,7 @@ public class Token {
             JSONObject jObj = new JSONObject (eingabe);
             int duration = jObj.getInt("expires_in");
             //Extra Tupel in JSON, welches beim Abfragen der Authentifikation zu einem Refresh führt) (1000 Karenz)
-           // jObj.put("refresh", System.currentTimeMillis()+duration -1000);
-            jObj.put("refresh", System.currentTimeMillis());
+            jObj.put("refresh", System.currentTimeMillis()+duration -1000);
             toSave = jObj.toString();
         } catch (JSONException e) {
             //Fals Fehler Auftritt, kann Eingabe JSON gespeichert werden
