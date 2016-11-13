@@ -35,7 +35,7 @@ public class Token {
      *
      * @param eingabe Serverantwort nach GetToken
      */
-    public void saveTokenAwnser(String eingabe){
+    public void saveTokenAwnser(String eingabe, Context c){
         String toSave;
         try {
             JSONObject jObj = new JSONObject (eingabe);
@@ -48,8 +48,7 @@ public class Token {
             //Fals Fehler Auftritt, kann Eingabe JSON gespeichert werden
            toSave = eingabe;
         }
-
-        SharedPreferences sp = MainActivity.getContext().getSharedPreferences("token", Context.MODE_PRIVATE);
+        SharedPreferences sp = c.getSharedPreferences("token", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
         editor.putString("tokenjson",toSave);
         editor.commit();

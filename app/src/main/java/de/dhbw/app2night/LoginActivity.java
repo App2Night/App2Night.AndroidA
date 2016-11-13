@@ -3,6 +3,7 @@ package de.dhbw.app2night;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
@@ -30,9 +31,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.dhbw.BackEndCommunication.RestBackendCommunication;
+import de.dhbw.exceptions.BackendCommunicationException;
+import de.dhbw.exceptions.NetworkUnavailableException;
+import de.dhbw.exceptions.NoTokenFoundException;
 import de.dhbw.utils.PruefungBenutzereingabe;
 
 import static android.Manifest.permission.READ_CONTACTS;
@@ -188,19 +194,20 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
+            mAuthTask = new UserLoginTask(email, password,this);
             mAuthTask.execute((Void) null);
         }
     }
 
     private boolean isEmailValid(String email) {
         //TODO: Replace this with your own logic
-        return PruefungBenutzereingabe.getInstance().acceptEmail(email);
+        return true;
+        //return PruefungBenutzereingabe.getInstance().acceptEmail(email);
     }
 
     private boolean isPasswordValid(String password) {
         //TODO: Replace this with your own logic
-        return password.length() > 4;
+        return true;
     }
 
     /**
@@ -301,33 +308,17 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         private final String mEmail;
         private final String mPassword;
+        private final Context context;
 
-        UserLoginTask(String email, String password) {
+        UserLoginTask(String email, String password, Context c) {
             mEmail = email;
             mPassword = password;
+            context = c;
         }
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
-
-            try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
-            }
-
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
-                }
-            }
-
-            // TODO: register the new account here.
-            return true;
+                return RestBackendCommunication.getInstance().getToken(mEmail,mPassword,context);
         }
 
         @Override
