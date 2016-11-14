@@ -35,4 +35,19 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+
+
+    <!-- Strings related to Party -->
+    <string name="party_name">Name der Veranstaltung</string>
+    <string name="party_date">Datum</string>
+    <string name="music_genre">Musik Genre</string>
+    <string name="country_name">Land</string>
+    <string name="city_name">Stadt</string>
+    <string name="street_name">Straßenname</string>
+    <string name="house_number">Hausnummer</string>
+    <string name="house_number_additional">Hausnummerzusatz</string>
+    <string name="zipcode">Postleitzahl</string>
+    <string name="party_type">Art der Veranstaltung</string>
+    <string name="description">Beschreibung</string>
+
 </resources>
