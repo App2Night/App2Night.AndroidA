@@ -15,16 +15,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import de.dhbw.backendTasks.token.GetToken;
-import de.dhbw.exceptions.GPSUnavailableException;
-
-import de.dhbw.backendTasks.party.ChangePartyByIdTask;
-import de.dhbw.backendTasks.party.DeletePartyByIdTask;
-import de.dhbw.backendTasks.party.GetPartyListTask;
-import de.dhbw.backendTasks.party.PostPartyTask;
-import de.dhbw.exceptions.IllegalKeyException;
-import de.dhbw.utils.Gps;
-import de.dhbw.utils.SettingsAdministration;
 
 /**
  * Created by Bro on 26.10.2016.
@@ -61,7 +51,7 @@ public class MainActivity extends AppCompatActivity
 
         // display the first navigation drawer view on app launch
         displayView(R.layout.fragment_home);
-        new GetToken("test","test");
+
 
 
     }

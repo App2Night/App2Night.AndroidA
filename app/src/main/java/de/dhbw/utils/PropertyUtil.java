@@ -1,5 +1,6 @@
 package de.dhbw.utils;
 
+import android.content.Context;
 import android.content.res.AssetManager;
 import java.io.InputStream;
 import java.io.IOException;
@@ -7,7 +8,6 @@ import java.util.Properties;
 
 import de.dhbw.backendTasks.party.ApiPartyTask;
 import de.dhbw.app2night.MainActivity;
-import de.dhbw.backendTasks.token.GetToken;
 import de.dhbw.exceptions.NoTokenFoundException;
 
 /**
@@ -27,12 +27,6 @@ public class PropertyUtil {
 
     }
 
-    public void init (GetToken gt){
-        Properties props = getProperties();
-        gt.setUrl(props.getProperty("app2night.api.url.token.get"));
-
-    }
-
     public void init(SettingsAdministration sa) {
         Properties props =  getProperties();
         sa.setSharedPrefs(props.getProperty("app2night.settings.sharedpref"));
@@ -44,8 +38,8 @@ public class PropertyUtil {
         apt.setUrl(props.getProperty("app2night.api.url.party"));
     }
 
-    public String getBodyOfGetToken (String username, String password){
-        Properties props =  getProperties();
+    public String getBodyOfGetToken (String username, String password, Context c){
+        Properties props =  getProperties(c);
         String body = props.getProperty("app2night.token.get.body");
         body = "username=" + username + "&password=" + password + "&" + body;
         return body;
@@ -69,6 +63,24 @@ public class PropertyUtil {
         String body = props.getProperty("app2night.token.refresh.body");
         body = body + "&token=" + Token.getInstance().getRefreshToken();
         return body;
+    }
+
+    public String getTokenUrl(Context c){
+        Properties props = getProperties(c);
+        return props.getProperty("app2night.api.url.token.get");
+    }
+
+    private Properties getProperties(Context c) {
+        Properties properties = new Properties();
+        AssetManager assetManager = c.getAssets();
+        InputStream inputStream = null;
+        try {
+            inputStream = assetManager.open("app2night.properties");
+            properties.load(inputStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return properties;
     }
 
     public String getRefreshUrl() {

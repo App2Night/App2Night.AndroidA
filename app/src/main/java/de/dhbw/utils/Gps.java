@@ -28,23 +28,17 @@ public class Gps {
         Location location;
         try {
            location = getLastKnownLocation(c);
+            //Breitengrad
+            double latitude = location.getLatitude();
+            //Längengrad
+            double longtitude = location.getLongitude();
+            rueckgabe = new double[2];
+            rueckgabe[0] = latitude;
+            rueckgabe[1] = longtitude;
+            return rueckgabe;
         }catch (SecurityException e){
-                location = null;
+            throw new GPSUnavailableException();
         }
-            if (location != null) {
-                //Breitengrad
-                double latitude = location.getLatitude();
-                //Längengrad
-                double longtitude = location.getLongitude();
-                rueckgabe = new double[2];
-                rueckgabe[0] = latitude;
-                rueckgabe[1] = longtitude;
-                return rueckgabe;
-            }
-            else
-                throw new GPSUnavailableException();
-
-
     }
 
     private Location getLastKnownLocation (Context c) throws SecurityException  {

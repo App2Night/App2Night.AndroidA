@@ -35,21 +35,19 @@ public class Token {
      *
      * @param eingabe Serverantwort nach GetToken
      */
-    public void saveTokenAwnser(String eingabe){
+    public void saveTokenAwnser(String eingabe, Context c){
         String toSave;
         try {
             JSONObject jObj = new JSONObject (eingabe);
             int duration = jObj.getInt("expires_in");
             //Extra Tupel in JSON, welches beim Abfragen der Authentifikation zu einem Refresh führt) (1000 Karenz)
-           // jObj.put("refresh", System.currentTimeMillis()+duration -1000);
-            jObj.put("refresh", System.currentTimeMillis());
+            jObj.put("refresh", System.currentTimeMillis()+duration -1000);
             toSave = jObj.toString();
         } catch (JSONException e) {
             //Fals Fehler Auftritt, kann Eingabe JSON gespeichert werden
            toSave = eingabe;
         }
-
-        SharedPreferences sp = MainActivity.getContext().getSharedPreferences("token", Context.MODE_PRIVATE);
+        SharedPreferences sp = c.getSharedPreferences("token", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
         editor.putString("tokenjson",toSave);
         editor.commit();

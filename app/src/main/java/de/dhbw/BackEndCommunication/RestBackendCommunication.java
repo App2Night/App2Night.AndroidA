@@ -36,24 +36,23 @@ public class RestBackendCommunication {
     /**
      * Ruft Token von Server ab.
      *
-     * @param myurl Url zum anbfragen des Tokens
-     * @param body Body um das Token abzufragen
      * @return Json, welches unter anderem Token und Refresh Token enthält
      * @throws IOException - Wenn bei dem Zugriff auf den Input Stream ein Fehler auftritt
      * @throws BackendCommunicationException - Wenn Request fehlschlägt
      * @throws NetworkUnavailableException - Wenn keine Internetverbindung besteht
      * @throws NoTokenFoundException - Wenn kein Token zur Authentifizierung gefunden wird
      */
-    public String getToken (String myurl, String body) throws BackendCommunicationException, IOException, NetworkUnavailableException, NoTokenFoundException {
+    public boolean getToken (String username, String password, Context c) {
         InputStream is = null;
         OutputStream os = null;
         String token;
-        Context context = MainActivity.getContext();
         ConnectivityManager connMgr = (ConnectivityManager)
-                context.getSystemService(Context.CONNECTIVITY_SERVICE);
+                c.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         if (networkInfo != null && networkInfo.isConnected()) {
             try {
+                String myurl = PropertyUtil.getInstance().getTokenUrl(c);
+                String body = PropertyUtil.getInstance().getBodyOfGetToken(username,password,c);
                 URL url = new URL(myurl);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestMethod("POST");
@@ -70,22 +69,32 @@ public class RestBackendCommunication {
                     is = conn.getInputStream();
                     BufferedReader br = new BufferedReader(new InputStreamReader(is));
                     token = br.readLine();
-                    br.close();
+                    Token.getInstance().saveTokenAwnser(token,c);
+                   return true;
                } else {
-                    throw new BackendCommunicationException(Integer.toString(response));
+                   //Antwort nicht ok
+                    return false;
                }
-                return token;
+            } catch (IOException e) {
+                return false;
             } finally {
                 //Stream schließen
                 if (is != null)
-                    is.close();
+                    try {
+                        is.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 if (os != null)
-                    os.close();
+                    try {
+                        os.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
             }
-
         } else {
             //Netzwerk nicht verbunden
-            throw new NetworkUnavailableException("Network not connected");
+            return false;
         }
     }
 

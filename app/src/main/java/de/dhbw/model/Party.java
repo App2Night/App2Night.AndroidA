@@ -5,7 +5,7 @@ package de.dhbw.model;
 
     public class Party {
 
-        private String PartId;
+        private String PartyId;
         private String PartyName;
         private int Price;
         private String PartyDate;
@@ -16,12 +16,12 @@ package de.dhbw.model;
         private User Host;
 
 
-        public String getPartId() {
-            return PartId;
+        public String getPartyId() {
+            return PartyId;
         }
 
-        public void setPartId(String partId) {
-            PartId = partId;
+        public void setPartyId(String partyId) {
+            PartyId = partyId;
         }
 
         public String getPartyName() {
