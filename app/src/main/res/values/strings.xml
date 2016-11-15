@@ -50,6 +50,9 @@
     <string name="house_number_additional">Hausnummerzusatz</string>
     <string name="zipcode">Postleitzahl</string>
     <string name="party_type">Art der Veranstaltung</string>
-    <string name="description">Beschreibung</string>
+    <string name="description">Beschreibung...</string>
+
+    <!--Strings related to AddEvent-->
+    <string name="addevent_button_ok">Ok</string>
 
 </resources>
