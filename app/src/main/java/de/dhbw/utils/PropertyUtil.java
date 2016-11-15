@@ -87,4 +87,9 @@ public class PropertyUtil {
         Properties props = getProperties();
         return props.getProperty("app2night.api.url.token.refresh");
     }
+
+    public String getRegisterUrl(Context c) {
+        Properties props = getProperties(c);
+        return props.getProperty("app2night.api.url.register");
+    }
 }

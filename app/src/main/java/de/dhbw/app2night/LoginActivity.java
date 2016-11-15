@@ -31,15 +31,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import de.dhbw.BackEndCommunication.RestBackendCommunication;
-import de.dhbw.exceptions.BackendCommunicationException;
-import de.dhbw.exceptions.NetworkUnavailableException;
-import de.dhbw.exceptions.NoTokenFoundException;
-import de.dhbw.utils.PruefungBenutzereingabe;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -318,7 +313,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         @Override
         protected Boolean doInBackground(Void... params) {
-                return RestBackendCommunication.getInstance().getToken(mEmail,mPassword,context);
+                return RestBackendCommunication.getInstance().login(mEmail,mPassword,context);
         }
 
         @Override

@@ -21,7 +21,6 @@ public class PartyDisplay {
     private String description;
 
 
-
     public PartyDisplay(){
 
     }

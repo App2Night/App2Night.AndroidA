@@ -17,6 +17,7 @@ import de.dhbw.backendTasks.party.GetPartyList;
 import de.dhbw.backendTasks.party.GetPartyListTask;
 import de.dhbw.backendTasks.party.PostParty;
 import de.dhbw.backendTasks.party.PostPartyTask;
+import de.dhbw.backendTasks.user.RegisterUserTask;
 import de.dhbw.exceptions.IllegalKeyException;
 import de.dhbw.model.Location;
 import de.dhbw.model.Party;
@@ -29,7 +30,7 @@ import de.dhbw.utils.SettingsAdministration;
 
 public class TestFragment extends Fragment implements View.OnClickListener, DeletePartyById, GetPartyList, PostParty{
     public TextView viewStatus;
-    private Button buttonGet, buttonPost, buttonPut, buttonDelete, buttonSettings;
+    private Button buttonGet, buttonPost, buttonPut, buttonDelete, buttonSettings, buttonRegister;
 
     public TestFragment() {
         // Required empty public constructor
@@ -51,13 +52,14 @@ public class TestFragment extends Fragment implements View.OnClickListener, Dele
         buttonPut = (Button) rootView.findViewById(R.id.main_button_put);
         buttonDelete = (Button) rootView.findViewById(R.id.main_button_delete);
         buttonSettings = (Button) rootView.findViewById(R.id.main_button_settings);
+        buttonRegister = (Button) rootView.findViewById(R.id.main_button_register);
 
         buttonGet.setOnClickListener(this);
         buttonPost.setOnClickListener(this);
         buttonPut.setOnClickListener(this);
         buttonDelete.setOnClickListener(this);
         buttonSettings.setOnClickListener(this);
-
+        buttonRegister.setOnClickListener(this);
         // Inflate the layout for this fragment
         return rootView;
     }
@@ -77,6 +79,12 @@ public class TestFragment extends Fragment implements View.OnClickListener, Dele
     public void onClick(View v) {
         int id = v.getId();
         switch(id){
+            case R.id.main_button_register:
+
+                new RegisterUserTask("flo","flo","theflo@vollbio.de",this.getContext());
+
+
+                break;
             case R.id.main_button_settings:
                 try {
                     viewStatus.setText(SettingsAdministration.getInstance().getSetting("radius", this.getActivity()));
