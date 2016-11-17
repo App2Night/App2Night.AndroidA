@@ -12,6 +12,9 @@ public class PartyDisplay {
     private String partyDate;
     private int musicGenre;
     private String countryName;
+
+
+
     private String cityName;
     private String streetName;
     private String houseNumber;
@@ -91,6 +94,14 @@ public class PartyDisplay {
 
     public void setCountryName(String countryName) {
         this.countryName = countryName;
+    }
+
+    public String getCityName() {
+        return cityName;
+    }
+
+    public void setCityName(String cityName) {
+        this.cityName = cityName;
     }
 
     public String getStreetName() {

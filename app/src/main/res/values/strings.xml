@@ -26,7 +26,8 @@
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password (optional)</string>
-    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_register">Register</string>
+    <string name="action_sign_in">Sign in</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">This password is too short</string>
@@ -35,4 +36,23 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+
+
+    <!-- Strings related to Party -->
+    <string name="party_name">Name der Veranstaltung</string>
+    <string name="party_date">Datum</string>
+    <string name="party_time">Zeit</string>
+    <string name="music_genre">Musik Genre</string>
+    <string name="country_name">Land</string>
+    <string name="city_name">Stadt</string>
+    <string name="street_name">Straßenname</string>
+    <string name="house_number">Hausnummer</string>
+    <string name="house_number_additional">Hausnummerzusatz</string>
+    <string name="zipcode">Postleitzahl</string>
+    <string name="party_type">Art der Veranstaltung</string>
+    <string name="description">Beschreibung...</string>
+
+    <!--Strings related to AddEvent-->
+    <string name="addevent_button_ok">Ok</string>
+
 </resources>
