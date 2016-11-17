@@ -20,33 +20,31 @@ import de.dhbw.utils.PropertyUtil;
  * Created by Tobias Berner on 21.10.2016.
  */
 
-public class GetPartyListTask extends AsyncTask<String, Void, String> implements ApiPartyTask {
+public class GetPartyListTask extends AsyncTask<Void, Void, String> implements ApiPartyTask {
 
     //Initialisert von PropertyUtil
-    private static String url;
-    GetPartyList fragment;
+    private String url;
+    private final GetPartyList fragment;
 
 
     public void setUrl(String urlParm) {
         url = urlParm;
     }
 
-
-
-    private void prepare() {
-        PropertyUtil.getInstance().init(this);
-        this.execute(url);
-    }
-
-    public GetPartyListTask(GetPartyList tF) {
-        fragment = tF;
+    public GetPartyListTask(GetPartyList fragment) {
+        this.fragment = fragment;
         prepare();
     }
 
+    private void prepare() {
+        PropertyUtil.getInstance().init(this);
+        this.execute();
+    }
+
     @Override
-    protected String doInBackground(String... params) {
+    protected String doInBackground(Void... params) {
         try {
-                return RestBackendCommunication.getInstance().getRequest(params[0]);
+                return RestBackendCommunication.getInstance().getRequest(url);
         } catch (IOException e) {
             return "Unable to retrieve web page. URL may be invalid.";
         } catch (BackendCommunicationException e) {

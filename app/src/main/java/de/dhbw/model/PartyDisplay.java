@@ -21,7 +21,24 @@ public class PartyDisplay {
     private String description;
 
 
+    public String getPartyId() {
+        return partyId;
+    }
+
+    public void setPartyId(String partyId) {
+        this.partyId = partyId;
+    }
+
+    public String getCityName() {
+        return cityName;
+    }
+
+    public void setCityName(String cityName) {
+        this.cityName = cityName;
+    }
+
     public PartyDisplay(){
+
 
     }
 

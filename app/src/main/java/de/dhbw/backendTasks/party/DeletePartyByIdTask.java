@@ -19,36 +19,38 @@ import de.dhbw.utils.PropertyUtil;
  * Created by Tobias Berner on 20.10.2016.
  */
 
-public class DeletePartyByIdTask extends AsyncTask<String,Void,Boolean> implements ApiPartyTask {
+public class DeletePartyByIdTask extends AsyncTask<Void,Void,Boolean> implements ApiPartyTask {
 
     //Initialisert von PropertyUtil
-    private static String url;
-    DeletePartyById fragment;
+    private String url;
+
+    private final DeletePartyById fragment;
+    private final String id;
+
+    public DeletePartyByIdTask(DeletePartyById fragment, String id){
+        this.fragment = fragment;
+        this.id = id;
+        prepare();
+    }
+
+    private void prepare(){
+        PropertyUtil.getInstance().init(this);
+        this.execute();
+    }
 
     public void setUrl(String urlParm){
         url = urlParm;
     }
 
-
-    public DeletePartyByIdTask(DeletePartyById fr, String id){
-        fragment = fr;
-        prepare(id);
-    }
-
-    private  String buildDeleteUrl(String id){
+    private  String buildDeleteUrl(){
         return url+"/id=" + id;
     }
 
-    private void prepare(String id){
-        PropertyUtil.getInstance().init(this);
-        String deleteUrl = buildDeleteUrl(id);
-        this.execute(deleteUrl);
-    }
 
     @Override
-    protected Boolean  doInBackground(String... params) {
+    protected Boolean  doInBackground(Void... params) {
         try {
-            return RestBackendCommunication.getInstance().deleteRequest(params[0]);
+            return RestBackendCommunication.getInstance().deleteRequest(buildDeleteUrl());
         } catch (IOException e) {
             e.printStackTrace();
             return false;

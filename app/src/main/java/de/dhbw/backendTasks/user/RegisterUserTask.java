@@ -12,19 +12,27 @@ import de.dhbw.exceptions.BackendCommunicationException;
  * Created by Tobias Berner on 14.11.2016.
  */
 
-public class RegisterUserTask extends AsyncTask<String, Void, Boolean> {
+public class RegisterUserTask extends AsyncTask<Void, Void, Boolean> {
 
-    Context context;
+    private final Context context;
+    private final String username;
+    private final String password;
+    private final String email;
 
-    public RegisterUserTask(String username, String password, String email, Context c){
-        context = c;
-        this.execute(username,password,email);
+
+    public RegisterUserTask(String username, String password, String email, Context context){
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.context = context;
+
+        this.execute();
     }
 
     @Override
-    protected Boolean doInBackground(String... params) {
+    protected Boolean doInBackground(Void... params) {
         try {
-            return RestBackendCommunication.getInstance().register(params[0],params[1],params[2],context);
+            return RestBackendCommunication.getInstance().register(username,password,email,context);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (BackendCommunicationException e) {

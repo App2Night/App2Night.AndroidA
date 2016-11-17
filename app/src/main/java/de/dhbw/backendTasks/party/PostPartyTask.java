@@ -19,31 +19,36 @@ import de.dhbw.utils.PropertyUtil;
  * Created by Tobias Berner on 20.10.2016.
  */
 
-public class PostPartyTask extends AsyncTask<String,Void,String> implements ApiPartyTask {
+public class PostPartyTask extends AsyncTask<Void,Void,String> implements ApiPartyTask {
     //Initialisert von PropertyUtil
     private String url;
-    PostParty fragment;
+
+
+
+    private final PostParty fragment;
+    private final PartyDisplay displayParty;
 
     public void setUrl(String urlParm){
         url = urlParm;
     }
 
-    public PostPartyTask(PostParty fr, PartyDisplay party){
-        fragment = fr;
-        prepare(party);
+    public PostPartyTask(PostParty fragment, PartyDisplay displayParty){
+        this.fragment = fragment;
+        this.displayParty=displayParty;
+        prepare();
     }
 
-    private void prepare(PartyDisplay party){
+    private void prepare(){
         PropertyUtil.getInstance().init(this);
-        String jString = new Gson().toJson(party);
-        this.execute(url,jString);
+        this.execute();
     }
 
     @Override
-    protected String doInBackground(String... params) {
+    protected String doInBackground(Void... params) {
         try{
+                String jString = new Gson().toJson(displayParty);
                 //Post
-                String id = RestBackendCommunication.getInstance().postRequest(params[0],params[1]);
+                String id = RestBackendCommunication.getInstance().postRequest(url,jString);
                 id=id.substring(1,id.length()-1);
                 //Get zum holen aller Informationen und speichern in Allgemeinem Modell
                 return RestBackendCommunication.getInstance().getRequest(url+"/id="+id);
