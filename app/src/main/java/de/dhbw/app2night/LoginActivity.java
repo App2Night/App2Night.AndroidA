@@ -32,15 +32,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import de.dhbw.BackEndCommunication.RestBackendCommunication;
-import de.dhbw.exceptions.BackendCommunicationException;
-import de.dhbw.exceptions.NetworkUnavailableException;
-import de.dhbw.exceptions.NoTokenFoundException;
-import de.dhbw.utils.PruefungBenutzereingabe;
+import de.dhbw.backendTasks.user.LoginTask;
+import de.dhbw.utils.ContextManager;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -61,13 +58,23 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private static final String[] DUMMY_CREDENTIALS = new String[]{
             "foo@example.com:hello", "bar@example.com:world"
     };
+
+    public void setmAuthTask(LoginTask mAuthTask) {
+        this.mAuthTask = mAuthTask;
+    }
+
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
-    private UserLoginTask mAuthTask = null;
+    private LoginTask mAuthTask = null;
 
     // UI references.
     private AutoCompleteTextView mEmailView;
+
+    public EditText getmPasswordView() {
+        return mPasswordView;
+    }
+
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
@@ -101,6 +108,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 attemptLogin();
             }
         });
+
+        ContextManager.getInstance().setContext(this);
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
@@ -197,7 +206,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(email, password,this);
+            mAuthTask = new LoginTask(email, password,this);
             mAuthTask.execute((Void) null);
         }
     }
@@ -217,7 +226,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * Shows the progress UI and hides the login form.
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-    private void showProgress(final boolean show) {
+    public void showProgress(final boolean show) {
         // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
         // for very easy animations. If available, use these APIs to fade-in
         // the progress spinner.
@@ -303,48 +312,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         int IS_PRIMARY = 1;
     }
 
-    /**
-     * Represents an asynchronous login/registration task used to authenticate
-     * the user.
-     */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
-        private final String mEmail;
-        private final String mPassword;
-        private final Context context;
-
-        UserLoginTask(String email, String password, Context c) {
-            mEmail = email;
-            mPassword = password;
-            context = c;
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-                return RestBackendCommunication.getInstance().getToken(mEmail,mPassword,context);
-        }
-
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            mAuthTask = null;
-            showProgress(false);
-
-            if (success) {
-                Intent mainActivityIntent = new Intent(LoginActivity.this, MainActivity.class);
-                finish();
-                startActivity(mainActivityIntent);
-
-            } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
-            }
-        }
-
-        @Override
-        protected void onCancelled() {
-            mAuthTask = null;
-            showProgress(false);
-        }
-    }
 }
 

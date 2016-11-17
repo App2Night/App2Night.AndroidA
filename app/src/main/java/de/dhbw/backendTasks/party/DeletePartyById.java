@@ -5,5 +5,7 @@ package de.dhbw.backendTasks.party;
  */
 
 public interface DeletePartyById {
-    void onFinishDeletePartyById(boolean result);
+    void onSuccessDeletePartyById(boolean result);
+
+    void onFailDeletePartyById(boolean result);
 }

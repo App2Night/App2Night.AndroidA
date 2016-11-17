@@ -17,11 +17,12 @@ import de.dhbw.backendTasks.party.GetPartyList;
 import de.dhbw.backendTasks.party.GetPartyListTask;
 import de.dhbw.backendTasks.party.PostParty;
 import de.dhbw.backendTasks.party.PostPartyTask;
+import de.dhbw.backendTasks.user.RegisterUserTask;
 import de.dhbw.exceptions.IllegalKeyException;
 import de.dhbw.model.Location;
 import de.dhbw.model.Party;
 import de.dhbw.model.PartyDisplay;
-import de.dhbw.utils.SettingsAdministration;
+import de.dhbw.utils.SettingsUtil;
 
 /**
  * Created by Flo on 02.11.2016.
@@ -29,7 +30,7 @@ import de.dhbw.utils.SettingsAdministration;
 
 public class TestFragment extends Fragment implements View.OnClickListener, DeletePartyById, GetPartyList, PostParty{
     public TextView viewStatus;
-    private Button buttonGet, buttonPost, buttonPut, buttonDelete, buttonSettings;
+    private Button buttonGet, buttonPost, buttonPut, buttonDelete, buttonSettings, buttonRegister;
 
     public TestFragment() {
         // Required empty public constructor
@@ -51,13 +52,14 @@ public class TestFragment extends Fragment implements View.OnClickListener, Dele
         buttonPut = (Button) rootView.findViewById(R.id.main_button_put);
         buttonDelete = (Button) rootView.findViewById(R.id.main_button_delete);
         buttonSettings = (Button) rootView.findViewById(R.id.main_button_settings);
+        buttonRegister = (Button) rootView.findViewById(R.id.main_button_register);
 
         buttonGet.setOnClickListener(this);
         buttonPost.setOnClickListener(this);
         buttonPut.setOnClickListener(this);
         buttonDelete.setOnClickListener(this);
         buttonSettings.setOnClickListener(this);
-
+        buttonRegister.setOnClickListener(this);
         // Inflate the layout for this fragment
         return rootView;
     }
@@ -77,9 +79,15 @@ public class TestFragment extends Fragment implements View.OnClickListener, Dele
     public void onClick(View v) {
         int id = v.getId();
         switch(id){
+            case R.id.main_button_register:
+
+                new RegisterUserTask("flo","flo","theflo@vollbio.de");
+
+
+                break;
             case R.id.main_button_settings:
                 try {
-                    viewStatus.setText(SettingsAdministration.getInstance().getSetting("radius", this.getActivity()));
+                    viewStatus.setText(SettingsUtil.getInstance().getSetting("radius"));
                 } catch (IllegalKeyException e) {
                     e.printStackTrace();
                 }
@@ -126,7 +134,7 @@ public class TestFragment extends Fragment implements View.OnClickListener, Dele
     }
 
     @Override
-    public void onFinishDeletePartyById(boolean result) {
+    public void onSuccessDeletePartyById(boolean result) {
             if (result)
                 viewStatus.setText("Löschen erfolgreich");
             else
@@ -134,12 +142,27 @@ public class TestFragment extends Fragment implements View.OnClickListener, Dele
     }
 
     @Override
-    public void onFinishGetPartyList(Party[] parties) {
+    public void onFailDeletePartyById(boolean result) {
 
     }
 
     @Override
-    public void onFinishPostParty(Party party) {
+    public void onSuccessGetPartyList(Party[] parties) {
+
+    }
+
+    @Override
+    public void onFailGetPartyList(Party[] parties) {
+
+    }
+
+    @Override
+    public void onSuccessPostParty(Party party) {
             viewStatus.setText(new Gson().toJson(party));
+    }
+
+    @Override
+    public void onFailPostParty(PartyDisplay party) {
+
     }
 }

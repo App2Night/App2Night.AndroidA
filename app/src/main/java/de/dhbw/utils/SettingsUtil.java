@@ -4,29 +4,27 @@ import android.content.SharedPreferences;
 import java.util.HashMap;
 import java.util.Map;
 
-import de.dhbw.app2night.MainActivity;
 import de.dhbw.exceptions.IllegalKeyException;
 
 /**
  * Created by Tobias Berner on 26.10.2016.
  */
 
-public class SettingsAdministration {
-    private static SettingsAdministration sa = null;
+public class SettingsUtil {
+    private static SettingsUtil sa = null;
 
     //Wird über PropertyUtil initialisiert
     private String sharedPreferencesSettings;
     private Map<String,String> defaultSettingsStrings = new HashMap<>();
 
 
-    private SettingsAdministration(){
-
+    private SettingsUtil(){
+        PropertyUtil.getInstance().init(this);
     }
 
-    public static SettingsAdministration getInstance(){
+    public static SettingsUtil getInstance(){
         if (sa == null){
-            sa = new SettingsAdministration();
-            PropertyUtil.getInstance().init(sa);
+            sa = new SettingsUtil();
         }
         return sa;
     }
@@ -40,20 +38,20 @@ public class SettingsAdministration {
     }
 
 
-    public String getSetting(String key, Context context) throws IllegalKeyException {
+    public String getSetting(String key) throws IllegalKeyException {
         if(!defaultSettingsStrings.containsKey(key))
             throw new IllegalKeyException(key + "entspricht keinem gespeicherten Schlüssel");
 
-        SharedPreferences sp = context.getApplicationContext().getSharedPreferences(sharedPreferencesSettings,Context.MODE_PRIVATE);
+        SharedPreferences sp = ContextManager.getInstance().getContext().getApplicationContext().getSharedPreferences(sharedPreferencesSettings,Context.MODE_PRIVATE);
         return sp.getString(key,defaultSettingsStrings.get(key));
     }
 
 
-    public void putSettingString(String key, String value, Context context) throws IllegalKeyException {
+    public void putSettingString(String key, String value) throws IllegalKeyException {
         if(!defaultSettingsStrings.containsKey(key))
             throw new IllegalKeyException(key + "entspricht keinem Settingschlüssel");
 
-        SharedPreferences sp = context.getApplicationContext().getSharedPreferences(sharedPreferencesSettings,Context.MODE_PRIVATE);
+        SharedPreferences sp = ContextManager.getInstance().getContext().getApplicationContext().getSharedPreferences(sharedPreferencesSettings,Context.MODE_PRIVATE);
         key = key.toLowerCase();
         SharedPreferences.Editor editor = sp.edit();
         editor.putString(key,value);

@@ -14,6 +14,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import de.dhbw.utils.ContextManager;
+
 
 /**
  * Created by Bro on 26.10.2016.
@@ -22,16 +24,9 @@ import android.view.MenuItem;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
 
-    private static Context mainApplicationContext;
-
-
-    public static Context getContext() {
-        return mainApplicationContext;
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-         mainApplicationContext = this;
+        ContextManager.getInstance().setContext(this);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);

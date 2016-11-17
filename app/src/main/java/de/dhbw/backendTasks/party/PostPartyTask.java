@@ -19,36 +19,43 @@ import de.dhbw.utils.PropertyUtil;
  * Created by Tobias Berner on 20.10.2016.
  */
 
-public class PostPartyTask extends AsyncTask<String,Void,String> implements ApiPartyTask {
+public class PostPartyTask extends AsyncTask<Void,Void,Party> implements ApiPartyTask {
     //Initialisert von PropertyUtil
     private String url;
-    PostParty fragment;
+
+
+
+    private final PostParty fragment;
+    private final PartyDisplay displayParty;
 
     public void setUrl(String urlParm){
         url = urlParm;
+}
+
+    public PostPartyTask(PostParty fragment, PartyDisplay displayParty){
+        this.fragment = fragment;
+        this.displayParty=displayParty;
+        prepare();
     }
 
-    public PostPartyTask(PostParty fr, PartyDisplay party){
-        fragment = fr;
-        prepare(party);
-    }
-
-    private void prepare(PartyDisplay party){
+    private void prepare(){
         PropertyUtil.getInstance().init(this);
-        String jString = new Gson().toJson(party);
-        this.execute(url,jString);
+        this.execute();
     }
 
     @Override
-    protected String doInBackground(String... params) {
+    protected Party doInBackground(Void... params) {
         try{
+                String jString = new Gson().toJson(displayParty);
                 //Post
-                String id = RestBackendCommunication.getInstance().postRequest(params[0],params[1]);
+                String id = RestBackendCommunication.getInstance().postRequest(url,jString);
                 id=id.substring(1,id.length()-1);
                 //Get zum holen aller Informationen und speichern in Allgemeinem Modell
-                return RestBackendCommunication.getInstance().getRequest(url+"/id="+id);
+                String result =  RestBackendCommunication.getInstance().getRequest(url+"/id="+id);
+                Party[] party = new Gson().fromJson(result, Party[].class);
+                return party[0];
         } catch (IOException e) {
-            return "Unable to retrieve web page. URL may be invalid.";
+            e.printStackTrace();
         } catch (BackendCommunicationException e) {
             e.printStackTrace();
         } catch (NetworkUnavailableException e) {
@@ -62,11 +69,12 @@ public class PostPartyTask extends AsyncTask<String,Void,String> implements ApiP
     }
 
     @Override
-    protected void onPostExecute(String result){
+    protected void onPostExecute(Party result ){
         if (result != null){
-            Party[] party = new Gson().fromJson(result, Party[].class);
-            fragment.onFinishPostParty(party[0]);
+            fragment.onSuccessPostParty(result);
     }
+        else
+            fragment.onFailPostParty(displayParty);
     }
 
 }

@@ -19,23 +19,30 @@ import de.dhbw.exceptions.RefreshTokenFailedException;
  * Created by Tobias Berner on 03.11.2016.
  */
 
-public class Token {
+public class TokenUtil {
 
-    private static Token token = null;
-    private Token(){}
-    public static Token getInstance(){
-        if(token == null)
-            token = new Token();
-        return token;
+    private static TokenUtil tokenUtil = null;
+    private TokenUtil(){
+        PropertyUtil.getInstance().init(this);
+    }
+    public static TokenUtil getInstance(){
+        if(tokenUtil == null)
+            tokenUtil = new TokenUtil();
+        return tokenUtil;
     }
 
+    private String sharedPreferencesToken;
+
+    public void setSharedPreferencesName(String sharedPreferences) {
+        this.sharedPreferencesToken = sharedPreferences;
+    }
 
     /**
      * Speichert die Antwort der GetToken Anfrage. Zusätzlich wird in JSON ein Element refresh eingefügt, das anzeigt wann ein neuer Refresh durchgeführt werden sollte
      *
      * @param eingabe Serverantwort nach GetToken
      */
-    public void saveTokenAwnser(String eingabe, Context c){
+    public void saveTokenAwnser(String eingabe){
         String toSave;
         try {
             JSONObject jObj = new JSONObject (eingabe);
@@ -47,20 +54,20 @@ public class Token {
             //Fals Fehler Auftritt, kann Eingabe JSON gespeichert werden
            toSave = eingabe;
         }
-        SharedPreferences sp = c.getSharedPreferences("token", Context.MODE_PRIVATE);
+        SharedPreferences sp = ContextManager.getInstance().getContext().getSharedPreferences(sharedPreferencesToken, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
         editor.putString("tokenjson",toSave);
         editor.commit();
     }
 
     /**
-     * Liest den Refresh Token aus dem Speicher.
+     * Liest den Refresh TokenUtil aus dem Speicher.
      *
-     * @return refresh Token
-     * @throws NoTokenFoundException - kein gespeichertes Token wird gefunden
+     * @return refresh TokenUtil
+     * @throws NoTokenFoundException - kein gespeichertes TokenUtil wird gefunden
      */
     public String getRefreshToken() throws NoTokenFoundException {
-        SharedPreferences sp = MainActivity.getContext().getSharedPreferences("token", Context.MODE_PRIVATE);
+        SharedPreferences sp =ContextManager.getInstance().getContext().getSharedPreferences(sharedPreferencesToken, Context.MODE_PRIVATE);
         String jString = sp.getString("tokenjson",null);
         if (jString == null)
             throw new NoTokenFoundException();
@@ -77,11 +84,11 @@ public class Token {
      * Gibt die Authorization für eine Serveranfrage zurück
      *
      * @return  Authorization String
-     * @throws NoTokenFoundException - Wenn kein früher gespeichertes Token gefunden wird
+     * @throws NoTokenFoundException - Wenn kein früher gespeichertes TokenUtil gefunden wird
      * @throws RefreshTokenFailedException - Wenn das erneuern des Tokens fehlschlägt
      */
     public String getAuthorization() throws NoTokenFoundException, RefreshTokenFailedException {
-        SharedPreferences sp = MainActivity.getContext().getSharedPreferences("token", Context.MODE_PRIVATE);
+        SharedPreferences sp = ContextManager.getInstance().getContext().getSharedPreferences(sharedPreferencesToken, Context.MODE_PRIVATE);
         String jString = sp.getString("tokenjson",null);
         if (jString == null)
             throw new NoTokenFoundException();
@@ -93,7 +100,7 @@ public class Token {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        //Token soll refreshed werden
+        //TokenUtil soll refreshed werden
         if (isItTimeToRefresh < System.currentTimeMillis()) {
             try {
                 RestBackendCommunication.getInstance().refreshToken();
@@ -113,7 +120,7 @@ public class Token {
     }
 
     public String getAuthorizationWithoutRefresh() throws NoTokenFoundException {
-        SharedPreferences sp = MainActivity.getContext().getSharedPreferences("token", Context.MODE_PRIVATE);
+        SharedPreferences sp = ContextManager.getInstance().getContext().getSharedPreferences(sharedPreferencesToken, Context.MODE_PRIVATE);
         String jString = sp.getString("tokenjson",null);
         if (jString == null)
             throw new NoTokenFoundException();
