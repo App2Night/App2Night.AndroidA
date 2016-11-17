@@ -1,7 +1,5 @@
 package de.dhbw.backendTasks.party;
 
-import android.app.Activity;
-import android.content.Context;
 import android.os.AsyncTask;
 
 import com.google.gson.Gson;
@@ -9,8 +7,6 @@ import com.google.gson.Gson;
 import java.io.IOException;
 
 import de.dhbw.BackEndCommunication.RestBackendCommunication;
-import de.dhbw.app2night.MainActivity;
-import de.dhbw.app2night.TestFragment;
 import de.dhbw.exceptions.BackendCommunicationException;
 import de.dhbw.exceptions.NetworkUnavailableException;
 import de.dhbw.model.Party;
@@ -59,7 +55,7 @@ public class GetPartyListTask extends AsyncTask<Void, Void, String> implements A
     protected void onPostExecute(String result) {
         if (result != null) {
             Party[] parties = new Gson().fromJson(result, Party[].class);
-            fragment.onFinishGetPartyList(parties);
+            fragment.onSuccessGetPartyList(parties);
         }
     }
 }

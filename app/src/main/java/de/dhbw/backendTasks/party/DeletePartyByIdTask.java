@@ -1,14 +1,10 @@
 package de.dhbw.backendTasks.party;
 
-import android.content.Context;
-import android.app.Activity;
 import android.os.AsyncTask;
 
 import java.io.IOException;
 
 import de.dhbw.BackEndCommunication.RestBackendCommunication;
-import de.dhbw.app2night.MainActivity;
-import de.dhbw.app2night.TestFragment;
 import de.dhbw.exceptions.BackendCommunicationException;
 import de.dhbw.exceptions.NetworkUnavailableException;
 import de.dhbw.exceptions.NoTokenFoundException;
@@ -71,6 +67,6 @@ public class DeletePartyByIdTask extends AsyncTask<Void,Void,Boolean> implements
 
     @Override
     protected void onPostExecute(Boolean result){
-        fragment.onFinishDeletePartyById(result);
+        fragment.onSuccessDeletePartyById(result);
     }
 }

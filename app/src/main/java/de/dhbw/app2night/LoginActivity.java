@@ -37,6 +37,7 @@ import java.util.List;
 
 import de.dhbw.BackEndCommunication.RestBackendCommunication;
 import de.dhbw.backendTasks.user.LoginTask;
+import de.dhbw.utils.ContextManager;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -107,6 +108,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 attemptLogin();
             }
         });
+
+        ContextManager.getInstance().setContext(this);
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);

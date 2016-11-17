@@ -192,7 +192,12 @@ public class AddEventFragment extends Fragment implements View.OnTouchListener, 
     }
 
     @Override
-    public void onFinishPostParty(Party party) {
+    public void onSuccessPostParty(Party party) {
+
+    }
+
+    @Override
+    public void onFailPostParty(PartyDisplay party) {
 
     }
 }

@@ -5,5 +5,7 @@ package de.dhbw.backendTasks.party;
  */
 
 public interface ChangePartyById {
-    void onFinischChangePartyById(boolean result);
+    void onSuccessChangePartyById();
+
+    void onFailChangePartyById();
 }

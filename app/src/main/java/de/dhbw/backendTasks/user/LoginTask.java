@@ -27,7 +27,7 @@ public class LoginTask extends AsyncTask<Void, Void, Boolean> {
 
     @Override
     protected Boolean doInBackground(Void... params) {
-        return RestBackendCommunication.getInstance().login(mEmail,mPassword,loginActivity);
+        return RestBackendCommunication.getInstance().login(mEmail,mPassword);
     }
 
     @Override

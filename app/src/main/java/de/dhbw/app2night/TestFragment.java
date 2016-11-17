@@ -22,7 +22,7 @@ import de.dhbw.exceptions.IllegalKeyException;
 import de.dhbw.model.Location;
 import de.dhbw.model.Party;
 import de.dhbw.model.PartyDisplay;
-import de.dhbw.utils.SettingsAdministration;
+import de.dhbw.utils.SettingsUtil;
 
 /**
  * Created by Flo on 02.11.2016.
@@ -81,13 +81,13 @@ public class TestFragment extends Fragment implements View.OnClickListener, Dele
         switch(id){
             case R.id.main_button_register:
 
-                new RegisterUserTask("flo","flo","theflo@vollbio.de",this.getContext());
+                new RegisterUserTask("flo","flo","theflo@vollbio.de");
 
 
                 break;
             case R.id.main_button_settings:
                 try {
-                    viewStatus.setText(SettingsAdministration.getInstance().getSetting("radius", this.getActivity()));
+                    viewStatus.setText(SettingsUtil.getInstance().getSetting("radius"));
                 } catch (IllegalKeyException e) {
                     e.printStackTrace();
                 }
@@ -134,7 +134,7 @@ public class TestFragment extends Fragment implements View.OnClickListener, Dele
     }
 
     @Override
-    public void onFinishDeletePartyById(boolean result) {
+    public void onSuccessDeletePartyById(boolean result) {
             if (result)
                 viewStatus.setText("Löschen erfolgreich");
             else
@@ -142,12 +142,27 @@ public class TestFragment extends Fragment implements View.OnClickListener, Dele
     }
 
     @Override
-    public void onFinishGetPartyList(Party[] parties) {
+    public void onFailDeletePartyById(boolean result) {
 
     }
 
     @Override
-    public void onFinishPostParty(Party party) {
+    public void onSuccessGetPartyList(Party[] parties) {
+
+    }
+
+    @Override
+    public void onFailGetPartyList(Party[] parties) {
+
+    }
+
+    @Override
+    public void onSuccessPostParty(Party party) {
             viewStatus.setText(new Gson().toJson(party));
+    }
+
+    @Override
+    public void onFailPostParty(PartyDisplay party) {
+
     }
 }

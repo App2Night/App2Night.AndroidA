@@ -7,5 +7,7 @@ import de.dhbw.model.Party;
  */
 
 public interface GetPartyList {
-    void onFinishGetPartyList(Party[] parties);
+    void onSuccessGetPartyList(Party[] parties);
+
+    void onFailGetPartyList(Party[] parties);
 }

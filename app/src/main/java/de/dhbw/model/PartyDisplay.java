@@ -6,15 +6,11 @@ package de.dhbw.model;
 
 public class PartyDisplay {
 
-
     private String partyId;
     private String partyName;
     private String partyDate;
     private int musicGenre;
     private String countryName;
-
-
-
     private String cityName;
     private String streetName;
     private String houseNumber;
@@ -22,7 +18,6 @@ public class PartyDisplay {
     private String zipcode;
     private int    partyType;
     private String description;
-
 
     public String getPartyId() {
         return partyId;
@@ -32,20 +27,10 @@ public class PartyDisplay {
         this.partyId = partyId;
     }
 
-    public String getCityName() {
-        return cityName;
-    }
-
-    public void setCityName(String cityName) {
-        this.cityName = cityName;
-    }
-
     public PartyDisplay(){
 
 
     }
-
-
 
     public PartyDisplay(Party p){
         partyId = p.getPartyId();
@@ -62,7 +47,6 @@ public class PartyDisplay {
         description = p.getDescription();
         partyId=null;
     }
-
 
     public String getPartyName() {
         return partyName;

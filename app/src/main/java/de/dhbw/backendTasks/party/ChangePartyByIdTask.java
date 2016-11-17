@@ -1,19 +1,8 @@
 package de.dhbw.backendTasks.party;
-
-import android.app.Activity;
-import android.content.Context;
 import android.os.AsyncTask;
-
-
 import com.google.gson.Gson;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.IOException;
-
 import de.dhbw.BackEndCommunication.RestBackendCommunication;
-import de.dhbw.app2night.MainActivity;
 import de.dhbw.exceptions.BackendCommunicationException;
 import de.dhbw.exceptions.NetworkUnavailableException;
 import de.dhbw.exceptions.NoTokenFoundException;
@@ -80,6 +69,6 @@ public class ChangePartyByIdTask extends AsyncTask<Void, Void, Boolean> implemen
 
     @Override
     protected void onPostExecute(Boolean result){
-        fragment.onFinischChangePartyById(result);
+        fragment.onSuccessChangePartyById();
     }
 }

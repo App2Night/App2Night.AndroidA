@@ -14,25 +14,22 @@ import de.dhbw.exceptions.BackendCommunicationException;
 
 public class RegisterUserTask extends AsyncTask<Void, Void, Boolean> {
 
-    private final Context context;
     private final String username;
     private final String password;
     private final String email;
 
 
-    public RegisterUserTask(String username, String password, String email, Context context){
+    public RegisterUserTask(String username, String password, String email){
         this.username = username;
         this.password = password;
         this.email = email;
-        this.context = context;
-
         this.execute();
     }
 
     @Override
     protected Boolean doInBackground(Void... params) {
         try {
-            return RestBackendCommunication.getInstance().register(username,password,email,context);
+            return RestBackendCommunication.getInstance().register(username,password,email);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (BackendCommunicationException e) {

@@ -70,10 +70,15 @@ public class HomeFragment extends Fragment implements GetPartyList {
 
 
     @Override
-    public void onFinishGetPartyList(Party[] parties) {
+    public void onSuccessGetPartyList(Party[] parties) {
         for (Party party:parties) {
             partyList.add(party);
         }
         pAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onFailGetPartyList(Party[] parties) {
+
     }
 }
