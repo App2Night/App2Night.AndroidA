@@ -85,19 +85,6 @@ public class RestBackendCommunication {
         }else {
             throw new NetworkUnavailableException("Network not connected");
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
 
     /**
