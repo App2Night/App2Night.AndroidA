@@ -3,6 +3,7 @@ package de.dhbw.app2night;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -17,6 +18,8 @@ import android.widget.TextView;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
+
+import org.w3c.dom.Text;
 
 import java.util.Calendar;
 
@@ -33,11 +36,12 @@ import de.dhbw.model.PartyDisplay;
 public class AddEventFragment extends Fragment implements View.OnTouchListener, View.OnClickListener,
        TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener, PostParty, AdressValidate{
     EditText editTextPartyName, editTextStreetName, editTextHouseNumber, editTextZipCode, editTextCityName, editTextCountryName, editTextDescription;
+    TextInputLayout tilPartyName, tilStreetName, tilHouseNumber, tilZipcode, tilCityName, tilCountryName, tilDescription;
     TextView textDate, textTime;
     ScrollView scrollViewAddEvent;
     Spinner spinnerPartyType, spinnerMusicGenre;
     View rootView;
-    String partyDate;
+    String partyDate, partyTime, partyDateTime;
     DatePickerDialog dpd;
     TimePickerDialog tpd;
     Button okButton;
@@ -116,6 +120,14 @@ public class AddEventFragment extends Fragment implements View.OnTouchListener, 
         editTextZipCode = (EditText) rootView.findViewById(R.id.input_zipcode);
         editTextCityName = (EditText) rootView.findViewById(R.id.input_city_name);
         editTextCountryName = (EditText) rootView.findViewById(R.id.input_country_name);
+
+        tilPartyName = (TextInputLayout) rootView.findViewById(R.id.input_layout_party_name);
+        tilStreetName = (TextInputLayout) rootView.findViewById(R.id.input_layout_street_name);
+        tilHouseNumber = (TextInputLayout) rootView.findViewById(R.id.input_layout_house_number);
+        tilZipcode = (TextInputLayout) rootView.findViewById(R.id.input_layout_zipcode);
+        tilCityName = (TextInputLayout) rootView.findViewById(R.id.input_layout_city_name);
+        tilCountryName = (TextInputLayout) rootView.findViewById(R.id.input_layout_country_name);
+        tilDescription = (TextInputLayout) rootView.findViewById(R.id.input_layout_description);
     }
 
     @Override
@@ -159,39 +171,144 @@ public class AddEventFragment extends Fragment implements View.OnTouchListener, 
         }
     }
 
+    /**
+     * Methode ueberprueft die Eingabefelder ->Party versenden oder Nutzer zu Korrekturen auffordern
+     */
     private void runPartyCheck() {
         PartyDisplay partyDisplay = new PartyDisplay();
         Boolean correctInput = true;
 
-        partyDisplay.setPartyName(editTextPartyName.getText().toString());
-        partyDisplay.setStreetName(editTextStreetName.getText().toString());
-        partyDisplay.setHouseNumber(editTextHouseNumber.getText().toString());
-        partyDisplay.setZipcode(editTextZipCode.getText().toString());
-        partyDisplay.setCityName(editTextCityName.getText().toString());
-        partyDisplay.setCountryName(editTextCountryName.getText().toString());
-        partyDisplay.setPartyDate(partyDate);
-        partyDisplay.setHouseNumberAdditional("");
+        if(!editTextPartyName.getText().toString().trim().equals("")) {
+            editTextPartyName.setError(null);
+            tilPartyName.setError(null);
+            partyDisplay.setPartyName(editTextPartyName.getText().toString());
+        }else{
+            editTextPartyName.setError("\"" + getString(R.string.party_name) + "\"" + " darf nicht leer sein");
+            tilPartyName.setError(getString(R.string.party_name));
+            correctInput = false;
+        }
+
+        if(!editTextStreetName.getText().toString().trim().equals("")) {
+            editTextStreetName.setError(null);
+            tilStreetName.setError(null);
+            partyDisplay.setStreetName(editTextStreetName.getText().toString());
+        }else{
+            editTextStreetName.setError("\"" + getString(R.string.street_name) + "\"" + " darf nicht leer sein");
+            tilStreetName.setError(getString(R.string.street_name));
+            correctInput = false;
+        }
+
+        if(!editTextHouseNumber.getText().toString().trim().equals("")) {
+            editTextHouseNumber.setError(null);
+            tilHouseNumber.setError(null);
+            partyDisplay.setHouseNumber(editTextHouseNumber.getText().toString());
+        }else{
+            editTextHouseNumber.setError("\"" + getString(R.string.house_number) + "\"" + " darf nicht leer sein");
+            tilHouseNumber.setError(getString(R.string.house_number));
+            correctInput = false;
+        }
+
+        if(!editTextZipCode.getText().toString().trim().equals("")) {
+            editTextZipCode.setError(null);
+            tilZipcode.setError(null);
+            partyDisplay.setZipcode(editTextZipCode.getText().toString());
+        }else{
+            editTextZipCode.setError("\"" + getString(R.string.zipcode) + "\"" + " darf nicht leer sein");
+            tilZipcode.setError(getString(R.string.zipcode));
+            correctInput = false;
+        }
+
+        if(!editTextCityName.getText().toString().trim().equals("")) {
+            editTextCityName.setError(null);
+            tilCityName.setError(null);
+            partyDisplay.setCityName(editTextCityName.getText().toString());
+        }else{
+            editTextCityName.setError("\"" + getString(R.string.city_name) + "\"" + " darf nicht leer sein");
+            tilCityName.setError(getString(R.string.city_name));
+            correctInput = false;
+        }
+
+        if(!editTextCountryName.getText().toString().trim().equals("")) {
+            editTextCountryName.setError(null);
+            tilCountryName.setError(null);
+            partyDisplay.setCountryName(editTextCountryName.getText().toString());
+        }else{
+            editTextCountryName.setError("\"" + getString(R.string.country_name) + "\"" + " darf nicht leer sein");
+            tilCountryName.setError(getString(R.string.country_name));
+            correctInput = false;
+        }
+
+        if(!textDate.getText().equals("")) {
+            textDate.setError(null);
+            textTime.setError(null);
+            if(!textTime.getText().equals("")) {
+                partyDateTime = partyDate + partyTime;
+                partyDisplay.setPartyDate(partyDateTime);
+            }else{
+                textTime.setError("\"" + getString(R.string.party_time) + "\"" + " darf nicht leer sein");
+                correctInput = false;
+            }
+        }else{
+            textDate.setError("\"" + getString(R.string.party_date) + "\"" + " darf nicht leer sein");
+            if(textTime.getText().equals("")){
+                textTime.setError("\"" + getString(R.string.party_time) + "\"" + " darf nicht leer sein");
+            }
+            correctInput = false;
+        }
+
         //TODO: Verbesserung durchfuehren, nur zum Testen
-        partyDisplay.setPartyType(spinnerPartyType.getSelectedItemPosition()-1);
-        partyDisplay.setMusicGenre(spinnerMusicGenre.getSelectedItemPosition()-1);
+        if(spinnerPartyType.getSelectedItemPosition()!= 0) {
+            ((TextView)spinnerPartyType.getChildAt(0)).setError(null);
+            partyDisplay.setPartyType(spinnerPartyType.getSelectedItemPosition() - 1);
+        }else{
+            ((TextView)spinnerPartyType.getChildAt(0)).setError("\"" + getString(R.string.party_type) + "\"" + " darf nicht leer sein");
+            correctInput = false;
+        }
 
-        partyDisplay.setDescription(editTextDescription.getText().toString());
+        if(spinnerMusicGenre.getSelectedItemPosition()!= 0) {
+            ((TextView)spinnerMusicGenre.getChildAt(0)).setError(null);
+            partyDisplay.setMusicGenre(spinnerMusicGenre.getSelectedItemPosition() - 1);
+        }else{
+            ((TextView)spinnerMusicGenre.getChildAt(0)).setError("\"" + getString(R.string.music_genre) + "\"" + " darf nicht leer sein");
+            correctInput = false;
+        }
 
-        new AdressValidateTask(partyDisplay,this);
+        if(!editTextDescription.getText().toString().trim().equals("")) {
+            editTextDescription.setError(null);
+            tilDescription.setError(null);
+            partyDisplay.setDescription(editTextDescription.getText().toString());
+        }else{
+            editTextDescription.setError("\"" + getString(R.string.description) + "\"" + " darf nicht leer sein");
+            tilDescription.setError(getString(R.string.description));
+            correctInput = false;
+        }
+
+        if(correctInput) {
+            new AdressValidateTask(partyDisplay,this);
+        }
     }
 
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
         //Speichern des erfassten Datums fuer Party und setzen in Eingabefeld
-        partyDate = year + "-" + (monthOfYear+1) + "-" + dayOfMonth;
-        textDate.setText(dayOfMonth + "." + (monthOfYear+1) + "." + year);
+        String month = Integer.toString(monthOfYear+1);
+        String day = Integer.toString(dayOfMonth);
+
+        if(monthOfYear+1<10) month = "0" + (monthOfYear+1);
+        if(dayOfMonth<10) day = "0" + dayOfMonth;
+        partyDate = year + "-" + month + "-" + day;
+        textDate.setText(day + "." + month + "." + year);
     }
 
     @Override
-    public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute, int second) {
+    public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minuteInt, int second) {
         //Speichern der erfassten Zeit fuer Party und setzen in Eingabefeld
-        partyDate = partyDate + "T" + hourOfDay + ":" + minute + ":" + second;
-        textTime.setText(hourOfDay + ":" + minute);
+        String hour = Integer.toString(hourOfDay);
+        String minute = Integer.toString(minuteInt);
+        if(hourOfDay <10) hour ="0"+ hourOfDay;
+        if(minuteInt<10) minute="0"+minuteInt;
+        partyTime = "T" + hour + ":" + minute + ":" + "00.000Z";
+        textTime.setText(hour + ":" + minute);
     }
 
     @Override
