@@ -22,6 +22,19 @@ public class Location {
     private double Latitude;
     private double Longitude;
 
+    public Location(){}
+
+    public Location(PartyDisplay pd){
+        CountryName = pd.getCountryName();
+        CityName = pd.getCityName();
+        StreetName = pd.getStreetName();
+        HouseNumber = pd.getHouseNumber();
+        HouseNumberAdditional=pd.getHouseNumberAdditional();
+        Zipcode = pd.getZipcode();
+        Latitude = 0;
+        Longitude = 0;
+    }
+
     public String getCountyName() {
         return CountryName;
     }

@@ -2,6 +2,9 @@ package de.dhbw.BackEndCommunication;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+
+import com.google.gson.Gson;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.BufferedReader;
@@ -12,12 +15,14 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import de.dhbw.app2night.MainActivity;
 import de.dhbw.exceptions.BackendCommunicationException;
 import de.dhbw.exceptions.NetworkUnavailableException;
 import de.dhbw.exceptions.NoTokenFoundException;
 import de.dhbw.exceptions.RefreshTokenFailedException;
+import de.dhbw.model.Location;
 import de.dhbw.utils.ContextManager;
 import de.dhbw.utils.PropertyUtil;
 import de.dhbw.utils.TokenUtil;
@@ -36,12 +41,70 @@ public class RestBackendCommunication {
         return RBC;
     }
 
+
+    public boolean validateAdress(String myurl, Location location) throws IOException, RefreshTokenFailedException, NoTokenFoundException, BackendCommunicationException, NetworkUnavailableException {
+        InputStream is = null;
+        OutputStream os = null;
+        Context context = ContextManager.getInstance().getContext();
+        ConnectivityManager connMgr = (ConnectivityManager)
+                context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnected()) {
+            try {
+                URL url = new URL(myurl);
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setRequestProperty("Content-Type", "application/json");
+                conn.setRequestProperty("Authorization", TokenUtil.getInstance().getAuthorization());
+                conn.setReadTimeout(10000 /* milliseconds */);
+                conn.setConnectTimeout(15000 /* milliseconds */);
+                conn.setRequestMethod("POST");
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+                os = conn.getOutputStream();
+                BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os));
+                String jString = new Gson().toJson(location);
+                bw.write(jString);
+                bw.flush();
+                bw.close();
+                conn.connect();
+                int response = conn.getResponseCode();
+                if (response == HttpURLConnection.HTTP_OK) {
+                    return true;
+                }else {
+                    throw new BackendCommunicationException(Integer.toString(response));
+                }
+            } finally {
+                //Streams schließen
+                if (is != null) {
+                    is.close();
+                }
+                if(os != null){
+                    os.close();
+                }
+            }
+        }else {
+            throw new NetworkUnavailableException("Network not connected");
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+    }
+
     /**
      *
      * @param username Benutzername
      * @param password  Passwort
      * @param email     Email
-     * @param c         Aufrufender Context
      * @return  true, wenn anlegen funktioniert hat
      * @throws IOException - Wenn bei dem Zugriff auf den Input Stream ein Fehler auftritt
      * @throws BackendCommunicationException - Wenn Request fehlschlägt

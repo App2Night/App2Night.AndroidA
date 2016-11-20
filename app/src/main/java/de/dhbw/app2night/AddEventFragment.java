@@ -20,6 +20,8 @@ import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
 import java.util.Calendar;
 
+import de.dhbw.backendTasks.party.AdressValidate;
+import de.dhbw.backendTasks.party.AdressValidateTask;
 import de.dhbw.backendTasks.party.PostParty;
 import de.dhbw.backendTasks.party.PostPartyTask;
 import de.dhbw.model.Party;
@@ -29,7 +31,7 @@ import de.dhbw.model.PartyDisplay;
  * Created by Flo on 31.10.2016.
  */
 public class AddEventFragment extends Fragment implements View.OnTouchListener, View.OnClickListener,
-       TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener, PostParty{
+       TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener, PostParty, AdressValidate{
     EditText editTextPartyName, editTextStreetName, editTextHouseNumber, editTextZipCode, editTextCityName, editTextCountryName, editTextDescription;
     TextView textDate, textTime;
     ScrollView scrollViewAddEvent;
@@ -168,13 +170,14 @@ public class AddEventFragment extends Fragment implements View.OnTouchListener, 
         partyDisplay.setCityName(editTextCityName.getText().toString());
         partyDisplay.setCountryName(editTextCountryName.getText().toString());
         partyDisplay.setPartyDate(partyDate);
+        partyDisplay.setHouseNumberAdditional("");
         //TODO: Verbesserung durchfuehren, nur zum Testen
         partyDisplay.setPartyType(spinnerPartyType.getSelectedItemPosition()-1);
         partyDisplay.setMusicGenre(spinnerMusicGenre.getSelectedItemPosition()-1);
 
         partyDisplay.setDescription(editTextDescription.getText().toString());
 
-        new PostPartyTask(this, partyDisplay);
+        new AdressValidateTask(partyDisplay,this);
     }
 
     @Override
@@ -198,6 +201,17 @@ public class AddEventFragment extends Fragment implements View.OnTouchListener, 
 
     @Override
     public void onFailPostParty(PartyDisplay party) {
+
+    }
+
+    @Override
+    public void onSuccessAdressValidate(PartyDisplay partyDisplay) {
+        new PostPartyTask(this, partyDisplay);
+    }
+
+
+    @Override
+    public void onFailAdressValidate(PartyDisplay partyDisplay) {
 
     }
 }

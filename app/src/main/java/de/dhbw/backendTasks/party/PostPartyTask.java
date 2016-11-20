@@ -23,8 +23,6 @@ public class PostPartyTask extends AsyncTask<Void,Void,Party> implements ApiPart
     //Initialisert von PropertyUtil
     private String url;
 
-
-
     private final PostParty fragment;
     private final PartyDisplay displayParty;
 
