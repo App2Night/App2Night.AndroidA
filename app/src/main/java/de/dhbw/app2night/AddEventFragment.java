@@ -1,5 +1,7 @@
 package de.dhbw.app2night;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
@@ -11,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -41,6 +44,7 @@ public class AddEventFragment extends Fragment implements View.OnTouchListener, 
     ScrollView scrollViewAddEvent;
     Spinner spinnerPartyType, spinnerMusicGenre;
     View rootView;
+    ProgressBar progressBar;
     String partyDate, partyTime, partyDateTime;
     DatePickerDialog dpd;
     TimePickerDialog tpd;
@@ -77,6 +81,7 @@ public class AddEventFragment extends Fragment implements View.OnTouchListener, 
         textTime.setOnClickListener(this);
 
         scrollViewAddEvent = (ScrollView) rootView.findViewById(R.id.addevent_scrollview_main);
+        progressBar = (ProgressBar) rootView.findViewById(R.id.location_check_progress);
 
         spinnerPartyType = (Spinner) rootView.findViewById(R.id.spinner_party_type);
         // Create an ArrayAdapter using the string array and a default spinner layout
@@ -249,6 +254,7 @@ public class AddEventFragment extends Fragment implements View.OnTouchListener, 
                 correctInput = false;
             }
         }else{
+            textTime.setError(null);
             textDate.setError("\"" + getString(R.string.party_date) + "\"" + " darf nicht leer sein");
             if(textTime.getText().equals("")){
                 textTime.setError("\"" + getString(R.string.party_time) + "\"" + " darf nicht leer sein");
@@ -284,6 +290,7 @@ public class AddEventFragment extends Fragment implements View.OnTouchListener, 
         }
 
         if(correctInput) {
+            showProgress(true);
             new AdressValidateTask(partyDisplay,this);
         }
     }
@@ -322,13 +329,39 @@ public class AddEventFragment extends Fragment implements View.OnTouchListener, 
     }
 
     @Override
-    public void onSuccessAdressValidate(PartyDisplay partyDisplay) {
+    public void onSuccessAddressValidate(PartyDisplay partyDisplay) {
         new PostPartyTask(this, partyDisplay);
+        //TODO: Wechsel ins HomeFragment
     }
 
 
     @Override
-    public void onFailAdressValidate(PartyDisplay partyDisplay) {
-
+    public void onFailAddressValidate(PartyDisplay partyDisplay) {
+        showProgress(false);
+        //TODO: Felder markieren, Meldung das Adresse nicht korrekt
     }
+
+    public void showProgress(final boolean show) {
+            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
+
+            scrollViewAddEvent.setVisibility(show ? View.GONE : View.VISIBLE);
+            scrollViewAddEvent.animate().setDuration(shortAnimTime).alpha(
+                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    scrollViewAddEvent.setVisibility(show ? View.GONE : View.VISIBLE);
+                }
+            });
+
+            progressBar.setVisibility(show ? View.VISIBLE : View.GONE);
+            progressBar.animate().setDuration(shortAnimTime).alpha(
+                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    progressBar.setVisibility(show ? View.VISIBLE : View.GONE);
+                }
+            });
+    }
+
+
 }

@@ -8,9 +8,9 @@ import de.dhbw.model.PartyDisplay;
 
 public interface AdressValidate {
 
-    void onSuccessAdressValidate(PartyDisplay partyDisplay);
+    void onSuccessAddressValidate(PartyDisplay partyDisplay);
 
-    void onFailAdressValidate(PartyDisplay partyDisplay);
+    void onFailAddressValidate(PartyDisplay partyDisplay);
 
 
 }

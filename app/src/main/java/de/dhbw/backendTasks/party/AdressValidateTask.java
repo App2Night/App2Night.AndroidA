@@ -65,9 +65,9 @@ public class AdressValidateTask extends AsyncTask<Void, Void, Boolean> implement
     @Override
     protected void onPostExecute(Boolean result){
         if(result)
-            adressValidate.onSuccessAdressValidate(partyDisplay);
+            adressValidate.onSuccessAddressValidate(partyDisplay);
         else
-            adressValidate.onFailAdressValidate(partyDisplay);
+            adressValidate.onFailAddressValidate(partyDisplay);
 
     }
 }
