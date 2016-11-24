@@ -15,7 +15,9 @@ import java.util.List;
 
 import de.dhbw.backendTasks.party.GetPartyList;
 import de.dhbw.backendTasks.party.GetPartyListTask;
+import de.dhbw.exceptions.GPSUnavailableException;
 import de.dhbw.model.Party;
+import de.dhbw.utils.Gps;
 
 
 /**
@@ -49,7 +51,17 @@ public class HomeFragment extends Fragment implements GetPartyList {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(pAdapter);
 
-        new GetPartyListTask(this);
+
+        try {
+            double[] gpsResult = Gps.getInstance().getGPSCoordinates();
+            new GetPartyListTask(this,gpsResult[0],gpsResult[1],100);
+        } catch (GPSUnavailableException e) {
+            //TODO: Behandlung im Fall, dass GPS nicht verfügbar ist
+            e.printStackTrace();
+        }
+
+
+
 
 
 

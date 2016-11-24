@@ -17,7 +17,6 @@ public class Location {
     private String CityName;
     private String StreetName;
     private String HouseNumber;
-    private String HouseNumberAdditional;
     private String Zipcode;
     private double Latitude;
     private double Longitude;
@@ -29,7 +28,6 @@ public class Location {
         CityName = pd.getCityName();
         StreetName = pd.getStreetName();
         HouseNumber = pd.getHouseNumber();
-        HouseNumberAdditional=pd.getHouseNumberAdditional();
         Zipcode = pd.getZipcode();
         Latitude = 0;
         Longitude = 0;
@@ -65,14 +63,6 @@ public class Location {
 
     public void setHouseNumber(String houseNumber) {
         this.HouseNumber = houseNumber;
-    }
-
-    public String getHouseNumberAdditional() {
-        return HouseNumberAdditional;
-    }
-
-    public void setHouseNumberAdditional(String houseNumberAdditional) {
-        this.HouseNumberAdditional = houseNumberAdditional;
     }
 
     public String getZipcode() {

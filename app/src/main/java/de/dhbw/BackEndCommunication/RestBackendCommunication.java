@@ -42,6 +42,16 @@ public class RestBackendCommunication {
     }
 
 
+    private boolean networkAvailable(){
+        ConnectivityManager connMgr = (ConnectivityManager)
+                ContextManager.getInstance().getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnected())
+            return true;
+        return false;
+    }
+
+
     public boolean validateAdress(String myurl, Location location) throws IOException, RefreshTokenFailedException, NoTokenFoundException, BackendCommunicationException, NetworkUnavailableException {
         InputStream is = null;
         OutputStream os = null;
@@ -152,10 +162,8 @@ public class RestBackendCommunication {
         InputStream is = null;
         OutputStream os = null;
         String token;
-        ConnectivityManager connMgr = (ConnectivityManager)
-                ContextManager.getInstance().getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-        if (networkInfo != null && networkInfo.isConnected()) {
+
+        if (networkAvailable()) {
             try {
                 String myurl = PropertyUtil.getInstance().getTokenUrl();
                 String body = PropertyUtil.getInstance().getBodyOfGetToken(username,password);
@@ -216,11 +224,7 @@ public class RestBackendCommunication {
     public Boolean refreshToken () throws BackendCommunicationException, IOException, NetworkUnavailableException, NoTokenFoundException {
         InputStream is = null;
         OutputStream os = null;
-        Context context = ContextManager.getInstance().getContext();
-        ConnectivityManager connMgr = (ConnectivityManager)
-                context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-        if (networkInfo != null && networkInfo.isConnected()) {
+        if (networkAvailable()) {
             try {
                 //Ermittle benötigte Informationen
                 String myurl = PropertyUtil.getInstance().getRefreshUrl();
@@ -259,7 +263,7 @@ public class RestBackendCommunication {
         }
     }
 
-    public boolean saveUserId() throws IOException, BackendCommunicationException, NetworkUnavailableException {
+  /*  public boolean saveUserId() throws IOException, BackendCommunicationException, NetworkUnavailableException {
         InputStream is = null;
         String jStringFromServer;
         Context context = ContextManager.getInstance().getContext();
@@ -272,8 +276,8 @@ public class RestBackendCommunication {
                 myurl = PropertyUtil.getInstance().getUserInfoUrl();
                 URL url = new URL(myurl);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                conn.setReadTimeout(10000 /* milliseconds */);
-                conn.setConnectTimeout(15000 /* milliseconds */);
+                conn.setReadTimeout(10000);
+                conn.setConnectTimeout(15000);
                 conn.setRequestMethod("GET");
                 conn.setDoInput(true);
                 conn.connect();
@@ -297,7 +301,7 @@ public class RestBackendCommunication {
             //Netzwerk nicht verbunden
             throw new NetworkUnavailableException("Network not connected");
         }
-    }
+    }*/
 
     /**
      * Führt einen Get-Request an die URL aus und gibt den Body der Serverantwort zurück.
@@ -308,19 +312,16 @@ public class RestBackendCommunication {
      * @throws BackendCommunicationException - Wenn get Request fehlschlägt
      * @throws NetworkUnavailableException - Wenn keine Internetverbindung besteht
      */
-   public String getRequest(String myurl) throws IOException, BackendCommunicationException, NetworkUnavailableException {
+   public String getRequest(String myurl) throws IOException, BackendCommunicationException, NetworkUnavailableException, RefreshTokenFailedException, NoTokenFoundException {
        InputStream is = null;
        String jStringFromServer;
-       Context context = ContextManager.getInstance().getContext();
-       ConnectivityManager connMgr = (ConnectivityManager)
-               context.getSystemService(Context.CONNECTIVITY_SERVICE);
-       NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-       if (networkInfo != null && networkInfo.isConnected()) {
+       if (networkAvailable()) {
            try {
                URL url = new URL(myurl);
                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                conn.setReadTimeout(10000 /* milliseconds */);
                conn.setConnectTimeout(15000 /* milliseconds */);
+               conn.setRequestProperty("Authorization", TokenUtil.getInstance().getAuthorization());
                conn.setRequestMethod("GET");
                conn.setDoInput(true);
                conn.connect();
@@ -361,11 +362,7 @@ public class RestBackendCommunication {
     public String postRequest(String myurl, String jString) throws NetworkUnavailableException, IOException, BackendCommunicationException, NoTokenFoundException, RefreshTokenFailedException {
         InputStream is = null;
         OutputStream os = null;
-        Context context = ContextManager.getInstance().getContext();
-        ConnectivityManager connMgr = (ConnectivityManager)
-                context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-        if (networkInfo != null && networkInfo.isConnected()) {
+        if (networkAvailable()) {
             try {
                 URL url = new URL(myurl);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -422,12 +419,7 @@ public class RestBackendCommunication {
     public boolean putRequest(String myurl, String jString) throws NetworkUnavailableException, IOException, BackendCommunicationException, NoTokenFoundException, RefreshTokenFailedException {
         InputStream is = null;
         OutputStream os = null;
-        Context context = ContextManager.getInstance().getContext();
-        ConnectivityManager connMgr = (ConnectivityManager)
-                context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-        if (networkInfo != null && networkInfo.isConnected()) {
-
+        if (networkAvailable()) {
             try {
                 URL url = new URL(myurl);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -474,11 +466,7 @@ public class RestBackendCommunication {
      * @throws BackendCommunicationException -  Wenn post Request fehlschlägt
      */
     public boolean deleteRequest(String myurl) throws NetworkUnavailableException, IOException, BackendCommunicationException, NoTokenFoundException, RefreshTokenFailedException {
-        Context context = ContextManager.getInstance().getContext();
-        ConnectivityManager connMgr = (ConnectivityManager)
-                context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-        if (networkInfo != null && networkInfo.isConnected()) {
+        if (networkAvailable()) {
                 URL url = new URL(myurl);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setReadTimeout(10000 /* milliseconds */);

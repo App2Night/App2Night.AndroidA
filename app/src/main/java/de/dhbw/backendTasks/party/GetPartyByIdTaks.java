@@ -9,6 +9,8 @@ import java.io.IOException;
 import de.dhbw.BackEndCommunication.RestBackendCommunication;
 import de.dhbw.exceptions.BackendCommunicationException;
 import de.dhbw.exceptions.NetworkUnavailableException;
+import de.dhbw.exceptions.NoTokenFoundException;
+import de.dhbw.exceptions.RefreshTokenFailedException;
 import de.dhbw.model.Party;
 import de.dhbw.utils.PropertyUtil;
 
@@ -54,6 +56,10 @@ public class GetPartyByIdTaks extends AsyncTask<Void, Void, String> implements A
         } catch (BackendCommunicationException e) {
             e.printStackTrace();
         } catch (NetworkUnavailableException e) {
+            e.printStackTrace();
+        } catch (NoTokenFoundException e) {
+            e.printStackTrace();
+        } catch (RefreshTokenFailedException e) {
             e.printStackTrace();
         }
         return null;

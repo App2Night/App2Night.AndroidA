@@ -22,12 +22,12 @@ public class Gps {
         return gps;
     }
 
-    public double[] getGPSCoordinates (Context c) throws GPSUnavailableException {
+    public double[] getGPSCoordinates () throws GPSUnavailableException {
         // Acquire a reference to the system Location Manager
         double[] rueckgabe;
         Location location;
         try {
-           location = getLastKnownLocation(c);
+           location = getLastKnownLocation();
             //Breitengrad
             double latitude = location.getLatitude();
             //Längengrad
@@ -36,12 +36,13 @@ public class Gps {
             rueckgabe[0] = latitude;
             rueckgabe[1] = longtitude;
             return rueckgabe;
-        }catch (SecurityException e){
+        }catch (Exception e){
             throw new GPSUnavailableException();
         }
     }
 
-    private Location getLastKnownLocation (Context c) throws SecurityException  {
+    private Location getLastKnownLocation () throws SecurityException  {
+        Context c = ContextManager.getInstance().getContext();
         LocationManager locationManager = (LocationManager) c.getSystemService(c.LOCATION_SERVICE);
         List<String> providers = locationManager.getProviders(true);
         Location bestLocation = null;

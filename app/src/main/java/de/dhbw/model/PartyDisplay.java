@@ -14,7 +14,6 @@ public class PartyDisplay {
     private String cityName;
     private String streetName;
     private String houseNumber;
-    private String houseNumberAdditional;
     private String zipcode;
     private int    partyType;
     private String description;
@@ -41,7 +40,6 @@ public class PartyDisplay {
         cityName = p.getLocation().getCityName();
         streetName = p.getLocation().getStreetName();
         houseNumber = p.getLocation().getHouseNumber();
-        houseNumberAdditional = p.getLocation().getHouseNumberAdditional();
         zipcode = p.getLocation().getZipcode();
         partyType = p.getPartyType();
         description = p.getDescription();
@@ -102,14 +100,6 @@ public class PartyDisplay {
 
     public void setHouseNumber(String houseNumber) {
         this.houseNumber = houseNumber;
-    }
-
-    public String getHouseNumberAdditional() {
-        return houseNumberAdditional;
-    }
-
-    public void setHouseNumberAdditional(String houseNumberAdditional) {
-        this.houseNumberAdditional = houseNumberAdditional;
     }
 
     public String getZipcode() {

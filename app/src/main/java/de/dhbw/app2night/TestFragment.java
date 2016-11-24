@@ -13,6 +13,8 @@ import com.google.gson.Gson;
 
 import de.dhbw.backendTasks.party.DeletePartyById;
 import de.dhbw.backendTasks.party.DeletePartyByIdTask;
+import de.dhbw.backendTasks.party.GetMyPartyList;
+import de.dhbw.backendTasks.party.GetMyPartyListTask;
 import de.dhbw.backendTasks.party.GetPartyList;
 import de.dhbw.backendTasks.party.GetPartyListTask;
 import de.dhbw.backendTasks.party.PostParty;
@@ -28,7 +30,7 @@ import de.dhbw.utils.SettingsUtil;
  * Created by Flo on 02.11.2016.
  */
 
-public class TestFragment extends Fragment implements View.OnClickListener, DeletePartyById, GetPartyList, PostParty{
+public class TestFragment extends Fragment implements View.OnClickListener, DeletePartyById, GetPartyList, PostParty, GetMyPartyList{
     public TextView viewStatus;
     private Button buttonGet, buttonPost, buttonPut, buttonDelete, buttonSettings, buttonRegister;
 
@@ -95,7 +97,7 @@ public class TestFragment extends Fragment implements View.OnClickListener, Dele
 
                 break;
             case R.id.main_button_get:
-                new GetPartyListTask(this);
+                new GetMyPartyListTask(this);
 
 
 
@@ -163,6 +165,16 @@ public class TestFragment extends Fragment implements View.OnClickListener, Dele
 
     @Override
     public void onFailPostParty(PartyDisplay party) {
+
+    }
+
+    @Override
+    public void onSuccessGetMyPartyList(Party[] parties) {
+
+    }
+
+    @Override
+    public void onFailGetMyPartyList() {
 
     }
 }

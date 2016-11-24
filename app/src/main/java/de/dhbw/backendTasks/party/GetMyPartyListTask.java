@@ -14,64 +14,60 @@ import de.dhbw.exceptions.RefreshTokenFailedException;
 import de.dhbw.model.Party;
 import de.dhbw.utils.PropertyUtil;
 
+import static android.os.Looper.prepare;
+
 /**
- * Created by Tobias Berner on 21.10.2016.
+ * Created by Tobias Berner on 22.11.2016.
  */
 
-public class GetPartyListTask extends AsyncTask<Void, Void, String> implements ApiPartyTask {
+public class GetMyPartyListTask extends AsyncTask<Void, Void, String> implements ApiPartyTask {
 
-    //Initialisert von PropertyUtil
+    //Wird initialisiert durch PropertyUtil
     private String url;
-    private final GetPartyList fragment;
-    private final double latitude, longtitude;
-    private float radius;
 
+    private final GetMyPartyList fragment;
 
-    public void setUrl(String urlParm) {
-        url = urlParm;
-    }
-
-    public GetPartyListTask(GetPartyList fragment, double latitude, double longtitude, float radius) {
+    public GetMyPartyListTask(GetMyPartyList fragment){
         this.fragment = fragment;
-        this.latitude = latitude;
-        this.longtitude = longtitude;
-        this.radius = radius;
         prepare();
     }
 
-    private void prepare() {
+    private void prepare(){
         PropertyUtil.getInstance().init(this);
         this.execute();
     }
 
-    private String buildUrl(){
-        return url + "?lat=" + latitude + "&lon=" + longtitude + "&radius=" + radius;
+    @Override
+    public void setUrl(String url) {
+        this.url = url+"/myParties";
     }
+
 
     @Override
     protected String doInBackground(Void... params) {
         try {
-                return RestBackendCommunication.getInstance().getRequest(buildUrl());
+            return RestBackendCommunication.getInstance().getRequest(url);
         } catch (IOException e) {
-            return "Unable to retrieve web page. URL may be invalid.";
+            e.printStackTrace();
         } catch (BackendCommunicationException e) {
             e.printStackTrace();
         } catch (NetworkUnavailableException e) {
             e.printStackTrace();
-        } catch (NoTokenFoundException e) {
-            e.printStackTrace();
         } catch (RefreshTokenFailedException e) {
+            e.printStackTrace();
+        } catch (NoTokenFoundException e) {
             e.printStackTrace();
         }
         return null;
     }
 
     @Override
-    protected void onPostExecute(String result) {
-        if (result != null) {
+    protected void onPostExecute(String result){
+        if (result != null){
             Party[] parties = new Gson().fromJson(result, Party[].class);
-            fragment.onSuccessGetPartyList(parties);
+            fragment.onSuccessGetMyPartyList(parties);
         }
+
+
     }
 }
-
