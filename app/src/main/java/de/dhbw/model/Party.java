@@ -14,9 +14,98 @@ package de.dhbw.model;
         private int PartyType;
         private String Description;
         private User Host;
+        private boolean HostedByUser;
+        private int GeneralUpVoting;
+        private int GeneralDownVoting;
+        private int PriceUpVoting;
+        private int PriceDownVoting;
+        private int LocationUpVoting;
+        private int LocationDownVoting;
+        private int MoodUpVoting;
+        private int MoodDownVoting;
+        private User[] CommmittedUser;
 
+    public boolean isHostedByUser() {
+        return HostedByUser;
+    }
 
-        public String getPartyId() {
+    public void setHostedByUser(boolean hostedByUser) {
+        HostedByUser = hostedByUser;
+    }
+
+    public int getGeneralUpVoting() {
+        return GeneralUpVoting;
+    }
+
+    public void setGeneralUpVoting(int generalUpVoting) {
+        GeneralUpVoting = generalUpVoting;
+    }
+
+    public int getGeneralDownVoting() {
+        return GeneralDownVoting;
+    }
+
+    public void setGeneralDownVoting(int generalDownVoting) {
+        GeneralDownVoting = generalDownVoting;
+    }
+
+    public int getPriceUpVoting() {
+        return PriceUpVoting;
+    }
+
+    public void setPriceUpVoting(int priceUpVoting) {
+        PriceUpVoting = priceUpVoting;
+    }
+
+    public int getPriceDownVoting() {
+        return PriceDownVoting;
+    }
+
+    public void setPriceDownVoting(int priceDownVoting) {
+        PriceDownVoting = priceDownVoting;
+    }
+
+    public int getLocationUpVoting() {
+        return LocationUpVoting;
+    }
+
+    public void setLocationUpVoting(int locationUpVoting) {
+        LocationUpVoting = locationUpVoting;
+    }
+
+    public int getLocationDownVoting() {
+        return LocationDownVoting;
+    }
+
+    public void setLocationDownVoting(int locationDownVoting) {
+        LocationDownVoting = locationDownVoting;
+    }
+
+    public int getMoodUpVoting() {
+        return MoodUpVoting;
+    }
+
+    public void setMoodUpVoting(int moodUpVoting) {
+        MoodUpVoting = moodUpVoting;
+    }
+
+    public int getMoodDownVoting() {
+        return MoodDownVoting;
+    }
+
+    public void setMoodDownVoting(int moodDownVoting) {
+        MoodDownVoting = moodDownVoting;
+    }
+
+    public User[] getCommmittedUser() {
+        return CommmittedUser;
+    }
+
+    public void setCommmittedUser(User[] commmittedUser) {
+        CommmittedUser = commmittedUser;
+    }
+
+    public String getPartyId() {
             return PartyId;
         }
 

@@ -162,7 +162,6 @@ public class RestBackendCommunication {
         InputStream is = null;
         OutputStream os = null;
         String token;
-
         if (networkAvailable()) {
             try {
                 String myurl = PropertyUtil.getInstance().getTokenUrl();
