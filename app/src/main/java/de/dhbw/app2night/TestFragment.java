@@ -116,7 +116,6 @@ public class TestFragment extends Fragment implements View.OnClickListener, Dele
                 l.setCityName("Horb am Neckar");
                 l.setStreetName("Florianstraße");
                 l.setHouseNumber("12");
-                l.setHouseNumberAdditional("");
                 l.setZipcode("72160");
                 l.setLatitude(0);
                 l.setLongitude(0);
