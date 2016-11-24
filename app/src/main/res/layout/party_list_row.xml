@@ -4,6 +4,7 @@ android:layout_width="match_parent" android:layout_height="205dp"
 android:paddingLeft="10dp"
 android:paddingRight="10dp"
 android:paddingTop="3dp"
+android:layout_marginBottom="5dp"
 android:background="@drawable/shadow"
 android:clickable="true"
 android:focusable="true"
@@ -74,13 +75,6 @@ android:focusable="true"
     android:layout_alignParentEnd="true"
     android:layout_alignParentStart="true"
     android:textAlignment="center" />
-
-<View
-    android:layout_width="match_parent"
-    android:layout_height="3dp"
-    android:background="#FFFFFF"
-    android:layout_below="@id/date"
-    android:layout_marginTop="5dp"></View>
 
 
 </RelativeLayout>
