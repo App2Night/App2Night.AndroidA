@@ -4,7 +4,7 @@ android:layout_width="match_parent" android:layout_height="205dp"
 android:paddingLeft="10dp"
 android:paddingRight="10dp"
 android:paddingTop="3dp"
-android:background="#e0e0e0"
+android:background="@drawable/shadow"
 android:clickable="true"
 android:focusable="true"
     >

@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity
                 displayView(R.layout.fragment_profile);
                 break;
             case R.id.nav_contact:
-                //TODO: Display View for Fragment_Contact
+                displayView(R.layout.fragment_contact);
                 break;
             case R.id.nav_settings:
                 displayView(R.layout.fragment_settings);
@@ -145,6 +145,9 @@ public class MainActivity extends AppCompatActivity
                 fragment = new TestFragment();
                 title = getString(R.string.title_test);
                 break;
+            case R.layout.fragment_contact:
+                fragment = new ContactFragment();
+                title = getString(R.string.title_contact);
             default:
                 break;
         }

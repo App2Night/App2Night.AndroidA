@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Das ist der Contact Tab"
+        android:typeface="serif"
+        android:textStyle="bold"
+        android:textSize="36dp"
+        android:layout_weight="0.84" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginRight="@dimen/fab_margin"
+        android:layout_marginBottom="@dimen/fab_margin"
+        android:src="@drawable/plus_icon"
+        android:elevation="6dp"
+        android:id="@+id/fab_plus"
+        app:pressedTranslationZ="12dp"/>
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginRight="@dimen/fab_margin"
+        android:visibility="invisible"
+        android:layout_marginBottom="100dp"
+        android:src="@drawable/ic_facebook"
+        android:elevation="6dp"
+        android:id="@+id/fab_facebook"
+        app:pressedTranslationZ="12dp"
+        app:backgroundTint="@color/fab1_color"/>
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginRight="@dimen/fab_margin"
+        android:visibility="invisible"
+        android:layout_marginBottom="180dp"
+        android:src="@drawable/ic_twitter"
+        android:elevation="6dp"
+        android:id="@+id/fab_twitter"
+        app:pressedTranslationZ="12dp"
+        app:backgroundTint="@color/fab2_color"/>
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginRight="@dimen/fab_margin"
+        android:visibility="invisible"
+        android:layout_marginBottom="260dp"
+        android:src="@drawable/ic_googleplus"
+        android:elevation="6dp"
+        android:id="@+id/fab_googleplus"
+        app:pressedTranslationZ="12dp"
+        app:backgroundTint="@color/fab3_color"/>
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginRight="@dimen/fab_margin"
+        android:layout_marginBottom="340dp"
+        android:src="@drawable/ic_instagram"
+        android:visibility="invisible"
+        android:elevation="6dp"
+        android:id="@+id/fab_instagram"
+        app:pressedTranslationZ="12dp"
+        app:backgroundTint="@color/fab4_color"/>
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginRight="@dimen/fab_margin"
+        android:layout_marginBottom="420dp"
+        android:src="@drawable/ic_vimeo"
+        android:elevation="6dp"
+        android:id="@+id/fab_vimeo"
+        app:pressedTranslationZ="12dp"
+        app:backgroundTint="@color/fab5_color"
+        android:visibility="invisible"/>
+
+
+</android.support.design.widget.CoordinatorLayout>

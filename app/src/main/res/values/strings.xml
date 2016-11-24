@@ -21,6 +21,7 @@
     <string name="title_addevent">AddEventFragment</string>
     <string name="title_findevent">FindEventFragment</string>
     <string name="title_profile">ProfileFragment</string>
+    <string name="title_contact">ContactFragment</string>
     <string name="title_test">TestFragment</string>
     <string name="title_activity_login">Sign in</string>
 
