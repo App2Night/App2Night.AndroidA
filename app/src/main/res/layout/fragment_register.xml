@@ -36,6 +36,7 @@
                 android:layout_margin="10dp"/>
 
             <android.support.design.widget.TextInputLayout
+                android:id="@+id/register_input_layout_user_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -50,6 +51,7 @@
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
+                android:id="@+id/register_input_layout_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -64,6 +66,7 @@
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
+                android:id="@+id/register_input_layout_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -83,11 +86,12 @@
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
+                android:id="@+id/register_input_layout_password_repeat"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <EditText
-                    android:id="@+id/register_input_passwort_repeat"
+                    android:id="@+id/register_input_password_repeat"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/prompt_password_repeat"

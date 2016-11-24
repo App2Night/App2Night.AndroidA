@@ -3,21 +3,30 @@ package de.dhbw.app2night;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import de.dhbw.backendTasks.user.Register;
 import de.dhbw.backendTasks.user.RegisterUserTask;
 
 /**
  * Created by Flo on 27.10.2016.
  */
 
-public class RegisterFragment extends Fragment implements View.OnClickListener{
+public class RegisterFragment extends Fragment implements View.OnClickListener, Register {
+    OnRegisterButtonClickListener mCallback;
+
+    public interface OnRegisterButtonClickListener {
+        void onInputFragmentRegister(String userName);
+    }
+
     public final static String ARG_USERNAME = "arg_username";
     EditText editTextUserName, editTextEmail, editTextPassword1, editTextPassword2;
+    TextInputLayout tilUserName, tilEmail, tilPassword1, tilPassword2;
     Button registerButton;
     View rootView;
     private String userName;
@@ -34,6 +43,13 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        try {
+            mCallback = (OnRegisterButtonClickListener) getActivity();
+        } catch (ClassCastException e) {
+            throw new ClassCastException(getActivity().toString()
+                    + " must implement OnHeadlineSelectedListener");
+        }
+
     }
 
     @Override
@@ -41,6 +57,8 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_register, container, false);
         initializeViews();
+
+
 
         // Inflate the layout for this fragment
         return rootView;
@@ -52,7 +70,12 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
 
         editTextEmail = (EditText) rootView.findViewById(R.id.register_input_email);
         editTextPassword1 = (EditText) rootView.findViewById(R.id.register_input_password);
-        editTextPassword2 = (EditText) rootView.findViewById(R.id.register_input_passwort_repeat);
+        editTextPassword2 = (EditText) rootView.findViewById(R.id.register_input_password_repeat);
+
+        tilUserName = (TextInputLayout) rootView.findViewById(R.id.register_input_layout_user_name);
+        tilEmail = (TextInputLayout) rootView.findViewById(R.id.register_input_layout_email);
+        tilPassword1 = (TextInputLayout) rootView.findViewById(R.id.register_input_layout_password);
+        tilPassword2 = (TextInputLayout) rootView.findViewById(R.id.register_input_layout_password_repeat);
 
         registerButton = (Button) rootView.findViewById(R.id.register_button_ok);
         registerButton.setOnClickListener(this);
@@ -71,37 +94,71 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
 
     @Override
     public void onClick(View view) {
-        userName = editTextUserName.getText().toString();
-        email = editTextEmail.getText().toString();
-        pw = editTextPassword1.getText().toString();
-        pwRepeat = editTextPassword2.getText().toString();
+        getEditTextInputs();
+
         korrekteEingabe = true;
 
-        editTextUserName.setError(null);
-        editTextEmail.setError(null);
-        editTextPassword1.setError(null);
-        editTextPassword2.setError(null);
+        resetErrorFlags();
 
         if(userName.equals("")){
             korrekteEingabe=false;
             editTextUserName.setError("Benutzername darf nicht leer sein");
+            tilUserName.setError("Benutzername");
         }
         if(!pwRepeat.equals(pw)) {
             korrekteEingabe = false;
             editTextPassword2.setText(null);
             editTextPassword2.setError("Eingegebene Passwörter stimmen nicht überein, bitte Passwort korrekt wiederholen");
+            tilPassword2.setError("Passwort wiederholen");
         }
-        if(pw.length()>4){
+        if(pw.length()<4){
             korrekteEingabe = false;
             editTextPassword1.setError("Das Passwort muss mindestens 4 Stellen besitzen");
+            tilPassword1.setError("Passwort");
         }
         if(email.equals("")){
             korrekteEingabe = false;
-            editTextEmail.setError("Es muss eine EMail Adresse eingegeben werden, an die der Registierungslink versendet werden kann");
+            editTextEmail.setError("Es muss eine E-Mail Adresse eingegeben werden, an die der Registierungslink versendet werden kann");
+            tilEmail.setError("E-Mail");
         }
 
         if(korrekteEingabe){
             new RegisterUserTask(userName, pw, email);
+            mCallback.onInputFragmentRegister(userName);
         }
+    }
+
+    private void getEditTextInputs() {
+        userName = editTextUserName.getText().toString();
+        email = editTextEmail.getText().toString();
+        pw = editTextPassword1.getText().toString();
+        pwRepeat = editTextPassword2.getText().toString();
+    }
+
+    private void resetErrorFlags() {
+        editTextUserName.setError(null);
+        editTextEmail.setError(null);
+        editTextPassword1.setError(null);
+        editTextPassword2.setError(null);
+
+        tilUserName.setError(null);
+        tilEmail.setError(null);
+        tilPassword1.setError(null);
+        tilPassword2.setError(null);
+    }
+
+    @Override
+    public void onSuccessLogin() {
+
+    }
+
+    @Override
+    public void onFailLogin() {
+
+    }
+
+    @Override
+    public void onCancelLogin() {
+
     }
 }

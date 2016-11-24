@@ -3,10 +3,7 @@ package de.dhbw.app2night;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.app.LoaderManager;
 import android.content.Context;
 import android.content.CursorLoader;
@@ -38,7 +35,6 @@ import java.util.List;
 
 import de.dhbw.backendTasks.user.Login;
 import de.dhbw.backendTasks.user.LoginTask;
-import de.dhbw.utils.ContextManager;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -47,10 +43,11 @@ import static android.Manifest.permission.READ_CONTACTS;
  */
 
 public class LoginFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, Login {
-    OnRegisterButtonClickListener mCallback;
+    public final static String ARG_USERNAME = "arg_username";
+    OnRegistrationButtonClickListener mCallback;
 
-    public interface OnRegisterButtonClickListener {
-        public void onInput(String userName);
+    public interface OnRegistrationButtonClickListener {
+        void onInput(String userName);
     }
 
     /**
@@ -76,7 +73,7 @@ public class LoginFragment extends Fragment implements LoaderManager.LoaderCallb
     private LoginTask mAuthTask = null;
 
     // UI references.
-    private AutoCompleteTextView mEmailView;
+    private AutoCompleteTextView editTextUserName;
 
     public EditText getmPasswordView() {
         return mPasswordView;
@@ -97,7 +94,7 @@ public class LoginFragment extends Fragment implements LoaderManager.LoaderCallb
         // This makes sure that the container activity has implemented
         // the callback interface. If not, it throws an exception
         try {
-            mCallback = (OnRegisterButtonClickListener) getActivity();
+            mCallback = (OnRegistrationButtonClickListener) getActivity();
         } catch (ClassCastException e) {
             throw new ClassCastException(getActivity().toString()
                     + " must implement OnHeadlineSelectedListener");
@@ -112,7 +109,10 @@ public class LoginFragment extends Fragment implements LoaderManager.LoaderCallb
         View rootView = inflater.inflate(R.layout.fragment_login, container, false);
 
         // Set up the login form.
-        mEmailView = (AutoCompleteTextView) rootView.findViewById(R.id.email);
+        editTextUserName = (AutoCompleteTextView) rootView.findViewById(R.id.login_input_user_name);
+        if(getArguments() != null) {
+            editTextUserName.setText(getArguments().getString("arg_username"));
+        }
         populateAutoComplete();
 
         mPasswordView = (EditText) rootView.findViewById(R.id.password);
@@ -143,8 +143,8 @@ public class LoginFragment extends Fragment implements LoaderManager.LoaderCallb
             public void onClick(View view) {
                 InputMethodManager inputManager = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                 inputManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
-                if(mEmailView.getText()!=null) {
-                    mCallback.onInput(mEmailView.getText().toString());
+                if(editTextUserName.getText()!=null) {
+                    mCallback.onInput(editTextUserName.getText().toString());
                 }else
                     mCallback.onInput("");
 
@@ -188,7 +188,7 @@ public class LoginFragment extends Fragment implements LoaderManager.LoaderCallb
             return true;
         }
         if (shouldShowRequestPermissionRationale(READ_CONTACTS)) {
-            Snackbar.make(mEmailView, R.string.permission_rationale, Snackbar.LENGTH_INDEFINITE)
+            Snackbar.make(editTextUserName, R.string.permission_rationale, Snackbar.LENGTH_INDEFINITE)
                     .setAction(android.R.string.ok, new View.OnClickListener() {
                         @Override
                         @TargetApi(Build.VERSION_CODES.M)
@@ -227,11 +227,11 @@ public class LoginFragment extends Fragment implements LoaderManager.LoaderCallb
         }
 
         // Reset errors.
-        mEmailView.setError(null);
+        editTextUserName.setError(null);
         mPasswordView.setError(null);
 
         // Store values at the time of the login attempt.
-        String email = mEmailView.getText().toString();
+        String email = editTextUserName.getText().toString();
         String password = mPasswordView.getText().toString();
 
         boolean cancel = false;
@@ -246,12 +246,12 @@ public class LoginFragment extends Fragment implements LoaderManager.LoaderCallb
 
         // Check for a valid email address.
         if (TextUtils.isEmpty(email)) {
-            mEmailView.setError(getString(R.string.error_field_required));
-            focusView = mEmailView;
+            editTextUserName.setError(getString(R.string.error_field_required));
+            focusView = editTextUserName;
             cancel = true;
         } else if (!isEmailValid(email)) {
-            mEmailView.setError(getString(R.string.error_invalid_user_name));
-            focusView = mEmailView;
+            editTextUserName.setError(getString(R.string.error_invalid_user_name));
+            focusView = editTextUserName;
             cancel = true;
         }
 
@@ -355,7 +355,7 @@ public class LoginFragment extends Fragment implements LoaderManager.LoaderCallb
                 new ArrayAdapter<>(getActivity(),
                         android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
 
-        mEmailView.setAdapter(adapter);
+        editTextUserName.setAdapter(adapter);
     }
 
     @Override
