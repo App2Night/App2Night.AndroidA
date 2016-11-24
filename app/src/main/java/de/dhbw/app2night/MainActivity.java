@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        // display the first navigation drawer view on app launch
+        // display the home fragment view on app launch
         displayView(R.layout.fragment_home);
 
 
@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
+            //TODO: Modifiziertes Back -> Wenn !Home -> HomeFragment, schließe sonst
             super.onBackPressed();
         }
     }

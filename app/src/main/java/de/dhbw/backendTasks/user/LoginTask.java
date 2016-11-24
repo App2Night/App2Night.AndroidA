@@ -1,5 +1,6 @@
 package de.dhbw.backendTasks.user;
 
+import android.app.Fragment;
 import android.content.Intent;
 import android.os.AsyncTask;
 
@@ -17,13 +18,15 @@ public class LoginTask extends AsyncTask<Void, Void, Boolean> {
 
     private final String mEmail;
     private final String mPassword;
-    private final LoginActivity loginActivity;
+    private final Login fragment;
 
-    public LoginTask(String email, String password, LoginActivity la) {
+    public LoginTask(String email, String password, Login fragment) {
         mEmail = email;
         mPassword = password;
-        loginActivity=la;
+        this.fragment = fragment;
+        this.execute();
     }
+
 
     @Override
     protected Boolean doInBackground(Void... params) {
@@ -32,24 +35,16 @@ public class LoginTask extends AsyncTask<Void, Void, Boolean> {
 
     @Override
     protected void onPostExecute(final Boolean success) {
-        loginActivity.setmAuthTask(null);
-        loginActivity.showProgress(false);
-
         if (success) {
-            Intent mainActivityIntent = new Intent(loginActivity, MainActivity.class);
-            loginActivity.finish();
-            loginActivity.startActivity(mainActivityIntent);
-
+            fragment.onSuccessLogin();
         } else {
-            loginActivity.getmPasswordView().setError(loginActivity.getString(R.string.error_incorrect_password));
-            loginActivity.getmPasswordView().requestFocus();
+            fragment.onFailLogin();
         }
     }
 
     @Override
     protected void onCancelled() {
-        loginActivity.setmAuthTask(null);
-        loginActivity.showProgress(false);
+        fragment.onCancelLogin();
     }
 }
 
