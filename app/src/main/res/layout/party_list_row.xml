@@ -1,36 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="match_parent" android:layout_height="205dp"
+android:paddingLeft="10dp"
+android:paddingRight="10dp"
+android:paddingTop="3dp"
+android:background="#e0e0e0"
+android:clickable="true"
+android:focusable="true"
+    >
+
+
+<ImageView
     android:layout_width="match_parent"
+    android:layout_height="75dp"
+    android:layout_alignParentTop="true"
+    android:src="@drawable/placeholderbanner"
+    android:layout_alignParentEnd="true"
+    android:id="@+id/banner" />
+
+<TextView
+    android:text="Das ist der Veranstaltungsname"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:focusable="true"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    android:paddingTop="10dp"
-    android:paddingBottom="10dp"
-    android:clickable="true"
-    android:background="?android:attr/selectableItemBackground"
-    android:orientation="vertical">
+    android:layout_marginBottom="10dp"
+    android:layout_below="@+id/banner"
+    android:id="@+id/title"
+    android:layout_alignParentEnd="true"
+    android:layout_alignParentStart="true"
+    android:textAlignment="center"
+    android:textStyle="bold"
+    />
 
-    <TextView
-        android:id="@+id/title"
-        android:textColor="@color/colorPrimary"
-        android:textSize="16dp"
-        android:textStyle="bold"
-        android:layout_alignParentTop="true"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+<TextView
+    android:text="Das ist der Veranstaltungsort"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="3dp"
+    android:layout_below="@+id/title"
+    android:id="@+id/location"
+    android:layout_alignParentEnd="true"
+    android:layout_alignParentStart="true"
+    android:textAlignment="center" />
 
-    <TextView
-        android:id="@+id/genre"
-        android:layout_below="@id/title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+<TextView
+    android:text="Das ist der Veranstalter"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="3dp"
+    android:id="@+id/organizer"
+    android:layout_below="@+id/location"
+    android:layout_alignParentStart="true"
+    android:layout_alignParentEnd="true"
+    android:textAlignment="center" />
 
-    <TextView
-        android:id="@+id/year"
-        android:textColor="@color/colorAccent"
-        android:layout_width="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_height="wrap_content" />
+<TextView
+    android:text="Das ist der Veranstaltungseintritt"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="3dp"
+    android:layout_below="@+id/organizer"
+    android:id="@+id/price"
+    android:layout_alignParentEnd="true"
+    android:layout_alignParentStart="true"
+    android:textAlignment="center" />
+
+<TextView
+    android:text="Das ist der Veranstaltungszeitpunkt"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="3dp"
+    android:layout_below="@+id/price"
+    android:id="@+id/date"
+    android:layout_alignParentEnd="true"
+    android:layout_alignParentStart="true"
+    android:textAlignment="center" />
+
+<View
+    android:layout_width="match_parent"
+    android:layout_height="3dp"
+    android:background="#FFFFFF"
+    android:layout_below="@id/date"
+    android:layout_marginTop="5dp"></View>
+
 
 </RelativeLayout>

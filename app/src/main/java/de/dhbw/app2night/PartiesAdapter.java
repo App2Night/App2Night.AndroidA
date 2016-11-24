@@ -18,13 +18,15 @@ public class PartiesAdapter extends RecyclerView.Adapter<PartiesAdapter.MyViewHo
     private List<Party> partyList;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView title, year, genre;
+        public TextView title, date, location, organizer, price;
 
         public MyViewHolder(View view) {
             super(view);
             title = (TextView) view.findViewById(R.id.title);
-            genre = (TextView) view.findViewById(R.id.genre);
-            year = (TextView) view.findViewById(R.id.year);
+            date = (TextView) view.findViewById(R.id.date);
+            location = (TextView) view.findViewById(R.id.location);
+            organizer = (TextView) view.findViewById(R.id.organizer);
+            price = (TextView) view.findViewById(R.id.price);
         }
     }
 
@@ -44,9 +46,13 @@ public class PartiesAdapter extends RecyclerView.Adapter<PartiesAdapter.MyViewHo
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Party party = partyList.get(position);
+
         holder.title.setText(party.getPartyName());
-        holder.genre.setText(Integer.toString(party.getPartyType()));
-        holder.year.setText(party.getPartyDate());
+        holder.date.setText(party.getPartyDate());
+        holder.location.setText(party.getLocation().getCityName() + ',' + party.getLocation().getStreetName() + ' ' + party.getLocation().getHouseNumber());
+        holder.organizer.setText(party.getHost().getUserName());
+        holder.price.setText( Integer.toString(party.getPrice()));
+
     }
 
     @Override
