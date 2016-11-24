@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.util.Properties;
 
 import de.dhbw.backendTasks.party.ApiPartyTask;
+import de.dhbw.backendTasks.userparty.ApiUserPartyTask;
+import de.dhbw.backendTasks.userparty.CommitmentStateTask;
 import de.dhbw.exceptions.NoTokenFoundException;
 
 /**
@@ -100,5 +102,10 @@ public class PropertyUtil {
     public  void init(ApiPartyTask apt) {
         Properties props =  getProperties();
         apt.setUrl(props.getProperty("app2night.api.url.party"));
+    }
+
+    public void init(ApiUserPartyTask upt) {
+        Properties props = getProperties();
+        upt.setUrl(props.getProperty("app2night.api.url.userparty"));
     }
 }

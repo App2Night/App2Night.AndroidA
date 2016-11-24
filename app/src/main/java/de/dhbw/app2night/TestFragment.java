@@ -20,17 +20,22 @@ import de.dhbw.backendTasks.party.GetPartyListTask;
 import de.dhbw.backendTasks.party.PostParty;
 import de.dhbw.backendTasks.party.PostPartyTask;
 import de.dhbw.backendTasks.user.RegisterUserTask;
+import de.dhbw.backendTasks.userparty.CommitmentState;
+import de.dhbw.backendTasks.userparty.CommitmentStateTask;
+import de.dhbw.backendTasks.userparty.PartyRating;
+import de.dhbw.backendTasks.userparty.PartyRatingTask;
 import de.dhbw.exceptions.IllegalKeyException;
 import de.dhbw.model.Location;
 import de.dhbw.model.Party;
 import de.dhbw.model.PartyDisplay;
+import de.dhbw.model.Rating;
 import de.dhbw.utils.SettingsUtil;
 
 /**
  * Created by Flo on 02.11.2016.
  */
 
-public class TestFragment extends Fragment implements View.OnClickListener, DeletePartyById, GetPartyList, PostParty, GetMyPartyList{
+public class TestFragment extends Fragment implements View.OnClickListener, DeletePartyById, GetPartyList, PostParty, GetMyPartyList, CommitmentState, PartyRating {
     public TextView viewStatus;
     private Button buttonGet, buttonPost, buttonPut, buttonDelete, buttonSettings, buttonRegister;
 
@@ -116,7 +121,6 @@ public class TestFragment extends Fragment implements View.OnClickListener, Dele
                 l.setCityName("Horb am Neckar");
                 l.setStreetName("Florianstraße");
                 l.setHouseNumber("12");
-                l.setHouseNumberAdditional("");
                 l.setZipcode("72160");
                 l.setLatitude(0);
                 l.setLongitude(0);
@@ -127,6 +131,8 @@ public class TestFragment extends Fragment implements View.OnClickListener, Dele
 
                 break;
             case R.id.main_button_put:
+                new CommitmentStateTask(this,"bla",1);
+                new PartyRatingTask(this,"bla",new Rating(1,1,-1,0));
 
                 break;
             case R.id.main_button_delete:
@@ -175,6 +181,26 @@ public class TestFragment extends Fragment implements View.OnClickListener, Dele
 
     @Override
     public void onFailGetMyPartyList() {
+
+    }
+
+    @Override
+    public void onSuccessCommitmentState() {
+
+    }
+
+    @Override
+    public void onFailCommitmentState() {
+
+    }
+
+    @Override
+    public void onSuccessPartyRating() {
+
+    }
+
+    @Override
+    public void onFailPartyRating() {
 
     }
 }

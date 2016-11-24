@@ -186,7 +186,6 @@ public class RestBackendCommunication {
                     TokenUtil.getInstance().saveTokenAwnser(token);
                    return true;
                } else {
-                   //Antwort nicht ok
                     return false;
                }
             } catch (IOException e) {
@@ -263,45 +262,6 @@ public class RestBackendCommunication {
         }
     }
 
-  /*  public boolean saveUserId() throws IOException, BackendCommunicationException, NetworkUnavailableException {
-        InputStream is = null;
-        String jStringFromServer;
-        Context context = ContextManager.getInstance().getContext();
-        ConnectivityManager connMgr = (ConnectivityManager)
-                context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-        if (networkInfo != null && networkInfo.isConnected()) {
-            try {
-                String myurl;
-                myurl = PropertyUtil.getInstance().getUserInfoUrl();
-                URL url = new URL(myurl);
-                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                conn.setReadTimeout(10000);
-                conn.setConnectTimeout(15000);
-                conn.setRequestMethod("GET");
-                conn.setDoInput(true);
-                conn.connect();
-                int response = conn.getResponseCode();
-                if (response == HttpURLConnection.HTTP_OK) {
-                    is = conn.getInputStream();
-                    BufferedReader br = new BufferedReader(new InputStreamReader(is));
-                    jStringFromServer = br.readLine();
-                    br.close();
-                    return false;
-                } else {
-                    throw new BackendCommunicationException(Integer.toString(response));
-                }
-            } finally {
-                //Stream schließen
-                if (is != null) {
-                    is.close();
-                }
-            }
-        } else {
-            //Netzwerk nicht verbunden
-            throw new NetworkUnavailableException("Network not connected");
-        }
-    }*/
 
     /**
      * Führt einen Get-Request an die URL aus und gibt den Body der Serverantwort zurück.
@@ -429,6 +389,7 @@ public class RestBackendCommunication {
                 conn.setConnectTimeout(15000 /* milliseconds */);
                 conn.setRequestMethod("PUT");
                 conn.setDoInput(true);
+                conn.setDoOutput(true);
                 os = conn.getOutputStream();
                 BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os));
                 bw.write(jString);

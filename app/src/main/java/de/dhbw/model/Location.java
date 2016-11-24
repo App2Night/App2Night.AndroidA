@@ -89,7 +89,6 @@ public class Location {
         this.Longitude = longitude;
     }
 
-
 }
 
 
