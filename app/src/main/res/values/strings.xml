@@ -13,6 +13,7 @@
     <string name="action_addevent">Veranstaltung erstellen</string>
     <string name="action_findevent">Veranstaltung finden</string>
     <string name="action_profile">Profil</string>
+    <string name="action_contact">Kontakt</string>
     <string name="action_test">Test</string>
 
     <string name="title_home">HomeFragment</string>

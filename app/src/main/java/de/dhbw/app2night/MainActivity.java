@@ -102,6 +102,9 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_profile:
                 displayView(R.layout.fragment_profile);
                 break;
+            case R.id.nav_contact:
+                //TODO: Display View for Fragment_Contact
+                break;
             case R.id.nav_settings:
                 displayView(R.layout.fragment_settings);
                 break;
