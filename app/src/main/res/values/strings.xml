@@ -59,4 +59,13 @@
     <!--Strings related to AddEvent-->
     <string name="addevent_button_ok">Ok</string>
 
+    <!--Strings related to ContactFragment-->
+    <string name="contact_opening">Sofern Sie Fragen oder Rückmeldungen zu dieser App / zu diesem Dienst haben, zögern Sie nicht uns diese mitzuteilen. Wir würden uns freuen, von Ihnen zu hören.</string>
+    <string name="contact_name">Ihr Name: </string>
+    <string name="contact_name_hint">Hier bitte Ihren Namen eingeben</string>
+    <string name="contact_mail">Ihre E-Mail Adresse: </string>
+    <string name="contact_mail_hint">Hier bitte Ihre E-Mail Adresse eingeben</string>
+    <string name="contact_message">Ihre Nachricht: </string>
+    <string name="contact_message_hint">Hier bitte Ihre Nachricht eingeben</string>
+    <string name="contact_button">Abschicken</string>
 </resources>

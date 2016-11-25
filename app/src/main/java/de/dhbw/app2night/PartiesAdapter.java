@@ -49,7 +49,7 @@ public class PartiesAdapter extends RecyclerView.Adapter<PartiesAdapter.MyViewHo
 
         holder.title.setText(party.getPartyName());
         holder.date.setText(party.getPartyDate());
-        holder.location.setText(party.getLocation().getCityName() + ',' + party.getLocation().getStreetName() + ' ' + party.getLocation().getHouseNumber());
+        holder.location.setText(party.getLocation().getCityName() + ", " + party.getLocation().getStreetName() + ' ' + party.getLocation().getHouseNumber());
         holder.organizer.setText(party.getHost().getUserName());
         holder.price.setText( Integer.toString(party.getPrice()));
 

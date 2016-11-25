@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
+import android.widget.EditText;
 
 /**
  * Created by robin on 24.11.2016.
@@ -19,6 +21,8 @@ import android.view.animation.AnimationUtils;
 
 public class ContactFragment extends Fragment {
 
+    Button einreichen;
+    EditText name, mail, message;
     FloatingActionButton fab_plus, fab_facebook, fab_twitter, fab_googleplus, fab_vimeo, fab_instagram;
     Animation FabOpen,FabClose,FabRClockwise, FabRAntiClockwise;
     boolean isOpen = false;
@@ -28,6 +32,23 @@ public class ContactFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_contact, container, false);
 
+
+        name = (EditText) v.findViewById(R.id.contact_name);
+        mail = (EditText) v.findViewById(R.id.contact_mail);
+        message = (EditText) v.findViewById(R.id.contact_message);
+
+
+        einreichen = (Button) v.findViewById(R.id.contact_send);
+        einreichen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                /*name.getText();
+                mail.getText();
+                message.getText();*/
+
+                //TODO: Implementieren des Abschickens
+            }
+        });
 
 
         fab_plus = (FloatingActionButton) v.findViewById(R.id.fab_plus);
