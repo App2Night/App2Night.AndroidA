@@ -11,4 +11,9 @@
 
     <dimen name="profile_width">75dp</dimen>
     <dimen name="profile_height">75dp</dimen>
+
+    <dimen name="margin_standard">20dp</dimen>
+
+    <dimen name="text_view_headline">36sp</dimen>
+    <dimen name="text_view_normal">20sp</dimen>
 </resources>
