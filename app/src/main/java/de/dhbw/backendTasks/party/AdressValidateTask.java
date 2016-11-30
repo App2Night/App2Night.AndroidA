@@ -17,6 +17,10 @@ import de.dhbw.utils.PropertyUtil;
  * Created by Tobias Berner on 20.11.2016.
  */
 
+/**
+ * Dieser AsyncTask dient der Validierung einer Adresse gegenüber dem Backend.
+ * Der Task wird mit dem Konstruktor erzeugt und dann automatisch gestartet.
+ */
 public class AdressValidateTask extends AsyncTask<Void, Void, Boolean> implements ApiPartyTask {
 
     //Initialisert von PropertyUtil

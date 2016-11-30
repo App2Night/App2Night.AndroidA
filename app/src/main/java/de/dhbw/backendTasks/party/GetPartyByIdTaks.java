@@ -18,6 +18,10 @@ import de.dhbw.utils.PropertyUtil;
  * Created by Tobias Berner on 20.10.2016.
  */
 
+/**
+ * Dieser AsyncTask dient dazu eine existierende Party anhand der ID abzufragen.
+ * Der Task wird mit dem Konstruktor erzeugt und dann automatisch gestartet.
+ */
 public class GetPartyByIdTaks extends AsyncTask<Void, Void, String> implements ApiPartyTask{
 
     //Initialisert von PropertyUtil

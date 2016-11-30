@@ -15,6 +15,12 @@ import de.dhbw.utils.PropertyUtil;
  * Created by Tobias Berner on 20.10.2016.
  */
 
+
+
+/**
+ * Dieser AsyncTask dient dazu eine bestehende Party zu löschen.
+ * Der Task wird mit dem Konstruktor erzeugt und dann automatisch gestartet.
+ */
 public class DeletePartyByIdTask extends AsyncTask<Void,Void,Boolean> implements ApiPartyTask {
 
     //Initialisert von PropertyUtil

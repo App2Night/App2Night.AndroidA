@@ -270,7 +270,7 @@ public class LoginFragment extends Fragment implements LoaderManager.LoaderCallb
     private boolean isEmailValid(String email) {
         //TODO: Replace this with your own logic
         return true;
-        //return PruefungBenutzereingabe.getInstance().acceptEmail(email);
+        //return CheckUserInput.getInstance().acceptEmail(email);
     }
 
     private boolean isPasswordValid(String password) {

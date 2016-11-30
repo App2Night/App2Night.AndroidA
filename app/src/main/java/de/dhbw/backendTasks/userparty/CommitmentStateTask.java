@@ -30,7 +30,7 @@ public class CommitmentStateTask extends AsyncTask<Void,Void,Boolean> implements
 
     public CommitmentStateTask(CommitmentState commitmentState, String partyId, int commitmentStateValue){
         this.commitmentStateValue = commitmentStateValue;
-        this.partyId = "c7f34bf4-770c-4764-34df-08d4145d2b3c";//partyId;
+        this.partyId = "81a93271-591b-4b72-1bc5-08d4193d1de2";//partyId;
         this.commitmentState=commitmentState;
         prepare();
     }

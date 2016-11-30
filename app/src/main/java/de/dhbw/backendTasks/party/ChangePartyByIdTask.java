@@ -14,6 +14,11 @@ import de.dhbw.utils.PropertyUtil;
  * Created by Tobias Berner on 20.10.2016.
  */
 
+
+/**
+ * Dieser AsyncTask dient dazu eine bereits bestehende Party zu verändern.
+ * Der Task wird mit dem Konstruktor erzeugt und dann automatisch gestartet.
+ */
 public class ChangePartyByIdTask extends AsyncTask<Void, Void, Boolean> implements ApiPartyTask{
 
 
@@ -51,7 +56,6 @@ public class ChangePartyByIdTask extends AsyncTask<Void, Void, Boolean> implemen
                 String id = partyDisplay.getPartyId();
                 partyDisplay.setPartyId(null);
                 String jString = new Gson().toJson(partyDisplay);
-
                 return RestBackendCommunication.getInstance().putRequest(buildPutUrl(id), jString);
         } catch (IOException e) {
             return false;

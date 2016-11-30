@@ -19,6 +19,10 @@ import de.dhbw.utils.PropertyUtil;
  * Created by Tobias Berner on 20.10.2016.
  */
 
+/**
+ * Dieser AsyncTask dient dazu eine Party im Backend anzulegen.
+ * Der Task wird mit dem Konstruktor erzeugt und dann automatisch gestartet.
+ */
 public class PostPartyTask extends AsyncTask<Void,Void,Party> implements ApiPartyTask {
     //Initialisert von PropertyUtil
     private String url;

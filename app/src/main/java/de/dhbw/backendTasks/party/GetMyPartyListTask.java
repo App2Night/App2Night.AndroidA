@@ -20,6 +20,10 @@ import static android.os.Looper.prepare;
  * Created by Tobias Berner on 22.11.2016.
  */
 
+/**
+ * Dieser AsyncTask dient dazu die Liste aller Partys zu erhalten, bei denen man enweder vorgemerkt ist oder teilnimmt.
+ * Der Task wird mit dem Konstruktor erzeugt und dann automatisch gestartet.
+ */
 public class GetMyPartyListTask extends AsyncTask<Void, Void, String> implements ApiPartyTask {
 
     //Wird initialisiert durch PropertyUtil

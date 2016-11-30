@@ -18,6 +18,11 @@ import de.dhbw.utils.PropertyUtil;
  * Created by Tobias Berner on 21.10.2016.
  */
 
+
+/**
+ * Dieser AsyncTask dient dazu eine Liste in Abhängigkeit von bestimmten Koordinaten abzufragen.
+ * Der Task wird mit dem Konstruktor erzeugt und dann automatisch gestartet.
+ */
 public class GetPartyListTask extends AsyncTask<Void, Void, String> implements ApiPartyTask {
 
     //Initialisert von PropertyUtil
@@ -53,7 +58,7 @@ public class GetPartyListTask extends AsyncTask<Void, Void, String> implements A
         try {
                 return RestBackendCommunication.getInstance().getRequest(buildUrl());
         } catch (IOException e) {
-            return "Unable to retrieve web page. URL may be invalid.";
+           e.printStackTrace();
         } catch (BackendCommunicationException e) {
             e.printStackTrace();
         } catch (NetworkUnavailableException e) {

@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity
                 displayView(R.layout.fragment_settings);
                 break;
             case R.id.nav_test:
-                displayView(R.layout.fragment_detail_view);
+                displayView(R.layout.fragment_test);
                 break;
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -148,8 +148,10 @@ public class MainActivity extends AppCompatActivity
             case R.layout.fragment_contact:
                 fragment = new ContactFragment();
                 title = getString(R.string.title_contact);
+                break;
             case R.layout.fragment_detail_view:
                 fragment = new DetailFragment();
+                break;
             default:
                 break;
         }
