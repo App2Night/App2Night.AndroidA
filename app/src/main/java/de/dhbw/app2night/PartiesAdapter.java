@@ -16,6 +16,16 @@ import de.dhbw.model.Party;
 
 public class PartiesAdapter extends RecyclerView.Adapter<PartiesAdapter.MyViewHolder> {
     private List<Party> partyList;
+    private OnItemClickListener itemListener;
+
+    public PartiesAdapter(List<Party> partyList, OnItemClickListener itemListener) {
+        this.partyList = partyList;
+        this.itemListener = itemListener;
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(Party party);
+    }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView title, date, location, organizer, price;
@@ -28,11 +38,14 @@ public class PartiesAdapter extends RecyclerView.Adapter<PartiesAdapter.MyViewHo
             organizer = (TextView) view.findViewById(R.id.organizer);
             price = (TextView) view.findViewById(R.id.price);
         }
-    }
 
-
-    public PartiesAdapter(List<Party> partyList) {
-        this.partyList = partyList;
+        public void bind(final Party party, final OnItemClickListener listener) {
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override public void onClick(View v) {
+                    listener.onItemClick(party);
+                }
+            });
+        }
     }
 
     @Override
@@ -52,6 +65,7 @@ public class PartiesAdapter extends RecyclerView.Adapter<PartiesAdapter.MyViewHo
         holder.location.setText(party.getLocation().getCityName() + ", " + party.getLocation().getStreetName() + ' ' + party.getLocation().getHouseNumber());
         holder.organizer.setText(party.getHost().getUserName());
         holder.price.setText( Integer.toString(party.getPrice()));
+        holder.bind(partyList.get(position), itemListener);
 
     }
 

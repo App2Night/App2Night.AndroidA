@@ -1,7 +1,6 @@
 package de.dhbw.app2night;
 
 import android.app.Fragment;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.app.FragmentManager;
@@ -14,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import de.dhbw.model.Party;
 import de.dhbw.utils.ContextManager;
 
 
@@ -22,7 +22,7 @@ import de.dhbw.utils.ContextManager;
  */
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener{
+        implements NavigationView.OnNavigationItemSelectedListener, HomeFragment.OnItemClickListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -158,7 +158,7 @@ public class MainActivity extends AppCompatActivity
         if (fragment != null) {
             FragmentManager fragmentManager = getFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.container_body, fragment);
+            fragmentTransaction.replace(R.id.main_container_body, fragment);
             fragmentTransaction.commit();
 
             // set the toolbar title
@@ -166,4 +166,16 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    @Override
+    public void onClick(Party party) {
+        Fragment fragment = new DetailFragment();
+        Bundle args = new Bundle();
+        args.putSerializable(DetailFragment.ARG_PARTY, party);
+        fragment.setArguments(args);
+
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.main_container_body, fragment).addToBackStack("home");
+        fragmentTransaction.commit();
+    }
 }
