@@ -48,7 +48,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
             mCallback = (OnRegisterButtonClickListener) getActivity();
         } catch (ClassCastException e) {
             throw new ClassCastException(getActivity().toString()
-                    + " must implement OnHeadlineSelectedListener");
+                    + " must implement OnRegisterButtonListener");
         }
 
     }
@@ -58,8 +58,6 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_register, container, false);
         initializeViews();
-
-
 
         // Inflate the layout for this fragment
         return rootView;
