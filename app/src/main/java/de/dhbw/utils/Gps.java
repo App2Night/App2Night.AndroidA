@@ -1,8 +1,11 @@
 package de.dhbw.utils;
+
 import android.content.Context;
 import android.location.Location;
 import android.location.LocationManager;
+
 import java.util.List;
+
 import de.dhbw.exceptions.GPSUnavailableException;
 
 /**
@@ -22,6 +25,12 @@ public class Gps {
         return gps;
     }
 
+    /**
+     * Gibt die aktuelle GPS Position zurück.
+     *
+     * @return Array mit 2 Weten. Der erste Wert ist die Latitude, der zweite die Longtitude
+     * @throws GPSUnavailableException - falls die GPS Koordinaten aus irgendeinem Grund nicht abgefragt werden können
+     */
     public double[] getGPSCoordinates () throws GPSUnavailableException {
         // Acquire a reference to the system Location Manager
         double[] rueckgabe;

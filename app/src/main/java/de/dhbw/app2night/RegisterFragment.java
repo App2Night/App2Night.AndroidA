@@ -12,7 +12,7 @@ import android.widget.EditText;
 
 import de.dhbw.backendTasks.user.Register;
 import de.dhbw.backendTasks.user.RegisterUserTask;
-import de.dhbw.utils.CheckUserInput;
+import de.dhbw.utils.CheckUserInputRegister;
 
 /**
  * Created by Flo on 27.10.2016.
@@ -108,17 +108,17 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
             editTextPassword2.setError("Eingegebene Passwörter stimmen nicht überein, bitte Passwort korrekt wiederholen.");
             tilPassword2.setError("Passwort wiederholen");
         }
-        if(!CheckUserInput.getInstance().acceptPassword(pw)){
+        if(!CheckUserInputRegister.getInstance().acceptPassword(pw)){
             korrekteEingabe = false;
             editTextPassword1.setError("Das Passwort muss zwischen 5 und 30 Stellen haben.");
             tilPassword1.setError("Passwort");
         }
-        if(!CheckUserInput.getInstance().acceptEmail(email)){
+        if(!CheckUserInputRegister.getInstance().acceptEmail(email)){
             korrekteEingabe = false;
             editTextEmail.setError("Keine gültige Email eingegeben.");
             tilEmail.setError("E-Mail");
         }
-        if(!CheckUserInput.getInstance().acceptNickname(userName)){
+        if(!CheckUserInputRegister.getInstance().acceptNickname(userName)){
             korrekteEingabe=false;
             editTextUserName.setError("Eingegebener Benutzername wird nicht akzeptiert.");
             tilUserName.setError("Benutzername");

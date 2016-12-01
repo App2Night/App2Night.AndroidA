@@ -12,6 +12,7 @@ import de.dhbw.exceptions.NetworkUnavailableException;
 import de.dhbw.exceptions.NoTokenFoundException;
 import de.dhbw.exceptions.RefreshTokenFailedException;
 import de.dhbw.model.Party;
+import de.dhbw.utils.GetPartyListSave;
 import de.dhbw.utils.PropertyUtil;
 
 /**
@@ -75,6 +76,7 @@ public class GetPartyListTask extends AsyncTask<Void, Void, String> implements A
     protected void onPostExecute(String result) {
         if (result != null) {
             Party[] parties = new Gson().fromJson(result, Party[].class);
+            GetPartyListSave.getInstance().storeList(parties);
             fragment.onSuccessGetPartyList(parties);
         }
     }

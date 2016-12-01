@@ -1,13 +1,13 @@
 package de.dhbw.utils;
 
 import android.content.res.AssetManager;
-import java.io.InputStream;
+
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 
 import de.dhbw.backendTasks.party.ApiPartyTask;
 import de.dhbw.backendTasks.userparty.ApiUserPartyTask;
-import de.dhbw.backendTasks.userparty.CommitmentStateTask;
 import de.dhbw.exceptions.NoTokenFoundException;
 
 /**
@@ -25,15 +25,6 @@ public class PropertyUtil {
             pu = new PropertyUtil();
         return pu;
 
-    }
-
-
-
-    public String getBodyOfGetToken (String username, String password){
-        Properties props =  getProperties();
-        String body = props.getProperty("app2night.token.get.body");
-        body = "username=" + username + "&password=" + password + "&" + body;
-        return body;
     }
 
     public Properties getProperties(){
@@ -54,6 +45,13 @@ public class PropertyUtil {
                 }
         }
         return properties;
+    }
+
+    public String getBodyOfGetToken (String username, String password){
+        Properties props =  getProperties();
+        String body = props.getProperty("app2night.token.get.body");
+        body = "username=" + username + "&password=" + password + "&" + body;
+        return body;
     }
 
     public String getBodyOfRefreshToken() throws NoTokenFoundException {
@@ -78,14 +76,9 @@ public class PropertyUtil {
         return props.getProperty("app2night.api.url.register");
     }
 
-    public String getUserInfoUrl() {
+    public String getGetPartyListFileName(){
         Properties props = getProperties();
-        return props.getProperty("app2night.api.url.userinfo");
-    }
-
-    public void init(UserUtil userUtil) {
-        Properties props = getProperties();
-        userUtil.setSharedPreferencesName(props.getProperty("app2night.sharedpref.user"));
+        return props.getProperty("app2night.data.getpartylist");
     }
 
     public void init(TokenUtil tokenUtil) {
@@ -108,4 +101,5 @@ public class PropertyUtil {
         Properties props = getProperties();
         upt.setUrl(props.getProperty("app2night.api.url.userparty"));
     }
+
 }

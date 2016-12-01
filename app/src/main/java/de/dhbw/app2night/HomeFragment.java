@@ -17,6 +17,7 @@ import de.dhbw.backendTasks.party.GetPartyList;
 import de.dhbw.backendTasks.party.GetPartyListTask;
 import de.dhbw.exceptions.GPSUnavailableException;
 import de.dhbw.model.Party;
+import de.dhbw.utils.GetPartyListSave;
 import de.dhbw.utils.Gps;
 
 
@@ -51,7 +52,7 @@ public class HomeFragment extends Fragment implements GetPartyList {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(pAdapter);
 
-
+        adaptParties(GetPartyListSave.getInstance().getList());
         try {
             double[] gpsResult = Gps.getInstance().getGPSCoordinates();
             new GetPartyListTask(this,gpsResult[0],gpsResult[1],100);
@@ -80,13 +81,19 @@ public class HomeFragment extends Fragment implements GetPartyList {
 
     }
 
-
-    @Override
-    public void onSuccessGetPartyList(Party[] parties) {
+    private synchronized void adaptParties(Party[] parties){
         for (Party party:parties) {
             partyList.add(party);
         }
         pAdapter.notifyDataSetChanged();
+
+
+    }
+
+
+    @Override
+    public void onSuccessGetPartyList(Party[] parties) {
+       adaptParties(parties);
     }
 
     @Override

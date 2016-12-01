@@ -9,7 +9,6 @@ import org.json.JSONObject;
 import java.io.IOException;
 
 import de.dhbw.BackEndCommunication.RestBackendCommunication;
-import de.dhbw.app2night.MainActivity;
 import de.dhbw.exceptions.BackendCommunicationException;
 import de.dhbw.exceptions.NetworkUnavailableException;
 import de.dhbw.exceptions.NoTokenFoundException;

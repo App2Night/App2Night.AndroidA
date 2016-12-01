@@ -8,14 +8,18 @@ import java.util.regex.Pattern;
  * Created by Tobias Berner on 19.10.2016.
  */
 
-public class CheckUserInput {
 
-    private static CheckUserInput pbe = null;
-    private CheckUserInput(){}
+/**
+ * Die Klasse dient der Validierung von Benutzereingaben beim Registrieren.
+ */
+public class CheckUserInputRegister {
 
-    public static CheckUserInput getInstance(){
+    private static CheckUserInputRegister pbe = null;
+    private CheckUserInputRegister(){}
+
+    public static CheckUserInputRegister getInstance(){
         if (pbe == null)
-            pbe = new CheckUserInput();
+            pbe = new CheckUserInputRegister();
         return pbe;
     }
 

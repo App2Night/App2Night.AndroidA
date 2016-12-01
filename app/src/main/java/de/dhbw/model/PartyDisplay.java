@@ -4,6 +4,11 @@ package de.dhbw.model;
  * Created by Tobias Berner on 13.11.2016.
  */
 
+
+/**
+ * Die Klasse ist eine reduzierte Form einer Party und enthält alle Attribute,
+ * die ein Nutzer beim Erstellen bzw. Bearbeiten angeben kann/muss.
+ */
 public class PartyDisplay {
 
     private String partyId;
@@ -27,8 +32,6 @@ public class PartyDisplay {
     }
 
     public PartyDisplay(){
-
-
     }
 
     public PartyDisplay(Party p){
