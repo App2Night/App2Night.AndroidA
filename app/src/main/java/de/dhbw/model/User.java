@@ -3,6 +3,7 @@ package de.dhbw.model;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.Properties;
 
 import de.dhbw.app2night.MainActivity;
@@ -12,7 +13,7 @@ import de.dhbw.utils.PropertyUtil;
  * Created by Tobias Berner on 02.11.2016.
  */
 
-    public class User {
+    public class User implements Serializable {
 
         private String HostId;
         private String UserName;
