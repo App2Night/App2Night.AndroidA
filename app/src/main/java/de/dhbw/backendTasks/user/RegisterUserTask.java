@@ -1,6 +1,5 @@
 package de.dhbw.backendTasks.user;
 
-import android.content.Context;
 import android.os.AsyncTask;
 
 import java.io.IOException;
@@ -12,6 +11,10 @@ import de.dhbw.exceptions.BackendCommunicationException;
  * Created by Tobias Berner on 14.11.2016.
  */
 
+/**
+ * Dieser AsyncTask dient dazu, einen Nutzer zu registrieren.
+ * Der Task wird mit dem Konstruktor erzeugt und dann automatisch gestartet.
+ */
 public class RegisterUserTask extends AsyncTask<Void, Void, Boolean> {
 
     private final String username;

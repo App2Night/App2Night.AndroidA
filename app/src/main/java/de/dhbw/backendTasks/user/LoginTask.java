@@ -1,19 +1,17 @@
 package de.dhbw.backendTasks.user;
 
-import android.app.Fragment;
-import android.content.Intent;
 import android.os.AsyncTask;
 
 import de.dhbw.BackEndCommunication.RestBackendCommunication;
-import de.dhbw.app2night.LoginActivity;
-import de.dhbw.app2night.MainActivity;
-import de.dhbw.app2night.R;
 
 /**
  * Created by Tobias Berner on 15.11.2016.
  */
 
-
+/**
+ * Dieser AsyncTask dient dazu, einen Nutzer einzuloggen.
+ * Der Task wird mit dem Konstruktor erzeugt und dann automatisch gestartet.
+ */
 public class LoginTask extends AsyncTask<Void, Void, Boolean> {
 
     private final String mEmail;

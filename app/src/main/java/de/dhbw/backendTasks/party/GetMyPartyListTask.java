@@ -14,8 +14,6 @@ import de.dhbw.exceptions.RefreshTokenFailedException;
 import de.dhbw.model.Party;
 import de.dhbw.utils.PropertyUtil;
 
-import static android.os.Looper.prepare;
-
 /**
  * Created by Tobias Berner on 22.11.2016.
  */

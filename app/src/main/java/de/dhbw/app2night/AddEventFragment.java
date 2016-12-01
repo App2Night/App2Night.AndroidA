@@ -22,8 +22,6 @@ import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
-import org.w3c.dom.Text;
-
 import java.util.Calendar;
 
 import de.dhbw.backendTasks.party.AdressValidate;

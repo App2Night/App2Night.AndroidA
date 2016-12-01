@@ -1,7 +1,11 @@
 package de.dhbw.backendTasks.party;
+
 import android.os.AsyncTask;
+
 import com.google.gson.Gson;
+
 import java.io.IOException;
+
 import de.dhbw.BackEndCommunication.RestBackendCommunication;
 import de.dhbw.exceptions.BackendCommunicationException;
 import de.dhbw.exceptions.NetworkUnavailableException;

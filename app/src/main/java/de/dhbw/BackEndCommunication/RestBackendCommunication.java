@@ -2,9 +2,7 @@ package de.dhbw.BackEndCommunication;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-
 import com.google.gson.Gson;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.BufferedReader;
@@ -15,9 +13,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
-import de.dhbw.app2night.MainActivity;
 import de.dhbw.exceptions.BackendCommunicationException;
 import de.dhbw.exceptions.NetworkUnavailableException;
 import de.dhbw.exceptions.NoTokenFoundException;
@@ -51,7 +47,19 @@ public class RestBackendCommunication {
         return false;
     }
 
-
+    /**
+     *
+     * Überprüft, ob die eingegebene Adresse gültig ist.
+     *
+     * @param myurl - URL an der abgeprüft werden soll, ob es die Adresse gitb
+     * @param location - Adresse
+     * @return true, wenn Adresse gültig ist; false sonst
+     * @throws RefreshTokenFailedException - Der Token konnte nicht erneuert werden
+     * @throws NoTokenFoundException - Der Token konnte nicht abgefragt werden
+     * @throws NetworkUnavailableException - Wenn keine Internetverbindung besteht
+     * @throws IOException - Wenn bei dem Zugriff auf den Input oder Output Stream ein Fehler auftritt
+     * @throws BackendCommunicationException -  Wenn post Request fehlschlägt
+     */
     public boolean validateAdress(String myurl, Location location) throws IOException, RefreshTokenFailedException, NoTokenFoundException, BackendCommunicationException, NetworkUnavailableException {
         InputStream is = null;
         OutputStream os = null;
@@ -98,119 +106,6 @@ public class RestBackendCommunication {
     }
 
     /**
-     *
-     * @param username Benutzername
-     * @param password  Passwort
-     * @param email     Email
-     * @return  true, wenn anlegen funktioniert hat
-     * @throws IOException - Wenn bei dem Zugriff auf den Input Stream ein Fehler auftritt
-     * @throws BackendCommunicationException - Wenn Request fehlschlägt
-     */
-    public boolean register(String username, String password, String email) throws IOException, BackendCommunicationException {
-        OutputStream os = null;
-        ConnectivityManager connMgr = (ConnectivityManager)
-                ContextManager.getInstance().getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-        if (networkInfo != null && networkInfo.isConnected()) {
-            String myurl = PropertyUtil.getInstance().getRegisterUrl();
-            String jString;
-            try {
-                JSONObject jObj = new JSONObject();
-                jObj.put("username",username);
-                jObj.put("password",password);
-                jObj.put("email",email);
-                jString = jObj.toString();
-            } catch (JSONException e) {
-                e.printStackTrace();
-                return false;
-            }
-            URL url = new URL(myurl);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestProperty("Content-Type", "application/json");
-            conn.setRequestMethod("POST");
-            conn.setDoInput(true);
-            conn.setDoOutput(true);
-            os = conn.getOutputStream();
-            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os));
-            bw.write(jString);
-            bw.flush();
-            bw.close();
-            conn.connect();
-            int response = conn.getResponseCode();
-            if (response == HttpURLConnection.HTTP_CREATED) {
-                return true;
-            }
-            else
-                throw new BackendCommunicationException(Integer.toString(response));
-        } else {
-            //Netzwerk nicht verbunden
-            return false;
-        }
-
-    }
-
-    /**
-     * Ruft TokenUtil von Server ab.
-     *
-     * @return Json, welches unter anderem TokenUtil und Refresh TokenUtil enthält
-     * @throws IOException - Wenn bei dem Zugriff auf den Input Stream ein Fehler auftritt
-     * @throws BackendCommunicationException - Wenn Request fehlschlägt
-     * @throws NetworkUnavailableException - Wenn keine Internetverbindung besteht
-     * @throws NoTokenFoundException - Wenn kein TokenUtil zur Authentifizierung gefunden wird
-     */
-    public boolean login(String username, String password) {
-        InputStream is = null;
-        OutputStream os = null;
-        String token;
-        if (networkAvailable()) {
-            try {
-                String myurl = PropertyUtil.getInstance().getTokenUrl();
-                String body = PropertyUtil.getInstance().getBodyOfGetToken(username,password);
-                URL url = new URL(myurl);
-                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                conn.setRequestMethod("POST");
-                conn.setDoOutput(true);
-                conn.setDoInput(true);
-                os = conn.getOutputStream();
-                BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os));
-                bw.write(body);
-                bw.flush();
-                bw.close();
-                conn.connect();
-                int response = conn.getResponseCode();
-               if (response == HttpURLConnection.HTTP_OK) {
-                    is = conn.getInputStream();
-                    BufferedReader br = new BufferedReader(new InputStreamReader(is));
-                    token = br.readLine();
-                    TokenUtil.getInstance().saveTokenAwnser(token);
-                   return true;
-               } else {
-                    return false;
-               }
-            } catch (IOException e) {
-                return false;
-            } finally {
-                //Stream schließen
-                if (is != null)
-                    try {
-                        is.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                if (os != null)
-                    try {
-                        os.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-            }
-        } else {
-            //Netzwerk nicht verbunden
-            return false;
-        }
-    }
-
-    /**
      * Refresht das TokenUtil.
      *
      * @return true, wenn refresh erfolgreich war
@@ -218,6 +113,7 @@ public class RestBackendCommunication {
      * @throws BackendCommunicationException - Wenn Request fehlschlägt
      * @throws NetworkUnavailableException - Wenn keine Internetverbindung besteht
      * @throws NoTokenFoundException - Wenn kein TokenUtil zur Authentifizierung gefunden wird
+     * @throws NoTokenFoundException - Der Token konnte nicht abgefragt werden
      */
     public Boolean refreshToken () throws BackendCommunicationException, IOException, NetworkUnavailableException, NoTokenFoundException {
         InputStream is = null;
@@ -261,7 +157,6 @@ public class RestBackendCommunication {
         }
     }
 
-
     /**
      * Führt einen Get-Request an die URL aus und gibt den Body der Serverantwort zurück.
      *
@@ -270,6 +165,8 @@ public class RestBackendCommunication {
      * @throws IOException - Wenn bei dem Zugriff auf den Input Stream ein Fehler auftritt
      * @throws BackendCommunicationException - Wenn get Request fehlschlägt
      * @throws NetworkUnavailableException - Wenn keine Internetverbindung besteht
+     * @throws RefreshTokenFailedException - Der Token konnte nicht erneuert werden
+     * @throws NoTokenFoundException - Der Token konnte nicht abgefragt werden
      */
    public String getRequest(String myurl) throws IOException, BackendCommunicationException, NetworkUnavailableException, RefreshTokenFailedException, NoTokenFoundException {
        InputStream is = null;
@@ -317,6 +214,8 @@ public class RestBackendCommunication {
      * @throws NetworkUnavailableException - Wenn keine Internetverbindung besteht
      * @throws IOException - Wenn bei dem Zugriff auf den Input oder Output Stream ein Fehler auftritt
      * @throws BackendCommunicationException -  Wenn post Request fehlschlägt
+     * @throws RefreshTokenFailedException - Der Token konnte nicht erneuert werden
+     * @throws NoTokenFoundException - Der Token konnte nicht abgefragt werden
      */
     public String postRequest(String myurl, String jString) throws NetworkUnavailableException, IOException, BackendCommunicationException, NoTokenFoundException, RefreshTokenFailedException {
         InputStream is = null;
@@ -374,6 +273,8 @@ public class RestBackendCommunication {
      * @throws NetworkUnavailableException - Wenn keine Internetverbindung besteht
      * @throws IOException - Wenn bei dem Zugriff auf den Input oder Output Stream ein Fehler auftritt
      * @throws BackendCommunicationException -  Wenn post Request fehlschlägt
+     * @throws RefreshTokenFailedException - Der Token konnte nicht erneuert werden
+     * @throws NoTokenFoundException - Der Token konnte nicht abgefragt werden
      */
     public boolean putRequest(String myurl, String jString) throws NetworkUnavailableException, IOException, BackendCommunicationException, NoTokenFoundException, RefreshTokenFailedException {
         InputStream is = null;
@@ -424,6 +325,8 @@ public class RestBackendCommunication {
      * @throws NetworkUnavailableException - Wenn keine Internetverbindung besteht
      * @throws IOException - Wenn bei dem Zugriff auf den Input oder Output Stream ein Fehler auftritt
      * @throws BackendCommunicationException -  Wenn post Request fehlschlägt
+     * @throws RefreshTokenFailedException - Der Token konnte nicht erneuert werden
+     * @throws NoTokenFoundException - Der Token konnte nicht abgefragt werden
      */
     public boolean deleteRequest(String myurl) throws NetworkUnavailableException, IOException, BackendCommunicationException, NoTokenFoundException, RefreshTokenFailedException {
         if (networkAvailable()) {
@@ -445,5 +348,120 @@ public class RestBackendCommunication {
             throw new NetworkUnavailableException("Network not connected");
         }
     }
+
+    /**
+     * Dient der Registrierung eines neuen Benutzers beim Backend.
+     *
+     * @param username Benutzername
+     * @param password  Passwort
+     * @param email     Email
+     * @return  true, wenn anlegen funktioniert hat
+     * @throws IOException - Wenn bei dem Zugriff auf den Input Stream ein Fehler auftritt
+     * @throws BackendCommunicationException - Wenn Request fehlschlägt
+     */
+    public boolean register(String username, String password, String email) throws IOException, BackendCommunicationException {
+        OutputStream os = null;
+        ConnectivityManager connMgr = (ConnectivityManager)
+                ContextManager.getInstance().getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnected()) {
+            String myurl = PropertyUtil.getInstance().getRegisterUrl();
+            String jString;
+            try {
+                JSONObject jObj = new JSONObject();
+                jObj.put("username",username);
+                jObj.put("password",password);
+                jObj.put("email",email);
+                jString = jObj.toString();
+            } catch (JSONException e) {
+                e.printStackTrace();
+                return false;
+            }
+            URL url = new URL(myurl);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestProperty("Content-Type", "application/json");
+            conn.setRequestMethod("POST");
+            conn.setDoInput(true);
+            conn.setDoOutput(true);
+            os = conn.getOutputStream();
+            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os));
+            bw.write(jString);
+            bw.flush();
+            bw.close();
+            conn.connect();
+            int response = conn.getResponseCode();
+            if (response == HttpURLConnection.HTTP_CREATED) {
+                return true;
+            }
+            else
+                throw new BackendCommunicationException(Integer.toString(response));
+        } else {
+            //Netzwerk nicht verbunden
+            return false;
+        }
+
+    }
+
+    /**
+     * Ruft Token von Server ab uns speichert ihn für spätere Anfragen.
+     *
+     * @return true, wenn login erfolgreich war; false sonst
+     * @throws IOException - Wenn bei dem Zugriff auf den Input Stream ein Fehler auftritt
+     * @throws BackendCommunicationException - Wenn Request fehlschlägt
+     * @throws NetworkUnavailableException - Wenn keine Internetverbindung besteht
+     * @throws NoTokenFoundException - Wenn kein TokenUtil zur Authentifizierung gefunden wird
+     */
+    public boolean login(String username, String password) {
+        InputStream is = null;
+        OutputStream os = null;
+        String token;
+        if (networkAvailable()) {
+            try {
+                String myurl = PropertyUtil.getInstance().getTokenUrl();
+                String body = PropertyUtil.getInstance().getBodyOfGetToken(username,password);
+                URL url = new URL(myurl);
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setRequestMethod("POST");
+                conn.setDoOutput(true);
+                conn.setDoInput(true);
+                os = conn.getOutputStream();
+                BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os));
+                bw.write(body);
+                bw.flush();
+                bw.close();
+                conn.connect();
+                int response = conn.getResponseCode();
+                if (response == HttpURLConnection.HTTP_OK) {
+                    is = conn.getInputStream();
+                    BufferedReader br = new BufferedReader(new InputStreamReader(is));
+                    token = br.readLine();
+                    TokenUtil.getInstance().saveTokenAwnser(token);
+                    return true;
+                } else {
+                    return false;
+                }
+            } catch (IOException e) {
+                return false;
+            } finally {
+                //Stream schließen
+                if (is != null)
+                    try {
+                        is.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                if (os != null)
+                    try {
+                        os.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+            }
+        } else {
+            //Netzwerk nicht verbunden
+            return false;
+        }
+    }
+
 
 }

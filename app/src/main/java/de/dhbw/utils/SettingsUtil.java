@@ -1,6 +1,8 @@
 package de.dhbw.utils;
+
 import android.content.Context;
 import android.content.SharedPreferences;
+
 import java.util.HashMap;
 import java.util.Map;
 
