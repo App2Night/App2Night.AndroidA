@@ -45,6 +45,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         {
             SeekBarPreference range = (SeekBarPreference) findPreference(key);
             String value = Integer.toString(range.getCurrentValue());
+
             try
             {
                 settingsUtil.putSettingString(key, value);
