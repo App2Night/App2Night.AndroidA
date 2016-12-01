@@ -41,6 +41,11 @@ public class GetPartyListSave {
         return gpls;
     }
 
+    /**
+     * Lädt auf dem Gerät gespeicherte Daten, sofern sie vorlegen
+     *
+     * @return Array der gespeicherten Partys; wenn keine vorliegen leeres Array
+     */
     public Party[] getList(){
         InputStream is = null;
         BufferedReader br = null;
@@ -59,9 +64,10 @@ public class GetPartyListSave {
             Party[] parties = new Party[partyList.size()];
             return partyList.toArray(parties);
         } catch (FileNotFoundException e) {
-           e.printStackTrace();
+            //Geb leeres Party Array zurück, da noch keine gespeicherten Daten vorliegen
+            return new Party[0];
         } catch (IOException e) {
-            e.printStackTrace();
+            return new Party[0];
         }finally{
             if (is != null)
                 try {
@@ -70,9 +76,14 @@ public class GetPartyListSave {
                     e.printStackTrace();
                 }
         }
-        return new Party[0];
+
     }
 
+    /**
+     * Speichert ein Array aus Parties, um sie später wieder mit getListe laden zu können.
+     *
+     * @param parties Array aus Parties, welches gespeichert werden soll
+     */
     public void storeList(Party[] parties){
         OutputStream os = null;
         Gson gson = new Gson();
