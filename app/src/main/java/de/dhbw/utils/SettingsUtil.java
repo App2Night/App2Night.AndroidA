@@ -50,11 +50,12 @@ public class SettingsUtil {
 
 
     public void putSettingString(String key, String value) throws IllegalKeyException {
+        key = key.toLowerCase();
         if(!defaultSettingsStrings.containsKey(key))
             throw new IllegalKeyException(key + "entspricht keinem Settingschlüssel");
 
         SharedPreferences sp = ContextManager.getInstance().getContext().getApplicationContext().getSharedPreferences(sharedPreferencesSettings,Context.MODE_PRIVATE);
-        key = key.toLowerCase();
+
         SharedPreferences.Editor editor = sp.edit();
         editor.putString(key,value);
         editor.commit();

@@ -31,6 +31,7 @@ dependencies {
     compile 'com.google.code.gson:gson:2.2.4'
     compile 'com.wdullaer:materialdatetimepicker:2.5.0'
     compile 'com.android.support:cardview-v7:24.2.1'
+    compile 'com.pavelsikun:material-seekbar-preference:2.3.0+'
     testCompile 'junit:junit:4.12'
     compile 'com.google.android.gms:play-services-maps:9.6.1'
 
