@@ -22,7 +22,7 @@ import de.dhbw.utils.ContextManager;
  */
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, HomeFragment.OnItemClickListener{
+        implements NavigationView.OnNavigationItemSelectedListener, HomeFragment.OnItemClickListener, AddEventFragment.OnPostPartySuccessful{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -177,5 +177,10 @@ public class MainActivity extends AppCompatActivity
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.main_container_body, fragment).addToBackStack("home");
         fragmentTransaction.commit();
+    }
+
+    @Override
+    public void postedPartySuccessful() {
+        displayView(R.layout.fragment_home);
     }
 }
