@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent"
     android:paddingTop="20dp"
     android:paddingRight="10dp"
+    android:id="@+id/swipeRefreshLayout"
     android:background="@color/screen_background"
     android:paddingLeft="10dp"
     android:paddingBottom="20dp">
@@ -14,4 +15,4 @@
         android:layout_height="match_parent"
         android:scrollbars="vertical" />
 
-</RelativeLayout>
+</android.support.v4.widget.SwipeRefreshLayout>
