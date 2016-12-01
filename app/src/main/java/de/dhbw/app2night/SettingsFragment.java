@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import com.pavelsikun.seekbarpreference.SeekBarPreference;
 import com.pavelsikun.seekbarpreference.SeekBarPreferenceCompat;
 
+import de.dhbw.exceptions.IllegalKeyException;
 import de.dhbw.utils.PropertyUtil;
 import de.dhbw.utils.SettingsUtil;
 
@@ -40,12 +41,15 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 
-        if (key.equals("party_range"))
+        if (key.equals("radius"))
         {
             SeekBarPreference range = (SeekBarPreference) findPreference(key);
             String value = Integer.toString(range.getCurrentValue());
-            //settingsUtil.putSettingString(key, value); //TODO: KEY anlgegen
-
+            try
+            {
+                settingsUtil.putSettingString(key, value);
+            }catch(IllegalKeyException e) {
+            }
         }
 
         if (key.equals("gps_preference"))
