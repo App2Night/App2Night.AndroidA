@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -25,24 +26,25 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import de.dhbw.exceptions.GPSUnavailableException;
 import de.dhbw.model.Party;
+import de.dhbw.utils.CustomMapView;
 import de.dhbw.utils.Gps;
 
 /**
  * Created by Bro on 25.11.2016.
  */
 
-public class DetailFragment extends Fragment implements View.OnTouchListener{
+public class DetailFragment extends Fragment{
 
     public static final String ARG_PARTY = "arg_party";
 
     View rootView;
-    MapView mMapView;
+    CustomMapView mMapView;
     private GoogleMap googleMap;
     Gps gps;
     Marker userPosition;
     LatLng pos;
     Party partyToDisplay;
-    TextView partyName;
+    TextView tvPartyName, tvStreetName, tvHouseNumber, tvZipCode, tvCityName, tvCountryName, tvDate, tvTime, tvPartyType, tvMusicGenre, tvDescription;
     ScrollView scrollViewDetailView;
 
     @Override
@@ -56,8 +58,7 @@ public class DetailFragment extends Fragment implements View.OnTouchListener{
         rootView = inflater.inflate(R.layout.fragment_detail_view, container, false);
         scrollViewDetailView = (ScrollView)rootView.findViewById(R.id.detail_view_scrollview_main);
 
-        mMapView = (MapView) rootView.findViewById(R.id.detail_view_mapView);
-        mMapView.setOnTouchListener(this);
+        mMapView = (CustomMapView) rootView.findViewById(R.id.detail_view_mapView);
         mMapView.onCreate(savedInstanceState);
         mMapView.onResume(); // needed to get the map to display immediately
 
@@ -80,13 +81,6 @@ public class DetailFragment extends Fragment implements View.OnTouchListener{
             @Override
             public void onMapReady(GoogleMap mMap) {
                 googleMap = mMap;
-
-                // For showing a move to my location button
-
-                //googleMap.setMyLocationEnabled(true); //TODO: Fixen von setMyLocationEnabled
-
-                // For dropping a marker at a point on the Map
-
                 try{
                     double[] gpsCoords = gps.getGPSCoordinates();
                     pos = new LatLng(gpsCoords[0], gpsCoords[1]);
@@ -104,8 +98,31 @@ public class DetailFragment extends Fragment implements View.OnTouchListener{
     }
 
     private void initializeViews() {
-        partyName = (TextView)rootView.findViewById(R.id.detail_view_text_party_name);
-        partyName.setText(partyToDisplay.getPartyName());
+        tvPartyName = (TextView)rootView.findViewById(R.id.detail_view_text_party_name);
+        tvPartyName.setText(partyToDisplay.getPartyName());
+        tvStreetName = (TextView)rootView.findViewById(R.id.detail_view_text_street_name);
+        tvStreetName.setText(partyToDisplay.getLocation().getStreetName());
+        tvHouseNumber = (TextView)rootView.findViewById(R.id.detail_view_text_house_number);
+        tvHouseNumber.setText(partyToDisplay.getLocation().getHouseNumber());
+        tvZipCode = (TextView)rootView.findViewById(R.id.detail_view_text_zipcode);
+        tvZipCode.setText(partyToDisplay.getLocation().getZipcode());
+        tvCityName = (TextView)rootView.findViewById(R.id.detail_view_text_city_name);
+        tvCityName.setText(partyToDisplay.getLocation().getCityName());
+        tvCountryName = (TextView)rootView.findViewById(R.id.detail_view_text_country_name);
+        tvCountryName.setText(partyToDisplay.getLocation().getCountyName());
+
+        tvDate = (TextView)rootView.findViewById(R.id.detail_view_text_party_date);
+        tvDate.setText(partyToDisplay.getPartyDate());
+        tvTime = (TextView)rootView.findViewById(R.id.detail_view_text_party_time);
+        tvTime.setText(partyToDisplay.getPartyDate());
+
+        tvPartyType = (TextView)rootView.findViewById(R.id.detail_view_text_party_type);
+        tvPartyType.setText(Integer.toString(partyToDisplay.getPartyType()));
+        tvMusicGenre = (TextView)rootView.findViewById(R.id.detail_view_text_music_genre);
+        tvMusicGenre.setText(Integer.toString(partyToDisplay.getMusicGenre()));
+        tvDescription = (TextView)rootView.findViewById(R.id.detail_view_text_description);
+        tvDescription.setText(partyToDisplay.getDescription());
+
     }
 
 
@@ -154,19 +171,5 @@ public class DetailFragment extends Fragment implements View.OnTouchListener{
         alertDialog.show();
     }
 
-    @Override
-    public boolean onTouch(View view, MotionEvent motionEvent) {
-        scrollViewDetailView.requestDisallowInterceptTouchEvent(true);
-
-        int action = motionEvent.getActionMasked();
-
-        switch (action) {
-            case MotionEvent.ACTION_UP:
-                scrollViewDetailView.requestDisallowInterceptTouchEvent(false);
-                break;
-        }
-
-        return false;
-    }
 
 }
