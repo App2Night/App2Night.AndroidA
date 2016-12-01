@@ -71,5 +71,6 @@
     <string name="contact_message_hint">Hier bitte Ihre Nachricht eingeben</string>
     <string name="contact_button">Abschicken</string>
     <string name="detail_view_button_cancel">Absagen</string>
+    <string name="addevent_button_ok">Veranstaltung erstellen</string>
 
 </resources>
