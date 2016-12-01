@@ -1,9 +1,14 @@
 package de.dhbw.model;
+
+import android.os.Parcelable;
+
+import java.io.Serializable;
+
 /**
  * Created by Tobias Berner on 02.11.2016.
  */
 
-    public class Party {
+    public class Party implements Serializable{
 
         private String PartyId;
         private String PartyName;

@@ -1,15 +1,189 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@color/screen_background"
     >
 
-    <TextView
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/profile_header"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.6"
+            android:background="@android:color/darker_gray"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/profile_image"
+                android:src="@drawable/placeholder2"
+                />
+
+        </LinearLayout>
+
+        <ScrollView
+            android:id="@+id/profile_body"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.4"
+            android:background="@color/screen_background"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingLeft="5dp"
+                android:paddingTop="20dp"
+                android:paddingRight="5dp"
+                >
+
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/profile_name"
+                    android:id="@+id/profile_name"
+                    />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/profile_phone"
+                    android:id="@+id/profile_phone"
+                    android:layout_below="@id/profile_name"
+                    android:layout_marginTop="20dp"
+                    />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/profile_mail"
+                    android:id="@+id/profile_mail"
+                    android:layout_below="@id/profile_phone"
+                    android:layout_marginTop="20dp"
+                    />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/profile_adress"
+                    android:id="@+id/profile_adress"
+                    android:layout_below="@id/profile_mail"
+                    android:layout_marginTop="20dp"
+                    />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/profile_description"
+                    android:layout_below="@id/profile_adress"
+                    android:src="@drawable/profile_description"
+                    android:layout_marginTop="20dp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="Hier steht der Profil Name"
+                    android:background="@drawable/shadow_edittext"
+                    android:layout_marginLeft="50dp"
+                    android:layout_toRightOf="@id/profile_name"
+                    android:layout_alignTop="@id/profile_name"
+                    android:layout_alignBottom="@id/profile_name"
+                    android:id="@+id/profile_name_view"
+                    android:layout_alignParentRight="true"
+                    android:shadowColor="@color/mdtp_dark_gray"
+                    android:textAlignment="center"
+                    android:textStyle="normal|italic"
+                    android:textSize="18dp"
+                    android:textAllCaps="false" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="Hier steht die Telefon Nummer"
+                    android:background="@drawable/shadow_edittext"
+                    android:layout_marginLeft="50dp"
+                    android:layout_toRightOf="@id/profile_phone"
+                    android:layout_alignTop="@id/profile_phone"
+                    android:layout_alignBottom="@id/profile_phone"
+                    android:id="@+id/profile_phone_view"
+                    android:layout_alignParentRight="true"
+                    android:shadowColor="@color/mdtp_dark_gray"
+                    android:textAlignment="center"
+                    android:textStyle="normal|italic"
+                    android:textSize="18dp"
+                    android:textAllCaps="false" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="Hier steht die Mail"
+                    android:background="@drawable/shadow_edittext"
+                    android:layout_marginLeft="50dp"
+                    android:id="@+id/profile_mail_view"
+                    android:layout_toRightOf="@id/profile_mail"
+                    android:layout_alignTop="@id/profile_mail"
+                    android:layout_alignBottom="@id/profile_mail"
+                    android:layout_alignParentRight="true"
+                    android:shadowColor="@color/mdtp_dark_gray"
+                    android:textAlignment="center"
+                    android:textStyle="normal|italic"
+                    android:textSize="18dp"
+                    android:textAllCaps="false" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="Hier steht die Adresse"
+                    android:background="@drawable/shadow_edittext"
+                    android:layout_marginLeft="50dp"
+                    android:id="@+id/profile_adress_view"
+                    android:layout_toRightOf="@id/profile_adress"
+                    android:layout_alignTop="@id/profile_adress"
+                    android:layout_alignBottom="@id/profile_adress"
+                    android:layout_alignParentRight="true"
+                    android:shadowColor="@color/mdtp_dark_gray"
+                    android:textAlignment="center"
+                    android:textStyle="normal|italic"
+                    android:textSize="18dp"
+                    android:textAllCaps="false" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="200dp"
+                    android:hint="Hier steht die Beschreibung"
+                    android:background="@drawable/shadow_edittext"
+                    android:layout_marginLeft="50dp"
+                    android:id="@+id/profile_description_view"
+                    android:layout_toRightOf="@id/profile_description"
+                    android:layout_alignTop="@id/profile_description"
+                    android:layout_alignParentRight="true"
+                    android:shadowColor="@color/mdtp_dark_gray"
+                    android:textAlignment="center"
+                    android:textStyle="normal|italic"
+                    android:textSize="18dp"
+                    android:textAllCaps="false" />
+            </RelativeLayout>
+
+        </ScrollView>
+
+    </LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Das ist die Profilübersicht!"
-        android:id="@+id/profile_textview1"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
+        android:layout_margin="16dp"
+        android:clickable="true"
+        android:src="@drawable/ic_settings_black_24dp"
+        app:layout_anchor="@id/profile_image"
+        app:layout_anchorGravity="bottom|right|end"/>
 
-</RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>
