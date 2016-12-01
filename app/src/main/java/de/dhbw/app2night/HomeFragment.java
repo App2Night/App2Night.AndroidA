@@ -3,12 +3,14 @@ package de.dhbw.app2night;
 import android.app.Activity;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +35,7 @@ public class HomeFragment extends Fragment implements GetPartyList {
 
     OnItemClickListener mCallback;
     private List<Party> partyList = new ArrayList<>();
+    private SwipeRefreshLayout mSwipeRefreshLayout;
     private RecyclerView recyclerView;
     private PartiesAdapter pAdapter;
     private PartiesAdapter.OnItemClickListener itemClickListener;
@@ -66,6 +69,7 @@ public class HomeFragment extends Fragment implements GetPartyList {
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeRefreshLayout);
         pAdapter = new PartiesAdapter(partyList, itemClickListener);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this.getActivity().getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
@@ -80,6 +84,14 @@ public class HomeFragment extends Fragment implements GetPartyList {
             //TODO: Behandlung im Fall, dass GPS nicht verfügbar ist
             e.printStackTrace();
         }
+
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshItems();
+            }
+        });
+
 
         // Inflate the layout for this fragment
         return rootView;
@@ -105,14 +117,27 @@ public class HomeFragment extends Fragment implements GetPartyList {
 
     }
 
+    void refreshItems()
+    {
+        try {
+            double[] gpsResult = Gps.getInstance().getGPSCoordinates();
+            new GetPartyListTask(this,gpsResult[0],gpsResult[1],100);
+        } catch (GPSUnavailableException e) {
+            //TODO: Behandlung im Fall, dass GPS nicht verfügbar ist
+            e.printStackTrace();
+        }
+    }
 
     @Override
     public void onSuccessGetPartyList(Party[] parties) {
        adaptParties(parties);
+        Toast.makeText(getActivity(),"Parties wurden erfolgreich geladen",Toast.LENGTH_SHORT).show();
+        mSwipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
     public void onFailGetPartyList(Party[] parties) {
-
+        Toast.makeText(getActivity(),"Parties laden ist fehlgeschlagen. Alte Liste wurde geladen.",Toast.LENGTH_SHORT).show();
+        mSwipeRefreshLayout.setRefreshing(false);
     }
 }
