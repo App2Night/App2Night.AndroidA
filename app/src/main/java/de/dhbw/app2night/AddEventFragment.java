@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.view.LayoutInflater;
@@ -17,6 +18,7 @@ import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
@@ -35,7 +37,14 @@ import de.dhbw.model.PartyDisplay;
  * Created by Flo on 31.10.2016.
  */
 public class AddEventFragment extends Fragment implements View.OnTouchListener, View.OnClickListener,
-       TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener, PostParty, AdressValidate{
+        TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener, PostParty, AdressValidate{
+
+    public interface OnPostPartySuccessful {
+        void postedPartySuccessful();
+    }
+
+    OnPostPartySuccessful mCallback;
+
     EditText editTextPartyName, editTextStreetName, editTextHouseNumber, editTextZipCode, editTextCityName, editTextCountryName, editTextDescription;
     TextInputLayout tilPartyName, tilStreetName, tilHouseNumber, tilZipcode, tilCityName, tilCountryName, tilDescription;
     TextView textDate, textTime;
@@ -57,6 +66,12 @@ public class AddEventFragment extends Fragment implements View.OnTouchListener, 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        try {
+            mCallback = (AddEventFragment.OnPostPartySuccessful) getActivity();
+        } catch (ClassCastException e) {
+            throw new ClassCastException(getActivity().toString()
+                    + " must implement onPostPartySuccessful");
+        }
     }
 
     @Override
@@ -260,7 +275,6 @@ public class AddEventFragment extends Fragment implements View.OnTouchListener, 
             correctInput = false;
         }
 
-        //TODO: Verbesserung durchfuehren, nur zum Testen
         if(spinnerPartyType.getSelectedItemPosition()!= 0) {
             ((TextView)spinnerPartyType.getChildAt(0)).setError(null);
             partyDisplay.setPartyType(spinnerPartyType.getSelectedItemPosition() - 1);
@@ -318,18 +332,29 @@ public class AddEventFragment extends Fragment implements View.OnTouchListener, 
 
     @Override
     public void onSuccessPostParty(Party party) {
+        mCallback.postedPartySuccessful();
 
+        Context context = getActivity();
+        CharSequence text = "Posten der Party war erfolgreich!";
+        int duration = Toast.LENGTH_SHORT;
+
+        Toast.makeText(context, text, duration).show();
     }
 
     @Override
     public void onFailPostParty(PartyDisplay party) {
+        showProgress(false);
 
+        Context context = getActivity();
+        CharSequence text = "Posten der Party fehlgeschlagen! Bitte Internetverbindung überprüfen und erneut versuchen!";
+        int duration = Toast.LENGTH_SHORT;
+
+        Toast.makeText(context, text, duration).show();
     }
 
     @Override
     public void onSuccessAddressValidate(PartyDisplay partyDisplay) {
         new PostPartyTask(this, partyDisplay);
-        //TODO: Wechsel ins HomeFragment
     }
 
 
@@ -337,6 +362,16 @@ public class AddEventFragment extends Fragment implements View.OnTouchListener, 
     public void onFailAddressValidate(PartyDisplay partyDisplay) {
         showProgress(false);
         //TODO: Felder markieren, Meldung das Adresse nicht korrekt
+        editTextStreetName.setError("Adresse enthält Fehler");
+        tilStreetName.setError(getString(R.string.street_name));
+        editTextHouseNumber.setError("Adresse enthält Fehler");
+        tilHouseNumber.setError(getString(R.string.house_number));
+        editTextZipCode.setError("Adresse enthält Fehler");
+        tilZipcode.setError(getString(R.string.zipcode));
+        editTextCityName.setError("Adresse enthält Fehler");
+        tilCityName.setError(getString(R.string.city_name));
+        editTextCountryName.setError("Adresse enthält Fehler");
+        tilCountryName.setError(getString(R.string.country_name));
     }
 
     public void showProgress(final boolean show) {

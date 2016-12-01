@@ -13,10 +13,6 @@
         android:fillViewport="true"
         android:id="@+id/detail_view_scrollview_main">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -199,19 +195,42 @@
                         android:text="@string/music_genre"/>
 
                 </LinearLayout>
-
-                <Button
-                    android:text="@string/addevent_button_ok"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:id="@+id/addevent_button_ok"/>
+                    android:orientation="horizontal">
+                    <Button
+                        android:text="@string/detail_view_button_cancel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:id="@+id/detail_view_button_cancel"
+                        android:visibility="gone"/>
+                    <Button
+                        android:text="@string/detail_view_button_edit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:id="@+id/detail_view_button_edit"
+                        android:visibility="gone"/>
+                    <Button
+                        android:text="@string/detail_view_button_participate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:id="@+id/detail_view_button_participate"
+                        android:visibility="gone"/>
+                    <Button
+                        android:text="@string/detail_view_button_vote"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:id="@+id/detail_view_button_vote"
+                        android:visibility="gone"/>
+
+                    </LinearLayout>
+                </LinearLayout>
 
             </LinearLayout>
-
-        </LinearLayout>
-
-
-        </LinearLayout>
     </ScrollView>
 </LinearLayout>

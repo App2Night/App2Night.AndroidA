@@ -109,6 +109,7 @@ public class HomeFragment extends Fragment implements GetPartyList {
     }
 
     private synchronized void adaptParties(Party[] parties){
+        partyList.clear();
         for (Party party:parties) {
             partyList.add(party);
         }
