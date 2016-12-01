@@ -9,6 +9,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import de.dhbw.model.Party;
+import de.dhbw.utils.DateUtil;
 
 /**
  * Created by Flo on 03.11.2016.
@@ -61,7 +62,7 @@ public class PartiesAdapter extends RecyclerView.Adapter<PartiesAdapter.MyViewHo
         Party party = partyList.get(position);
 
         holder.title.setText(party.getPartyName());
-        holder.date.setText(party.getPartyDate());
+        holder.date.setText(DateUtil.getInstance().getDate(party.getPartyDate()) + " " + DateUtil.getInstance().getTime(party.getPartyDate()));
         holder.location.setText(party.getLocation().getCityName() + ", " + party.getLocation().getStreetName() + ' ' + party.getLocation().getHouseNumber());
         holder.organizer.setText(party.getHost().getUserName());
         holder.price.setText( Integer.toString(party.getPrice()));
