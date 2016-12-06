@@ -73,4 +73,12 @@
     <string name="detail_view_button_cancel">Absagen</string>
     <string name="addevent_button_ok">Veranstaltung erstellen</string>
 
+    <!--Strings related to VoteDialog-->
+    <string name="OK">OK</string>
+    <string name="CANCEL">CANCEL</string>
+    <string name="price_rating">Price Rating</string>
+    <string name="mood_rating">Mood Rating</string>
+    <string name="location_rating">Location Rating</string>
+    <string name="party_rating">Party Rating</string>
+
 </resources>

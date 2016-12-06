@@ -2,12 +2,12 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:backgroundTint="@color/screen_background"
+    android:background="@color/screen_background"
     android:focusable="true"
     android:orientation="vertical"
     android:paddingBottom="5dp"
-    android:paddingLeft="10dp"
-    android:paddingRight="5dp"
+    android:paddingStart="10dp"
+    android:paddingEnd="5dp"
     android:paddingTop="5dp">
 
     <TextView
@@ -17,7 +17,7 @@
         android:layout_marginBottom="10dp"
         android:layout_marginRight="25dp"
         android:layout_marginTop="20dp"
-        android:text="Party Rating"
+        android:text="@string/party_rating"
         android:textStyle="normal|bold"
         android:textAlignment="center"
         android:textSize="20dp" />
@@ -57,7 +57,7 @@
         android:layout_marginBottom="10dp"
         android:layout_marginRight="25dp"
         android:layout_marginTop="70dp"
-        android:text="Location Rating"
+        android:text="@string/location_rating"
         android:textStyle="normal|italic"
         android:textSize="20dp" />
 
@@ -94,7 +94,7 @@
         android:layout_marginBottom="10dp"
         android:layout_marginRight="25dp"
         android:layout_marginTop="70dp"
-        android:text="Mood Rating"
+        android:text="@string/mood_rating"
         android:textSize="20dp"
         android:textStyle="normal|italic"
         android:layout_below="@+id/seperator2" />
@@ -134,7 +134,7 @@
         android:layout_marginRight="25dp"
         android:layout_marginTop="70dp"
         android:textSize="20dp"
-        android:text="Price Rating"
+        android:text="@string/price_rating"
         android:textStyle="normal|italic" />
 
     <View
@@ -167,24 +167,25 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="OK"
-        android:id="@+id/vote_button_ok"
-        android:layout_below="@id/seperator4"
-        android:layout_marginTop="20dp"
-        android:layout_alignParentEnd="true"
-        android:backgroundTint="@color/screen_background"
-        />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="CANCEL"
+        android:text="@string/CANCEL"
+        android:textSize="18dp"
         android:layout_below="@id/seperator4"
         android:layout_marginTop="20dp"
         android:layout_toLeftOf="@id/vote_button_ok"
         android:layout_marginRight="10dp"
-        android:backgroundTint="@color/screen_background"
+        android:background="@color/screen_background"
         android:id="@+id/vote_cancel_button" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/OK"
+        android:textSize="18dp"
+        android:id="@+id/vote_button_ok"
+        android:background="@color/screen_background"
+        android:layout_alignBaseline="@+id/vote_cancel_button"
+        android:layout_alignBottom="@+id/vote_cancel_button"
+        android:layout_alignParentEnd="true" />
 
 
 </RelativeLayout>
