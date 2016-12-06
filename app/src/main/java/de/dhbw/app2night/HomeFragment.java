@@ -132,8 +132,11 @@ public class HomeFragment extends Fragment implements GetPartyList {
     @Override
     public void onSuccessGetPartyList(Party[] parties) {
        adaptParties(parties);
+        if (getActivity() != null)
+        {
         Toast.makeText(getActivity(),"Parties wurden erfolgreich geladen",Toast.LENGTH_SHORT).show();
         mSwipeRefreshLayout.setRefreshing(false);
+        }
     }
 
     @Override

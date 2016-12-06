@@ -142,7 +142,7 @@ public class MainActivity extends AppCompatActivity
                 title = getString(R.string.title_settings);
                 break;
             case R.layout.fragment_test:
-                fragment = new TestFragment();
+                fragment = new VoteDialog();
                 title = getString(R.string.title_test);
                 break;
             case R.layout.fragment_contact:
