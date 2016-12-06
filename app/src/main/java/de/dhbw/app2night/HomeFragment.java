@@ -108,6 +108,16 @@ public class HomeFragment extends Fragment implements GetPartyList {
 
     }
 
+    @Override
+    public void onPause(){
+        super.onPause();
+        if (mSwipeRefreshLayout!=null) {
+            mSwipeRefreshLayout.setRefreshing(false);
+            mSwipeRefreshLayout.destroyDrawingCache();
+            mSwipeRefreshLayout.clearAnimation();
+        }
+    }
+
     private synchronized void adaptParties(Party[] parties){
         partyList.clear();
         for (Party party:parties) {
@@ -131,17 +141,18 @@ public class HomeFragment extends Fragment implements GetPartyList {
 
     @Override
     public void onSuccessGetPartyList(Party[] parties) {
-       adaptParties(parties);
-        if (getActivity() != null)
-        {
-        Toast.makeText(getActivity(),"Parties wurden erfolgreich geladen",Toast.LENGTH_SHORT).show();
-        mSwipeRefreshLayout.setRefreshing(false);
+        adaptParties(parties);
+        if (getActivity() != null) {
+            Toast.makeText(getActivity(), "Parties wurden erfolgreich geladen", Toast.LENGTH_SHORT).show();
+            mSwipeRefreshLayout.setRefreshing(false);
         }
     }
 
     @Override
     public void onFailGetPartyList(Party[] parties) {
-        Toast.makeText(getActivity(),"Parties laden ist fehlgeschlagen. Alte Liste wurde geladen.",Toast.LENGTH_SHORT).show();
-        mSwipeRefreshLayout.setRefreshing(false);
+        if (getActivity() != null) {
+            Toast.makeText(getActivity(), "Parties laden ist fehlgeschlagen. Alte Liste wurde geladen.", Toast.LENGTH_SHORT).show();
+            mSwipeRefreshLayout.setRefreshing(false);
+        }
     }
 }
