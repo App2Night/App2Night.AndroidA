@@ -6,28 +6,20 @@
     android:focusable="true"
     android:orientation="vertical"
     android:paddingBottom="5dp"
-    android:paddingLeft="5dp"
+    android:paddingLeft="10dp"
     android:paddingRight="5dp"
     android:paddingTop="5dp">
-
-    <TextView
-        android:id="@+id/header_dialog_voting"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Hier besteht die Möglichkeit entweder die gesamte Party zu bewerten, oder vordefinierte Kategorien einzeln zu bewerten"
-        android:textAlignment="center"
-        android:textSize="17dp"
-        android:textStyle="normal|bold" />
 
     <TextView
         android:id="@+id/party_bewertung"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/header_dialog_voting"
         android:layout_marginBottom="10dp"
         android:layout_marginRight="25dp"
-        android:layout_marginTop="70dp"
-        android:text="Gesamte Party Bewertung"
+        android:layout_marginTop="20dp"
+        android:text="Party Rating"
+        android:textStyle="normal|bold"
+        android:textAlignment="center"
         android:textSize="20dp" />
 
     <View
@@ -66,6 +58,7 @@
         android:layout_marginRight="25dp"
         android:layout_marginTop="70dp"
         android:text="Location Rating"
+        android:textStyle="normal|italic"
         android:textSize="20dp" />
 
     <View
@@ -98,12 +91,13 @@
         android:id="@+id/mood_rating"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/seperator2"
         android:layout_marginBottom="10dp"
         android:layout_marginRight="25dp"
         android:layout_marginTop="70dp"
-        android:text="Stimmung Rating"
-        android:textSize="20dp" />
+        android:text="Mood Rating"
+        android:textSize="20dp"
+        android:textStyle="normal|italic"
+        android:layout_below="@+id/seperator2" />
 
     <View
         android:id="@+id/seperator3"
@@ -140,7 +134,8 @@
         android:layout_marginRight="25dp"
         android:layout_marginTop="70dp"
         android:textSize="20dp"
-        android:text="Preis Bewertung" />
+        android:text="Price Rating"
+        android:textStyle="normal|italic" />
 
     <View
         android:id="@+id/seperator4"
@@ -168,6 +163,28 @@
         android:clickable="true"
         android:src="@drawable/ic_thumb_up" />
 
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="OK"
+        android:id="@+id/vote_button_ok"
+        android:layout_below="@id/seperator4"
+        android:layout_marginTop="20dp"
+        android:layout_alignParentEnd="true"
+        android:backgroundTint="@color/screen_background"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="CANCEL"
+        android:layout_below="@id/seperator4"
+        android:layout_marginTop="20dp"
+        android:layout_toLeftOf="@id/vote_button_ok"
+        android:layout_marginRight="10dp"
+        android:backgroundTint="@color/screen_background"
+        android:id="@+id/vote_cancel_button" />
 
 
 </RelativeLayout>
