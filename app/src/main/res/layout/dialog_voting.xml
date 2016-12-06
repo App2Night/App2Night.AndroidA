@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:backgroundTint="@color/screen_background"
+    android:focusable="true"
+    android:orientation="vertical"
+    android:paddingBottom="5dp"
+    android:paddingLeft="5dp"
+    android:paddingRight="5dp"
+    android:paddingTop="5dp">
+
+    <TextView
+        android:id="@+id/header_dialog_voting"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Hier besteht die Möglichkeit entweder die gesamte Party zu bewerten, oder vordefinierte Kategorien einzeln zu bewerten"
+        android:textAlignment="center"
+        android:textSize="17dp"
+        android:textStyle="normal|bold" />
+
+    <TextView
+        android:id="@+id/party_bewertung"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/header_dialog_voting"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="70dp"
+        android:text="Gesamte Party Bewertung"
+        android:textSize="20dp" />
+
+    <View
+        android:id="@+id/seperator1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/party_bewertung"
+        android:background="@android:color/darker_gray" />
+
+    <ImageView
+        android:id="@+id/party_thumb_down"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_above="@id/seperator1"
+        android:layout_alignParentEnd="true"
+        android:clickable="true"
+        android:src="@drawable/ic_thumb_down" />
+
+    <ImageView
+        android:id="@+id/party_thumb_up"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_above="@id/seperator1"
+        android:layout_marginRight="10dp"
+        android:layout_toLeftOf="@id/party_thumb_down"
+        android:clickable="true"
+        android:src="@drawable/ic_thumb_up" />
+
+
+    <TextView
+        android:id="@+id/location_rating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/seperator1"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="70dp"
+        android:text="Location Rating"
+        android:textSize="20dp" />
+
+    <View
+        android:id="@+id/seperator2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/location_rating"
+        android:background="@android:color/darker_gray" />
+
+    <ImageView
+        android:id="@+id/location_down"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_above="@id/seperator2"
+        android:layout_alignParentEnd="true"
+        android:clickable="true"
+        android:src="@drawable/ic_thumb_down" />
+
+    <ImageView
+        android:layout_width="50dp"
+        android:id="@+id/location_up"
+        android:layout_height="50dp"
+        android:layout_above="@id/seperator2"
+        android:layout_marginRight="10dp"
+        android:layout_toLeftOf="@id/location_down"
+        android:clickable="true"
+        android:src="@drawable/ic_thumb_up" />
+
+    <TextView
+        android:id="@+id/mood_rating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/seperator2"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="70dp"
+        android:text="Stimmung Rating"
+        android:textSize="20dp" />
+
+    <View
+        android:id="@+id/seperator3"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/mood_rating"
+        android:background="@android:color/darker_gray" />
+
+    <ImageView
+        android:id="@+id/mood_down"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_above="@id/seperator3"
+        android:layout_alignParentEnd="true"
+        android:clickable="true"
+        android:src="@drawable/ic_thumb_down" />
+
+    <ImageView
+        android:id="@+id/mood_up"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_above="@id/seperator3"
+        android:layout_marginRight="10dp"
+        android:layout_toLeftOf="@id/mood_down"
+        android:clickable="true"
+        android:src="@drawable/ic_thumb_up" />
+
+    <TextView
+        android:id="@+id/price_rating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/seperator3"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="70dp"
+        android:textSize="20dp"
+        android:text="Preis Bewertung" />
+
+    <View
+        android:id="@+id/seperator4"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/price_rating"
+        android:background="@android:color/darker_gray" />
+
+    <ImageView
+        android:layout_width="50dp"
+        android:id="@+id/price_down"
+        android:layout_height="50dp"
+        android:layout_above="@id/seperator4"
+        android:layout_alignParentEnd="true"
+        android:clickable="true"
+        android:src="@drawable/ic_thumb_down" />
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:id="@+id/price_up"
+        android:layout_marginRight="10dp"
+        android:layout_toLeftOf="@id/price_down"
+        android:layout_above="@id/seperator4"
+        android:clickable="true"
+        android:src="@drawable/ic_thumb_up" />
+
+
+
+</RelativeLayout>
