@@ -2,7 +2,10 @@ package de.dhbw.backendTasks.user;
 
 import android.os.AsyncTask;
 
+import java.io.IOException;
+
 import de.dhbw.BackEndCommunication.RestBackendCommunication;
+import de.dhbw.exceptions.BackendCommunicationException;
 
 /**
  * Created by Tobias Berner on 15.11.2016.
@@ -28,7 +31,14 @@ public class LoginTask extends AsyncTask<Void, Void, Boolean> {
 
     @Override
     protected Boolean doInBackground(Void... params) {
-        return RestBackendCommunication.getInstance().login(mEmail,mPassword);
+        try {
+            return RestBackendCommunication.getInstance().login(mEmail,mPassword);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (BackendCommunicationException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     @Override

@@ -44,7 +44,7 @@ public class ChangePartyByIdTask extends AsyncTask<Void, Void, Boolean> implemen
 
 
     private  String buildPutUrl(String id){
-        return url+"/id=" + id;
+        return url+"?id=" + id;
     }
 
     private void prepare(){

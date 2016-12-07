@@ -91,7 +91,9 @@ public class RestBackendCommunication {
                 }else {
                     throw new BackendCommunicationException(Integer.toString(response));
                 }
-            } finally {
+            }  catch (Exception e){
+                throw new BackendCommunicationException("Unerwartete Exception");
+            }finally {
                 //Streams schließen
                 if (is != null) {
                     is.close();
@@ -144,7 +146,9 @@ public class RestBackendCommunication {
                 } else {
                     throw new BackendCommunicationException(Integer.toString(response));
                 }
-            } finally {
+            }  catch (Exception e){
+                throw new BackendCommunicationException("Unerwartete Exception");
+            }finally {
                 //Stream schließen
                 if (is != null)
                     is.close();
@@ -192,7 +196,11 @@ public class RestBackendCommunication {
                    throw new BackendCommunicationException(Integer.toString(response));
                }
                return jStringFromServer;
-           } finally {
+
+           } catch (Exception e){
+               throw new BackendCommunicationException("Unerwartete Exception");
+           }
+           finally {
                //Stream schließen
                if (is != null) {
                    is.close();
@@ -250,7 +258,9 @@ public class RestBackendCommunication {
                 }else {
                     throw new BackendCommunicationException(Integer.toString(response));
                 }
-            } finally {
+            } catch (Exception e){
+                throw new BackendCommunicationException("Unerwartete Exception");
+            }finally {
                 //Streams schließen
                 if (is != null) {
                         is.close();
@@ -302,7 +312,9 @@ public class RestBackendCommunication {
                 } else {
                     throw new BackendCommunicationException(Integer.toString(response));
                 }
-            } finally {
+            } catch (Exception e){
+                throw new BackendCommunicationException("Unerwartete Exception");
+            }finally {
                 //Streams schließen
                 if (is != null) {
                         is.close();
@@ -330,6 +342,7 @@ public class RestBackendCommunication {
      */
     public boolean deleteRequest(String myurl) throws NetworkUnavailableException, IOException, BackendCommunicationException, NoTokenFoundException, RefreshTokenFailedException {
         if (networkAvailable()) {
+            try{
                 URL url = new URL(myurl);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setReadTimeout(10000 /* milliseconds */);
@@ -343,7 +356,10 @@ public class RestBackendCommunication {
                 } else {
                     throw new BackendCommunicationException(Integer.toString(response));
                 }
-                }
+                }catch (Exception e) {
+                throw new BackendCommunicationException("Unerwartete Exception");
+            }
+        }
         else {
             throw new NetworkUnavailableException("Network not connected");
         }
@@ -360,11 +376,8 @@ public class RestBackendCommunication {
      * @throws BackendCommunicationException - Wenn Request fehlschlägt
      */
     public boolean register(String username, String password, String email) throws IOException, BackendCommunicationException {
-        OutputStream os = null;
-        ConnectivityManager connMgr = (ConnectivityManager)
-                ContextManager.getInstance().getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-        if (networkInfo != null && networkInfo.isConnected()) {
+        if (networkAvailable()) {
+
             String myurl = PropertyUtil.getInstance().getRegisterUrl();
             String jString;
             try {
@@ -383,6 +396,8 @@ public class RestBackendCommunication {
             conn.setRequestMethod("POST");
             conn.setDoInput(true);
             conn.setDoOutput(true);
+            OutputStream os = null;
+            try{
             os = conn.getOutputStream();
             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os));
             bw.write(jString);
@@ -392,9 +407,17 @@ public class RestBackendCommunication {
             int response = conn.getResponseCode();
             if (response == HttpURLConnection.HTTP_CREATED) {
                 return true;
-            }
-            else
+            } else
                 throw new BackendCommunicationException(Integer.toString(response));
+
+            }catch (Exception e){
+                    throw new BackendCommunicationException("Unerwartete Exception");
+                }
+            finally {
+                if (os != null)
+                    os.close();
+            }
+
         } else {
             //Netzwerk nicht verbunden
             return false;
@@ -411,7 +434,7 @@ public class RestBackendCommunication {
      * @throws NetworkUnavailableException - Wenn keine Internetverbindung besteht
      * @throws NoTokenFoundException - Wenn kein TokenUtil zur Authentifizierung gefunden wird
      */
-    public boolean login(String username, String password) {
+    public boolean login(String username, String password) throws IOException, BackendCommunicationException {
         InputStream is = null;
         OutputStream os = null;
         String token;
@@ -440,22 +463,14 @@ public class RestBackendCommunication {
                 } else {
                     return false;
                 }
-            } catch (IOException e) {
-                return false;
+            }  catch (Exception e){
+                throw new BackendCommunicationException("Unerwartete Exception");
             } finally {
                 //Stream schließen
                 if (is != null)
-                    try {
                         is.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
                 if (os != null)
-                    try {
                         os.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
             }
         } else {
             //Netzwerk nicht verbunden
