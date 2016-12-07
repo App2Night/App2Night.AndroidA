@@ -7,7 +7,7 @@ package de.dhbw.model;
 public enum MusicGenre {
 ALL, ROCK, POP, HIPHOP, RAP, ELECTRO;
 
-    public MusicGenre toEnum(int i){
+    public static MusicGenre toEnum(int i){
         switch(i){
             case 0: return ALL;
             case 1: return ROCK;
@@ -19,7 +19,7 @@ ALL, ROCK, POP, HIPHOP, RAP, ELECTRO;
         }
     }
 
-    public int toEnum(MusicGenre genre){
+    public static int toEnum(MusicGenre genre){
         switch(genre){
             case ALL: return 0;
             case ROCK: return 1;

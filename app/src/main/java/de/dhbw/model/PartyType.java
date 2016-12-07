@@ -8,7 +8,7 @@ public enum PartyType {
 BAR,DISCO,FOREST;
 
 
-    public PartyType toEnum(int i){
+    public static PartyType toEnum(int i){
         switch(i){
             case 0: return BAR;
             case 1: return DISCO;
@@ -17,7 +17,7 @@ BAR,DISCO,FOREST;
         }
     }
 
-    public int toEnum(PartyType partyType){
+    public static int toEnum(PartyType partyType){
         switch(partyType){
             case BAR: return 0;
             case DISCO: return 1;

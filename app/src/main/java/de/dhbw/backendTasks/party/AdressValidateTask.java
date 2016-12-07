@@ -50,15 +50,7 @@ public class AdressValidateTask extends AsyncTask<Void, Void, Boolean> implement
         try {
             Location location = new Location(partyDisplay);
             return RestBackendCommunication.getInstance().validateAdress(url,location);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (RefreshTokenFailedException e) {
-            e.printStackTrace();
-        } catch (NoTokenFoundException e) {
-            e.printStackTrace();
-        } catch (BackendCommunicationException e) {
-            e.printStackTrace();
-        } catch (NetworkUnavailableException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return false;

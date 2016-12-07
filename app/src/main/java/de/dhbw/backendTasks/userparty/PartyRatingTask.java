@@ -50,18 +50,9 @@ public class PartyRatingTask extends AsyncTask<Void,Void,Boolean> implements Api
 
     @Override
     protected Boolean doInBackground(Void... params) {
-
        try{
             return RestBackendCommunication.getInstance().putRequest(buildPutUrl(), new Gson().toJson(rating));
-        }  catch (IOException e) {
-            e.printStackTrace();
-        } catch (BackendCommunicationException e) {
-            e.printStackTrace();
-        } catch (RefreshTokenFailedException e) {
-            e.printStackTrace();
-        } catch (NetworkUnavailableException e) {
-            e.printStackTrace();
-        } catch (NoTokenFoundException e) {
+        }  catch (Exception e) {
             e.printStackTrace();
         }
         return false;

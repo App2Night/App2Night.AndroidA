@@ -24,18 +24,20 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import de.dhbw.backendTasks.party.DeletePartyById;
 import de.dhbw.backendTasks.party.DeletePartyByIdTask;
-import de.dhbw.backendTasks.userparty.CommitmentState;
-import de.dhbw.backendTasks.userparty.CommitmentStateTask;
+import de.dhbw.backendTasks.userparty.SetCommitmentState;
+import de.dhbw.backendTasks.userparty.SetCommitmentStateTask;
 import de.dhbw.exceptions.GPSUnavailableException;
+import de.dhbw.model.CommitmentState;
 import de.dhbw.model.Party;
 import de.dhbw.utils.CustomMapView;
+import de.dhbw.utils.DateUtil;
 import de.dhbw.utils.Gps;
 
 /**
  * Created by Bro on 25.11.2016.
  */
 
-public class DetailFragment extends Fragment implements View.OnClickListener, DeletePartyById, CommitmentState{
+public class DetailFragment extends Fragment implements View.OnClickListener, DeletePartyById, SetCommitmentState {
 
     public static final String ARG_PARTY = "arg_party";
 
@@ -123,9 +125,9 @@ public class DetailFragment extends Fragment implements View.OnClickListener, De
         tvCountryName.setText(partyToDisplay.getLocation().getCountyName());
 
         tvDate = (TextView)rootView.findViewById(R.id.detail_view_text_party_date);
-        tvDate.setText(partyToDisplay.getPartyDate());
+        tvDate.setText(DateUtil.getInstance().getDate(partyToDisplay.getPartyDate()));
         tvTime = (TextView)rootView.findViewById(R.id.detail_view_text_party_time);
-        tvTime.setText(partyToDisplay.getPartyDate());
+        tvTime.setText(DateUtil.getInstance().getTime(partyToDisplay.getPartyDate()));
 
         tvPartyType = (TextView)rootView.findViewById(R.id.detail_view_text_party_type);
         tvPartyType.setText(Integer.toString(partyToDisplay.getPartyType()));
@@ -241,16 +243,13 @@ public class DetailFragment extends Fragment implements View.OnClickListener, De
                 break;
             case R.id.detail_view_button_participate:
                 //Übertrage neuen Status, verstecke Teilnahmebutton, zeige Absagebutton und Votebutton, sobald Party beginnt
-                new CommitmentStateTask(this, partyToDisplay.getPartyId(), 0);
+                new SetCommitmentStateTask(this, partyToDisplay.getPartyId(), CommitmentState.Commited);
                 break;
             case R.id.detail_view_button_vote:
                 //Zeige Votedialog
                 break;
             case R.id.detail_view_button_cancel_participation:
-                //Übertrage neuen Status, verstecke Absagebutton und Votebutton und zeige Teilnehmebutton
-                buttonCancelParticipation.setVisibility(View.GONE);
-                buttonVote.setVisibility(View.GONE);
-                buttonParticipate.setVisibility(View.VISIBLE);
+                new SetCommitmentStateTask(this, partyToDisplay.getPartyId(), CommitmentState.NotCommited);
                 break;
             case R.id.detail_view_button_cancel_event:
                 new DeletePartyByIdTask(this, partyToDisplay.getPartyId());
@@ -259,13 +258,22 @@ public class DetailFragment extends Fragment implements View.OnClickListener, De
     }
 
     @Override
-    public void onSuccessCommitmentState() {
-        partyToDisplay.setUserCommitmentState("0");
+    public void onSuccessCommitmentState(CommitmentState newCommitmentState) {
+        partyToDisplay.setUserCommitmentState(Integer.toString(CommitmentState.toEnum(newCommitmentState)));
+        if (newCommitmentState == CommitmentState.Commited) {
             buttonCancelParticipation.setVisibility(View.VISIBLE);
-
             //TODO Zeit prüfen
             buttonVote.setVisibility(View.VISIBLE);
             buttonParticipate.setVisibility(View.GONE);
+        } else if (newCommitmentState == CommitmentState.NotCommited){
+            buttonCancelParticipation.setVisibility(View.GONE);
+            buttonVote.setVisibility(View.GONE);
+            buttonParticipate.setVisibility(View.VISIBLE);
+        }else if ( newCommitmentState == CommitmentState.Bookmarked){
+
+            //TODO
+        }
+
     }
 
     @Override

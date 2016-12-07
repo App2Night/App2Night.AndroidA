@@ -149,7 +149,7 @@ public class HomeFragment extends Fragment implements GetPartyList {
     }
 
     @Override
-    public void onFailGetPartyList(Party[] parties) {
+    public void onFailGetPartyList() {
         if (getActivity() != null) {
             Toast.makeText(getActivity(), "Parties laden ist fehlgeschlagen. Alte Liste wurde geladen.", Toast.LENGTH_SHORT).show();
             mSwipeRefreshLayout.setRefreshing(false);
