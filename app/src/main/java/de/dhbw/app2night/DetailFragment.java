@@ -45,6 +45,12 @@ public class DetailFragment extends Fragment implements View.OnClickListener{
     TextView tvPartyName, tvStreetName, tvHouseNumber, tvZipCode, tvCityName, tvCountryName, tvDate, tvTime, tvPartyType, tvMusicGenre, tvDescription;
     ScrollView scrollViewDetailView;
     Button buttonEdit, buttonParticipate, buttonVote, buttonCancelParticipation, buttonCancelEvent;
+
+    Status status;
+    private enum Status{
+        Host, Participant, NotParticipant, Bookmarked, Unknown
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -132,7 +138,42 @@ public class DetailFragment extends Fragment implements View.OnClickListener{
         buttonCancelEvent = (Button)rootView.findViewById(R.id.detail_view_button_cancel_event);
         buttonCancelEvent.setOnClickListener(this);
 
-        //TODO: Abfrage, ob Ersteller, Partynochnichtteilnehmer, Partyteilnehmer
+        if(partyToDisplay.isHostedByUser()){
+            status = Status.Host;
+        }else if(partyToDisplay.getUserCommitmentState().equals("2")) {
+            status = Status.NotParticipant;
+        }else if(partyToDisplay.getUserCommitmentState().equals("1")) {
+            status = Status.Bookmarked;
+        }else if(partyToDisplay.getUserCommitmentState().equals("0")) {
+            status = Status.Participant;
+        }else{
+            status = Status.Unknown;
+        }
+
+        initializeButtons();
+
+    }
+
+    private void initializeButtons() {
+        switch(status){
+            case Participant:
+                buttonVote.setVisibility(View.VISIBLE);
+                buttonCancelParticipation.setVisibility(View.VISIBLE);
+                break;
+            case NotParticipant:
+                buttonParticipate.setVisibility(View.VISIBLE);
+                break;
+            case Host:
+                buttonCancelEvent.setVisibility(View.VISIBLE);
+                break;
+            case Bookmarked:
+                buttonParticipate.setVisibility(View.VISIBLE);
+                buttonCancelParticipation.setVisibility(View.VISIBLE);
+                break;
+            case Unknown:
+                //Ein unbekannter Status fuehrt dazu, dass keine Buttons angezeigt werden
+                break;
+        }
     }
 
 
