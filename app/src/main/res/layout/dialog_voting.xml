@@ -15,12 +15,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
-        android:layout_marginRight="25dp"
+        android:layout_marginEnd="25dp"
         android:layout_marginTop="20dp"
         android:text="@string/party_rating"
         android:textStyle="normal|bold"
         android:textAlignment="center"
-        android:textSize="20dp" />
+        android:textSize="20sp" />
 
     <View
         android:id="@+id/seperator1"
@@ -30,6 +30,7 @@
         android:background="@android:color/darker_gray" />
 
     <ImageView
+        android:contentDescription="@string/thumb_icon"
         android:id="@+id/party_thumb_down"
         android:layout_width="50dp"
         android:layout_height="50dp"
@@ -39,12 +40,13 @@
         android:src="@drawable/ic_thumb_down" />
 
     <ImageView
+        android:contentDescription="@string/thumb_icon"
         android:id="@+id/party_thumb_up"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_above="@id/seperator1"
-        android:layout_marginRight="10dp"
-        android:layout_toLeftOf="@id/party_thumb_down"
+        android:layout_marginEnd="10dp"
+        android:layout_toStartOf="@id/party_thumb_down"
         android:clickable="true"
         android:src="@drawable/ic_thumb_up" />
 
@@ -55,11 +57,11 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/seperator1"
         android:layout_marginBottom="10dp"
-        android:layout_marginRight="25dp"
+        android:layout_marginEnd="25dp"
         android:layout_marginTop="70dp"
         android:text="@string/location_rating"
         android:textStyle="normal|italic"
-        android:textSize="20dp" />
+        android:textSize="20sp" />
 
     <View
         android:id="@+id/seperator2"
@@ -69,6 +71,7 @@
         android:background="@android:color/darker_gray" />
 
     <ImageView
+        android:contentDescription="@string/thumb_icon"
         android:id="@+id/location_down"
         android:layout_width="50dp"
         android:layout_height="50dp"
@@ -78,12 +81,13 @@
         android:src="@drawable/ic_thumb_down" />
 
     <ImageView
+        android:contentDescription="@string/thumb_icon"
         android:layout_width="50dp"
         android:id="@+id/location_up"
         android:layout_height="50dp"
         android:layout_above="@id/seperator2"
-        android:layout_marginRight="10dp"
-        android:layout_toLeftOf="@id/location_down"
+        android:layout_marginEnd="10dp"
+        android:layout_toStartOf="@id/location_down"
         android:clickable="true"
         android:src="@drawable/ic_thumb_up" />
 
@@ -92,10 +96,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
-        android:layout_marginRight="25dp"
+        android:layout_marginEnd="25dp"
         android:layout_marginTop="70dp"
         android:text="@string/mood_rating"
-        android:textSize="20dp"
+        android:textSize="20sp"
         android:textStyle="normal|italic"
         android:layout_below="@+id/seperator2" />
 
@@ -107,6 +111,7 @@
         android:background="@android:color/darker_gray" />
 
     <ImageView
+        android:contentDescription="@string/thumb_icon"
         android:id="@+id/mood_down"
         android:layout_width="50dp"
         android:layout_height="50dp"
@@ -116,12 +121,13 @@
         android:src="@drawable/ic_thumb_down" />
 
     <ImageView
+        android:contentDescription="@string/thumb_icon"
         android:id="@+id/mood_up"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_above="@id/seperator3"
-        android:layout_marginRight="10dp"
-        android:layout_toLeftOf="@id/mood_down"
+        android:layout_marginEnd="10dp"
+        android:layout_toStartOf="@id/mood_down"
         android:clickable="true"
         android:src="@drawable/ic_thumb_up" />
 
@@ -131,9 +137,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/seperator3"
         android:layout_marginBottom="10dp"
-        android:layout_marginRight="25dp"
+        android:layout_marginEnd="25dp"
         android:layout_marginTop="70dp"
-        android:textSize="20dp"
+        android:textSize="20sp"
         android:text="@string/price_rating"
         android:textStyle="normal|italic" />
 
@@ -145,6 +151,7 @@
         android:background="@android:color/darker_gray" />
 
     <ImageView
+        android:contentDescription="@string/thumb_icon"
         android:layout_width="50dp"
         android:id="@+id/price_down"
         android:layout_height="50dp"
@@ -154,11 +161,12 @@
         android:src="@drawable/ic_thumb_down" />
 
     <ImageView
+        android:contentDescription="@string/thumb_icon"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:id="@+id/price_up"
-        android:layout_marginRight="10dp"
-        android:layout_toLeftOf="@id/price_down"
+        android:layout_marginEnd="10dp"
+        android:layout_toStartOf="@id/price_down"
         android:layout_above="@id/seperator4"
         android:clickable="true"
         android:src="@drawable/ic_thumb_up" />
@@ -167,33 +175,23 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/OK"
-        android:textSize="18dp"
+        android:textSize="18sp"
         android:id="@+id/vote_button_ok"
         android:background="@color/screen_background"
         android:layout_alignBaseline="@+id/vote_cancel_button"
         android:layout_alignBottom="@+id/vote_cancel_button"
         android:layout_alignParentEnd="true" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/OK"
-        android:textSize="18dp"
-        android:id="@+id/vote_button_ok"
-        android:background="@color/screen_background"
-        android:layout_alignBaseline="@+id/vote_cancel_button"
-        android:layout_alignBottom="@+id/vote_cancel_button"
-        android:layout_alignParentEnd="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/CANCEL"
-        android:textSize="18dp"
+        android:textSize="18sp"
         android:layout_below="@id/seperator4"
         android:layout_marginTop="20dp"
-        android:layout_toLeftOf="@id/vote_button_ok"
-        android:layout_marginRight="10dp"
+        android:layout_toStartOf="@id/vote_button_ok"
+        android:layout_marginEnd="10dp"
         android:background="@color/screen_background"
         android:id="@+id/vote_cancel_button" />
 
