@@ -200,11 +200,18 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
                     <Button
-                        android:text="@string/detail_view_button_cancel"
+                        android:text="@string/detail_view_button_cancel_participation"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="right"
-                        android:id="@+id/detail_view_button_cancel"
+                        android:id="@+id/detail_view_button_cancel_participation"
+                        android:visibility="gone"/>
+                    <Button
+                        android:text="@string/detail_view_button_cancel_event"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:id="@+id/detail_view_button_cancel_event"
                         android:visibility="gone"/>
                     <Button
                         android:text="@string/detail_view_button_edit"

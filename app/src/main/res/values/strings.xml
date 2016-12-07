@@ -60,6 +60,8 @@
     <string name="detail_view_button_edit">Bearbeiten</string>
     <string name="detail_view_button_participate">Teilnehmen</string>
     <string name="detail_view_button_vote">Voten</string>
+    <string name="detail_view_button_cancel_participation">Absagen</string>
+    <string name="detail_view_button_cancel_event">Event absagen</string>
 
     <!--Strings related to ContactFragment-->
     <string name="contact_opening">Sofern Sie Fragen oder Rückmeldungen zu dieser App / zu diesem Dienst haben, zögern Sie nicht uns diese mitzuteilen. Wir würden uns freuen, von Ihnen zu hören.</string>
@@ -70,7 +72,9 @@
     <string name="contact_message">Ihre Nachricht: </string>
     <string name="contact_message_hint">Hier bitte Ihre Nachricht eingeben</string>
     <string name="contact_button">Abschicken</string>
-    <string name="detail_view_button_cancel">Absagen</string>
+
+
+
     <string name="addevent_button_ok">Veranstaltung erstellen</string>
 
 </resources>
