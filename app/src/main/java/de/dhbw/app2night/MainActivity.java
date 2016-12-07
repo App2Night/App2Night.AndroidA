@@ -22,7 +22,8 @@ import de.dhbw.utils.ContextManager;
  */
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, HomeFragment.OnItemClickListener, AddEventFragment.OnPostPartySuccessful{
+        implements NavigationView.OnNavigationItemSelectedListener, HomeFragment.OnItemClickListener,
+        AddEventFragment.OnPostPartySuccessful, DetailFragment.OnChangePartyListener, ChangeEventFragment.OnPutPartySuccessful{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -181,6 +182,24 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void postedPartySuccessful() {
+        displayView(R.layout.fragment_home);
+    }
+
+    @Override
+    public void onClickChangePartyButton(Party partyToChange) {
+        Fragment fragment = new ChangeEventFragment();
+        Bundle args = new Bundle();
+        args.putSerializable(ChangeEventFragment.ARG_PARTY, partyToChange);
+        fragment.setArguments(args);
+
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.main_container_body, fragment).addToBackStack("detailView");
+        fragmentTransaction.commit();
+    }
+
+    @Override
+    public void putPartySuccessful() {
         displayView(R.layout.fragment_home);
     }
 }

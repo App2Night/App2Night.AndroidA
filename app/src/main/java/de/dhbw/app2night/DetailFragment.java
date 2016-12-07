@@ -39,8 +39,13 @@ import de.dhbw.utils.Gps;
 
 public class DetailFragment extends Fragment implements View.OnClickListener, DeletePartyById, SetCommitmentState {
 
+    public interface OnChangePartyListener {
+        void onClickChangePartyButton(Party partyToChange);
+    }
+
     public static final String ARG_PARTY = "arg_party";
 
+    OnChangePartyListener mCallback;
     View rootView;
     CustomMapView mMapView;
     private GoogleMap googleMap;
@@ -64,6 +69,13 @@ public class DetailFragment extends Fragment implements View.OnClickListener, De
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         partyToDisplay = (Party)getArguments().getSerializable("arg_party");
+
+        try {
+            mCallback = (DetailFragment.OnChangePartyListener) getActivity();
+        } catch (ClassCastException e) {
+            throw new ClassCastException(getActivity().toString()
+                    + " must implement onPostPartySuccessful");
+        }
     }
 
     @Override
@@ -241,6 +253,7 @@ public class DetailFragment extends Fragment implements View.OnClickListener, De
         switch (id){
             case R.id.detail_view_button_edit:
                 //Öffne EditFragement
+                mCallback.onClickChangePartyButton(partyToDisplay);
                 break;
             case R.id.detail_view_button_participate:
                 //Übertrage neuen Status, verstecke Teilnahmebutton, zeige Absagebutton und Votebutton, sobald Party beginnt
