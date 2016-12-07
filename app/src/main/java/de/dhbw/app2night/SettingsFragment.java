@@ -12,6 +12,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.pavelsikun.seekbarpreference.SeekBarPreference;
+import com.pavelsikun.seekbarpreference.SeekBarPreferenceCompat;
+
+import de.dhbw.exceptions.IllegalKeyException;
+import de.dhbw.utils.PropertyUtil;
+import de.dhbw.utils.SettingsUtil;
 
 /**
  * Created by Flo on 27.10.2016.
@@ -19,9 +24,12 @@ import com.pavelsikun.seekbarpreference.SeekBarPreference;
 
 public class SettingsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
+    SettingsUtil settingsUtil;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        settingsUtil = SettingsUtil.getInstance();
         addPreferencesFromResource(R.xml.preferences);
     }
 
@@ -33,22 +41,33 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 
-        if (key.equals("party_range"))
+        if (key.equals("radius"))
         {
-            //TODO: Implementieren von Settings
+            SeekBarPreference range = (SeekBarPreference) findPreference(key);
+            String value = Integer.toString(range.getCurrentValue());
 
+            try
+            {
+                settingsUtil.putSettingString(key, value);
+            }catch(IllegalKeyException e) {
+            }
         }
 
         if (key.equals("gps_preference"))
         {
+            Preference gps = findPreference(key);
             //TODO: Implementieren von Settings
         }
+
         if (key.equals("wlan_preference"))
         {
+            Preference gps = findPreference(key);
             //TODO: Implementieren von Settings
         }
+
         if (key.equals("benachrichtung_preference"))
         {
+            Preference gps = findPreference(key);
             //TODO: Implementieren von Settings
         }
     }

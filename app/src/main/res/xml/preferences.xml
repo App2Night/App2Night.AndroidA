@@ -25,7 +25,7 @@
             />
 
         <com.pavelsikun.seekbarpreference.SeekBarPreference
-            android:key="party_range"
+            android:key="radius"
             android:title="Party Radius"
             android:summary="Legt den Radius fest, indem Parties in deiner Nähe angezeigt werden"
             android:enabled="true"

@@ -51,7 +51,6 @@ public class DetailFragment extends Fragment implements View.OnClickListener{
     TextView tvPartyName, tvStreetName, tvHouseNumber, tvZipCode, tvCityName, tvCountryName, tvDate, tvTime, tvPartyType, tvMusicGenre, tvDescription;
     ScrollView scrollViewDetailView;
     Button buttonEdit, buttonParticipate, buttonVote, buttonCancel;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
