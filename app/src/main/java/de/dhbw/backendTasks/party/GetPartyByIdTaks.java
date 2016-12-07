@@ -48,7 +48,7 @@ public class GetPartyByIdTaks extends AsyncTask<Void, Void, String> implements A
     }
 
     private  String buildGetUrl(){
-        return url+"/id=" + id;
+        return url+"?id=" + id;
     }
 
     @Override

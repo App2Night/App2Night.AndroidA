@@ -45,7 +45,7 @@ public class DeletePartyByIdTask extends AsyncTask<Void,Void,Boolean> implements
     }
 
     private  String buildDeleteUrl(){
-        return url+"/id=" + id;
+        return url+"?id=" + id;
     }
 
 
