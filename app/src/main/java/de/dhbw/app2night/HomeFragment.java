@@ -1,9 +1,12 @@
 package de.dhbw.app2night;
 
 import android.app.Activity;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -81,7 +84,8 @@ public class HomeFragment extends Fragment implements GetPartyList {
             double[] gpsResult = Gps.getInstance().getGPSCoordinates();
             new GetPartyListTask(this,gpsResult[0],gpsResult[1]);
         } catch (GPSUnavailableException e) {
-            //TODO: Behandlung im Fall, dass GPS nicht verfügbar ist
+
+            showGpsUnavailableDialog();
             e.printStackTrace();
         }
 
@@ -118,6 +122,29 @@ public class HomeFragment extends Fragment implements GetPartyList {
         }
     }
 
+    public void showGpsUnavailableDialog()
+    {
+        AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+        alert.setTitle("GPS nicht verfügbar");
+        alert.setMessage("App2Night benötigt deinen derzeitgen Aufenthaltsort, um dir Partys in deiner Nähe anzuzeigen.");
+        alert.setPositiveButton("Später", new DialogInterface.OnClickListener() {
+
+            public void onClick(DialogInterface dialog, int which) {
+                //TODO: Gespeicherte Daten anzeigen
+                dialog.dismiss();}
+        });
+
+        alert.setNegativeButton("Zu den Einstellungen", new DialogInterface.OnClickListener() {
+
+            public void onClick(DialogInterface dialog, int which) {
+                Intent I = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                startActivity(I);
+            }
+        });
+        AlertDialog al_gps = alert.create();
+        al_gps.show();
+    }
+
     private synchronized void adaptParties(Party[] parties){
         partyList.clear();
         for (Party party:parties) {
@@ -134,7 +161,7 @@ public class HomeFragment extends Fragment implements GetPartyList {
             double[] gpsResult = Gps.getInstance().getGPSCoordinates();
             new GetPartyListTask(this,gpsResult[0],gpsResult[1]);
         } catch (GPSUnavailableException e) {
-            //TODO: Behandlung im Fall, dass GPS nicht verfügbar ist
+            showGpsUnavailableDialog();
             e.printStackTrace();
         }
     }
