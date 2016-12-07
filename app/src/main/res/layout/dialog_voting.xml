@@ -163,6 +163,16 @@
         android:clickable="true"
         android:src="@drawable/ic_thumb_up" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/OK"
+        android:textSize="18dp"
+        android:id="@+id/vote_button_ok"
+        android:background="@color/screen_background"
+        android:layout_alignBaseline="@+id/vote_cancel_button"
+        android:layout_alignBottom="@+id/vote_cancel_button"
+        android:layout_alignParentEnd="true" />
 
     <Button
         android:layout_width="wrap_content"

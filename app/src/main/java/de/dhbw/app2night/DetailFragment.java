@@ -7,17 +7,14 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.CameraPosition;
@@ -25,12 +22,9 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.util.Calendar;
-
 import de.dhbw.exceptions.GPSUnavailableException;
 import de.dhbw.model.Party;
 import de.dhbw.utils.CustomMapView;
-import de.dhbw.utils.DateUtil;
 import de.dhbw.utils.Gps;
 
 /**
@@ -50,7 +44,7 @@ public class DetailFragment extends Fragment implements View.OnClickListener{
     Party partyToDisplay;
     TextView tvPartyName, tvStreetName, tvHouseNumber, tvZipCode, tvCityName, tvCountryName, tvDate, tvTime, tvPartyType, tvMusicGenre, tvDescription;
     ScrollView scrollViewDetailView;
-    Button buttonEdit, buttonParticipate, buttonVote, buttonCancel;
+    Button buttonEdit, buttonParticipate, buttonVote, buttonCancelParticipation, buttonCancelEvent;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -133,8 +127,10 @@ public class DetailFragment extends Fragment implements View.OnClickListener{
         buttonParticipate.setOnClickListener(this);
         buttonVote = (Button)rootView.findViewById(R.id.detail_view_button_vote);
         buttonVote.setOnClickListener(this);
-        buttonCancel = (Button)rootView.findViewById(R.id.detail_view_button_cancel);
-        buttonCancel.setOnClickListener(this);
+        buttonCancelParticipation = (Button)rootView.findViewById(R.id.detail_view_button_cancel_participation);
+        buttonCancelParticipation.setOnClickListener(this);
+        buttonCancelEvent = (Button)rootView.findViewById(R.id.detail_view_button_cancel_event);
+        buttonCancelEvent.setOnClickListener(this);
 
         //TODO: Abfrage, ob Ersteller, Partynochnichtteilnehmer, Partyteilnehmer
     }
@@ -198,20 +194,22 @@ public class DetailFragment extends Fragment implements View.OnClickListener{
             case R.id.detail_view_button_participate:
                 //Übertrage neuen Status, verstecke Teilnahmebutton, zeige Absagebutton und Votebutton, sobald Party beginnt
                 buttonParticipate.setVisibility(View.GONE);
-                buttonCancel.setVisibility(View.VISIBLE);
+                buttonCancelParticipation.setVisibility(View.VISIBLE);
                 //TODO: Abfrage, ob Party bereits angefangen hat
                 buttonVote.setVisibility(View.VISIBLE);
                 break;
             case R.id.detail_view_button_vote:
                 //Zeige Votedialog
                 break;
-            case R.id.detail_view_button_cancel:
+            case R.id.detail_view_button_cancel_participation:
                 //Übertrage neuen Status, verstecke Absagebutton und Votebutton und zeige Teilnehmebutton
-                buttonCancel.setVisibility(View.GONE);
+                buttonCancelParticipation.setVisibility(View.GONE);
                 buttonVote.setVisibility(View.GONE);
                 buttonParticipate.setVisibility(View.VISIBLE);
-
                 break;
+            case R.id.detail_view_button_cancel_event:
+                //TODO: Task mit deleteEvent
+
         }
     }
 
