@@ -175,7 +175,7 @@ public class TestFragment extends Fragment implements View.OnClickListener, Dele
     }
 
     @Override
-    public void onSuccessGetMyPartyList(Party[] parties) {
+    public void onSuccessGetMyPartyList(Party parties) {
 
     }
 

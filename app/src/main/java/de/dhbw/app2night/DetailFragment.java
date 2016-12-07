@@ -22,6 +22,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import de.dhbw.backendTasks.party.DeletePartyById;
+import de.dhbw.backendTasks.party.DeletePartyByIdTask;
 import de.dhbw.exceptions.GPSUnavailableException;
 import de.dhbw.model.Party;
 import de.dhbw.utils.CustomMapView;
@@ -31,7 +33,7 @@ import de.dhbw.utils.Gps;
  * Created by Bro on 25.11.2016.
  */
 
-public class DetailFragment extends Fragment implements View.OnClickListener{
+public class DetailFragment extends Fragment implements View.OnClickListener, DeletePartyById{
 
     public static final String ARG_PARTY = "arg_party";
 
@@ -249,9 +251,18 @@ public class DetailFragment extends Fragment implements View.OnClickListener{
                 buttonParticipate.setVisibility(View.VISIBLE);
                 break;
             case R.id.detail_view_button_cancel_event:
-                //TODO: Task mit deleteEvent
+                new DeletePartyByIdTask(this, partyToDisplay.getPartyId());
 
         }
     }
 
+    @Override
+    public void onSuccessDeletePartyById(boolean result) {
+
+    }
+
+    @Override
+    public void onFailDeletePartyById(boolean result) {
+
+    }
 }

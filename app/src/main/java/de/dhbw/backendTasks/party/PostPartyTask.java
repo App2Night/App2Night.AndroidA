@@ -54,8 +54,8 @@ public class PostPartyTask extends AsyncTask<Void,Void,Party> implements ApiPart
                 id=id.substring(1,id.length()-1);
                 //Get zum holen aller Informationen und speichern in Allgemeinem Modell
                 String result =  RestBackendCommunication.getInstance().getRequest(url+"/id="+id);
-                Party[] party = new Gson().fromJson(result, Party[].class);
-                return party[0];
+                Party party = new Gson().fromJson(result, Party.class);
+                return party;
         } catch (IOException e) {
             e.printStackTrace();
         } catch (BackendCommunicationException e) {

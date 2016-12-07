@@ -66,7 +66,7 @@ public class GetMyPartyListTask extends AsyncTask<Void, Void, String> implements
     @Override
     protected void onPostExecute(String result){
         if (result != null){
-            Party[] parties = new Gson().fromJson(result, Party[].class);
+            Party parties = new Gson().fromJson(result, Party.class);
             fragment.onSuccessGetMyPartyList(parties);
         }
 
