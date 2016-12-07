@@ -21,6 +21,7 @@
             android:orientation="horizontal">
 
             <ImageView
+                android:contentDescription="@string/icon_photo"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/profile_image"
@@ -39,7 +40,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:paddingLeft="5dp"
                 android:paddingTop="20dp"
                 android:paddingRight="5dp"
@@ -47,12 +48,14 @@
 
 
                 <ImageView
+                    android:contentDescription="@string/icon_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/profile_name"
                     android:id="@+id/profile_name"
                     />
                 <ImageView
+                    android:contentDescription="@string/icon_phone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/profile_phone"
@@ -61,6 +64,7 @@
                     android:layout_marginTop="20dp"
                     />
                 <ImageView
+                    android:contentDescription="@string/icon_mail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/profile_mail"
@@ -69,6 +73,7 @@
                     android:layout_marginTop="20dp"
                     />
                 <ImageView
+                    android:contentDescription="@string/icon_location"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/profile_adress"
@@ -78,6 +83,7 @@
                     />
 
                 <ImageView
+                    android:contentDescription="@string/icon_edit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/profile_description"
@@ -89,86 +95,86 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="Hier steht der Profil Name"
+                    android:hint="@string/profile_name"
                     android:background="@drawable/shadow_edittext"
-                    android:layout_marginLeft="50dp"
-                    android:layout_toRightOf="@id/profile_name"
+                    android:layout_marginStart="50dp"
+                    android:layout_toEndOf="@id/profile_name"
                     android:layout_alignTop="@id/profile_name"
                     android:layout_alignBottom="@id/profile_name"
                     android:id="@+id/profile_name_view"
-                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
                     android:shadowColor="@color/mdtp_dark_gray"
                     android:textAlignment="center"
                     android:textStyle="normal|italic"
-                    android:textSize="18dp"
+                    android:textSize="18sp"
                     android:textAllCaps="false" />
 
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="Hier steht die Telefon Nummer"
+                    android:hint="@string/profile_phone"
                     android:background="@drawable/shadow_edittext"
-                    android:layout_marginLeft="50dp"
-                    android:layout_toRightOf="@id/profile_phone"
+                    android:layout_marginStart="50dp"
+                    android:layout_toEndOf="@id/profile_phone"
                     android:layout_alignTop="@id/profile_phone"
                     android:layout_alignBottom="@id/profile_phone"
                     android:id="@+id/profile_phone_view"
-                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
                     android:shadowColor="@color/mdtp_dark_gray"
                     android:textAlignment="center"
                     android:textStyle="normal|italic"
-                    android:textSize="18dp"
+                    android:textSize="18sp"
                     android:textAllCaps="false" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="Hier steht die Mail"
+                    android:hint="@string/profile_mail"
                     android:background="@drawable/shadow_edittext"
-                    android:layout_marginLeft="50dp"
+                    android:layout_marginStart="50dp"
                     android:id="@+id/profile_mail_view"
-                    android:layout_toRightOf="@id/profile_mail"
+                    android:layout_toEndOf="@id/profile_mail"
                     android:layout_alignTop="@id/profile_mail"
                     android:layout_alignBottom="@id/profile_mail"
-                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
                     android:shadowColor="@color/mdtp_dark_gray"
                     android:textAlignment="center"
                     android:textStyle="normal|italic"
-                    android:textSize="18dp"
+                    android:textSize="18sp"
                     android:textAllCaps="false" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="Hier steht die Adresse"
+                    android:hint="@string/profile_adress"
                     android:background="@drawable/shadow_edittext"
-                    android:layout_marginLeft="50dp"
+                    android:layout_marginStart="50dp"
                     android:id="@+id/profile_adress_view"
-                    android:layout_toRightOf="@id/profile_adress"
+                    android:layout_toEndOf="@id/profile_adress"
                     android:layout_alignTop="@id/profile_adress"
                     android:layout_alignBottom="@id/profile_adress"
-                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
                     android:shadowColor="@color/mdtp_dark_gray"
                     android:textAlignment="center"
                     android:textStyle="normal|italic"
-                    android:textSize="18dp"
+                    android:textSize="18sp"
                     android:textAllCaps="false" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="200dp"
-                    android:hint="Hier steht die Beschreibung"
+                    android:hint="@string/profile_description"
                     android:background="@drawable/shadow_edittext"
-                    android:layout_marginLeft="50dp"
+                    android:layout_marginStart="50dp"
                     android:id="@+id/profile_description_view"
-                    android:layout_toRightOf="@id/profile_description"
+                    android:layout_toEndOf="@id/profile_description"
                     android:layout_alignTop="@id/profile_description"
-                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
                     android:shadowColor="@color/mdtp_dark_gray"
                     android:textAlignment="center"
                     android:textStyle="normal|italic"
-                    android:textSize="18dp"
+                    android:textSize="18sp"
                     android:textAllCaps="false" />
             </RelativeLayout>
 
@@ -181,7 +187,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:elevation="8dp"
         android:clickable="true"
         android:src="@drawable/ic_settings_black_24dp"
         app:layout_anchor="@id/profile_image"

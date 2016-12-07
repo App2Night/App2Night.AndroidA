@@ -89,13 +89,6 @@ public class DetailFragment extends Fragment implements View.OnClickListener, De
 
         initializeViews();
 
-        gps = Gps.getInstance();
-
-        try {
-            gps.getGPSCoordinates();
-        } catch (GPSUnavailableException e) {
-            showSettingsAlert();
-        }
         try {
             MapsInitializer.initialize(getActivity().getApplicationContext());
         } catch (Exception e) {
@@ -105,17 +98,12 @@ public class DetailFragment extends Fragment implements View.OnClickListener, De
         mMapView.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(GoogleMap mMap) {
-                googleMap = mMap;
-                try{
-                    double[] gpsCoords = gps.getGPSCoordinates();
-                    pos = new LatLng(gpsCoords[0], gpsCoords[1]);
-                    userPosition = googleMap.addMarker(new MarkerOptions().position(pos).title("Ihre Position").snippet(""));
+                    googleMap = mMap;
+                    pos = new LatLng(partyToDisplay.getLocation().getLatitude(), partyToDisplay.getLocation().getLongitude());
+                    userPosition = googleMap.addMarker(new MarkerOptions().position(pos).title("Party Position").snippet(""));
                     CameraPosition cameraPosition = new CameraPosition.Builder().target(pos).zoom(12).build();
                     googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
-                } catch (GPSUnavailableException e) {
-
-                }
             }
         });
 
@@ -273,7 +261,7 @@ public class DetailFragment extends Fragment implements View.OnClickListener, De
 
     @Override
     public void onSuccessCommitmentState(CommitmentState newCommitmentState) {
-        partyToDisplay.setUserCommitmentState(Integer.toString(CommitmentState.toEnum(newCommitmentState)));
+        partyToDisplay.setUserCommitmentState(Integer.toString(CommitmentState.toInt(newCommitmentState)));
         if (newCommitmentState == CommitmentState.Commited) {
             buttonCancelParticipation.setVisibility(View.VISIBLE);
             //TODO Zeit prüfen

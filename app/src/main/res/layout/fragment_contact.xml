@@ -15,8 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_marginBottom="@dimen/fab_margin"
-        android:layout_marginRight="@dimen/fab_margin"
-        android:elevation="6dp"
+        android:layout_marginEnd="@dimen/fab_margin"
         android:src="@drawable/plus_icon"
         app:pressedTranslationZ="12dp" />
 
@@ -26,8 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_marginBottom="100dp"
-        android:layout_marginRight="@dimen/fab_margin"
-        android:elevation="6dp"
+        android:layout_marginEnd="@dimen/fab_margin"
         android:src="@drawable/ic_facebook"
         android:visibility="invisible"
         app:backgroundTint="@color/fab1_color"
@@ -39,8 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_marginBottom="180dp"
-        android:layout_marginRight="@dimen/fab_margin"
-        android:elevation="6dp"
+        android:layout_marginEnd="@dimen/fab_margin"
         android:src="@drawable/ic_twitter"
         android:visibility="invisible"
         app:backgroundTint="@color/fab2_color"
@@ -52,8 +49,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_marginBottom="260dp"
-        android:layout_marginRight="@dimen/fab_margin"
-        android:elevation="6dp"
+        android:layout_marginEnd="@dimen/fab_margin"
         android:src="@drawable/ic_googleplus"
         android:visibility="invisible"
         app:backgroundTint="@color/fab3_color"
@@ -65,8 +61,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_marginBottom="340dp"
-        android:layout_marginRight="@dimen/fab_margin"
-        android:elevation="6dp"
+        android:layout_marginEnd="@dimen/fab_margin"
         android:src="@drawable/ic_instagram"
         android:visibility="invisible"
         app:backgroundTint="@color/fab4_color"
@@ -78,8 +73,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_marginBottom="420dp"
-        android:layout_marginRight="@dimen/fab_margin"
-        android:elevation="6dp"
+        android:layout_marginEnd="@dimen/fab_margin"
         android:src="@drawable/ic_vimeo"
         android:visibility="invisible"
         app:backgroundTint="@color/fab5_color"
@@ -91,7 +85,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <TextView
                 android:id="@+id/contact_opening"
@@ -99,7 +93,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/contact_opening"
                 android:typeface="serif"
-                android:textSize="12dp"
+                android:textSize="12sp"
                 android:textAlignment="center"
                 android:fontFamily="sans-serif-condensed" />
 
@@ -116,7 +110,7 @@
                 android:shadowDx="3.0"
                 android:shadowDy="3.0"
                 android:fontFamily="sans-serif"
-                android:textSize="15dp"
+                android:textSize="15sp"
                 android:textStyle="normal|bold" />
 
             <EditText
@@ -126,7 +120,7 @@
                 android:hint="@string/contact_name_hint"
                 android:layout_below="@id/contact_label_name"
                 android:background="@drawable/shadow_edittext"
-                android:textSize="12dp"
+                android:textSize="12sp"
                 android:textAlignment="center"
                 android:textColor="?android:attr/textColorHint"
                 android:inputType="textPersonName" />
@@ -144,7 +138,7 @@
                 android:shadowDx="3.0"
                 android:shadowDy="3.0"
                 android:fontFamily="sans-serif"
-                android:textSize="15dp"
+                android:textSize="15sp"
                 android:textStyle="normal|bold" />
 
             <EditText
@@ -154,7 +148,7 @@
                 android:hint="@string/contact_mail_hint"
                 android:layout_below="@id/contact_label_mail"
                 android:background="@drawable/shadow_edittext"
-                android:textSize="12dp"
+                android:textSize="12sp"
                 android:textAlignment="center"
                 android:textColor="?android:attr/textColorHint"
                 android:inputType="textEmailAddress" />
@@ -172,7 +166,7 @@
                 android:shadowDx="3.0"
                 android:shadowDy="3.0"
                 android:fontFamily="sans-serif"
-                android:textSize="15dp"
+                android:textSize="15sp"
                 android:textStyle="normal|bold" />
 
             <EditText
@@ -182,7 +176,7 @@
                 android:hint="@string/contact_message_hint"
                 android:layout_below="@id/contact_label_message"
                 android:background="@drawable/shadow_edittext"
-                android:textSize="12dp"
+                android:textSize="12sp"
                 android:textAlignment="center"
                 android:textColor="?android:attr/textColorHint"
                 android:inputType="none" />
