@@ -47,6 +47,7 @@
     <string name="party_date">Datum</string>
     <string name="party_time">Zeit</string>
     <string name="music_genre">Musik Genre</string>
+    <string name="party_price">Preis</string>
     <string name="country_name">Land</string>
     <string name="city_name">Stadt</string>
     <string name="street_name">Straßenname</string>
@@ -55,6 +56,12 @@
     <string name="zipcode">Postleitzahl</string>
     <string name="party_type">Art der Veranstaltung</string>
     <string name="description">Beschreibung...</string>
+    <string name="party_row_name">Das ist der Veranstaltungsname</string>
+    <string name="party_row_host">Das ist der Veranstalter</string>
+    <string name="party_row_location">Das ist der Veranstaltungsort</string>
+    <string name="party_row_time">Das ist der Veranstaltungszeitpunkt</string>
+    <string name="party_banner">Party Banner</string>
+    <string name="party_price_tag">Preis Tag</string>
 
     <!--Strings related to DetailView-->
     <string name="detail_view_button_edit">Bearbeiten</string>
@@ -73,6 +80,18 @@
     <string name="contact_message_hint">Hier bitte Ihre Nachricht eingeben</string>
     <string name="contact_button">Abschicken</string>
 
+    <!--Strings related to FragmentProfile-->
+    <string name="profile_description">Hier steht die Beschreibung</string>
+    <string name="profile_adress">Hier steht die Adresse</string>
+    <string name="profile_mail">Hier steht die Mail</string>
+    <string name="profile_phone">Hier steht die Telefon Nummer</string>
+    <string name="profile_name">Hier steht der Profil Name</string>
+    <string name="icon_photo">Foto Platzhalter</string>
+    <string name="icon_name">Name Icon</string>
+    <string name="icon_phone">Phone Icon</string>
+    <string name="icon_mail">Mail Icon</string>
+    <string name="icon_location">Location Icon</string>
+    <string name="icon_edit">Description Icon</string>
 
 
     <string name="addevent_button_ok">Veranstaltung erstellen</string>
@@ -84,5 +103,6 @@
     <string name="mood_rating">Mood Rating</string>
     <string name="location_rating">Location Rating</string>
     <string name="party_rating">Party Rating</string>
+    <string name="thumb_icon">Thumb Icon</string>
 
 </resources>
