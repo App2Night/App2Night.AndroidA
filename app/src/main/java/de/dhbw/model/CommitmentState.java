@@ -16,7 +16,7 @@ Commited, NotCommited, Bookmarked;
         }
     }
 
-    public static int toEnum(CommitmentState commitmentState){
+    public static int toInt(CommitmentState commitmentState){
         switch(commitmentState){
             case Commited: return 0;
             case Bookmarked: return 1;

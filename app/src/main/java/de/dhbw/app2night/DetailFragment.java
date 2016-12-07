@@ -260,7 +260,7 @@ public class DetailFragment extends Fragment implements View.OnClickListener, De
 
     @Override
     public void onSuccessCommitmentState(CommitmentState newCommitmentState) {
-        partyToDisplay.setUserCommitmentState(Integer.toString(CommitmentState.toEnum(newCommitmentState)));
+        partyToDisplay.setUserCommitmentState(Integer.toString(CommitmentState.toInt(newCommitmentState)));
         if (newCommitmentState == CommitmentState.Commited) {
             buttonCancelParticipation.setVisibility(View.VISIBLE);
             //TODO Zeit prüfen
