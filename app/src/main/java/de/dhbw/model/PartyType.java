@@ -5,23 +5,23 @@ package de.dhbw.model;
  */
 
 public enum PartyType {
-BAR,DISCO,FOREST;
+    Bar, Disco, Forest;
 
 
-    public PartyType toEnum(int i){
+    public static PartyType toEnum(int i){
         switch(i){
-            case 0: return BAR;
-            case 1: return DISCO;
-            case 2: return FOREST;
+            case 0: return Bar;
+            case 1: return Disco;
+            case 2: return Forest;
             default: throw new IllegalArgumentException();
         }
     }
 
-    public int toEnum(PartyType partyType){
+    public static int toEnum(PartyType partyType){
         switch(partyType){
-            case BAR: return 0;
-            case DISCO: return 1;
-            case FOREST: return 2;
+            case Bar: return 0;
+            case Disco: return 1;
+            case Forest: return 2;
             default: throw new IllegalArgumentException();
         }
     }

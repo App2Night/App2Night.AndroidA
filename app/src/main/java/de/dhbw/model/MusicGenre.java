@@ -5,28 +5,28 @@ package de.dhbw.model;
  */
 
 public enum MusicGenre {
-ALL, ROCK, POP, HIPHOP, RAP, ELECTRO;
+All, Rock, Pop, HipHop, Rap, Electro;
 
-    public MusicGenre toEnum(int i){
+    public static MusicGenre toEnum(int i){
         switch(i){
-            case 0: return ALL;
-            case 1: return ROCK;
-            case 2: return POP;
-            case 3: return HIPHOP;
-            case 4: return RAP;
-            case 5: return ELECTRO;
+            case 0: return All;
+            case 1: return Rock;
+            case 2: return Pop;
+            case 3: return HipHop;
+            case 4: return Rap;
+            case 5: return Electro;
             default: throw new IllegalArgumentException();
         }
     }
 
-    public int toEnum(MusicGenre genre){
+    public static int toEnum(MusicGenre genre){
         switch(genre){
-            case ALL: return 0;
-            case ROCK: return 1;
-            case POP: return 2;
-            case HIPHOP: return 3;
-            case RAP: return 4;
-            case ELECTRO: return 5;
+            case All: return 0;
+            case Rock: return 1;
+            case Pop: return 2;
+            case HipHop: return 3;
+            case Rap: return 4;
+            case Electro: return 5;
             default: throw new IllegalArgumentException();
         }
     }

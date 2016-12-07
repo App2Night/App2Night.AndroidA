@@ -16,15 +16,15 @@ import de.dhbw.backendTasks.party.DeletePartyByIdTask;
 import de.dhbw.backendTasks.party.GetMyPartyList;
 import de.dhbw.backendTasks.party.GetMyPartyListTask;
 import de.dhbw.backendTasks.party.GetPartyList;
-import de.dhbw.backendTasks.party.GetPartyListTask;
 import de.dhbw.backendTasks.party.PostParty;
 import de.dhbw.backendTasks.party.PostPartyTask;
 import de.dhbw.backendTasks.user.RegisterUserTask;
-import de.dhbw.backendTasks.userparty.CommitmentState;
-import de.dhbw.backendTasks.userparty.CommitmentStateTask;
+import de.dhbw.backendTasks.userparty.SetCommitmentState;
+import de.dhbw.backendTasks.userparty.SetCommitmentStateTask;
 import de.dhbw.backendTasks.userparty.PartyRating;
 import de.dhbw.backendTasks.userparty.PartyRatingTask;
 import de.dhbw.exceptions.IllegalKeyException;
+import de.dhbw.model.CommitmentState;
 import de.dhbw.model.Location;
 import de.dhbw.model.Party;
 import de.dhbw.model.PartyDisplay;
@@ -35,7 +35,7 @@ import de.dhbw.utils.SettingsUtil;
  * Created by Flo on 02.11.2016.
  */
 
-public class TestFragment extends Fragment implements View.OnClickListener, DeletePartyById, GetPartyList, PostParty, GetMyPartyList, CommitmentState, PartyRating {
+public class TestFragment extends Fragment implements View.OnClickListener, DeletePartyById, GetPartyList, PostParty, GetMyPartyList, SetCommitmentState, PartyRating {
     public TextView viewStatus;
     private Button buttonGet, buttonPost, buttonPut, buttonDelete, buttonSettings, buttonRegister;
 
@@ -131,7 +131,7 @@ public class TestFragment extends Fragment implements View.OnClickListener, Dele
 
                 break;
             case R.id.main_button_put:
-                new CommitmentStateTask(this,"bla",1);
+                new SetCommitmentStateTask(this,"bla",CommitmentState.Commited);
                 new PartyRatingTask(this,"bla",new Rating(1,1,-1,0));
 
                 break;
@@ -160,7 +160,7 @@ public class TestFragment extends Fragment implements View.OnClickListener, Dele
     }
 
     @Override
-    public void onFailGetPartyList(Party[] parties) {
+    public void onFailGetPartyList() {
 
     }
 
@@ -185,7 +185,7 @@ public class TestFragment extends Fragment implements View.OnClickListener, Dele
     }
 
     @Override
-    public void onSuccessCommitmentState() {
+    public void onSuccessCommitmentState(CommitmentState bla) {
 
     }
 

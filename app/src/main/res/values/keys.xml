@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="maps_key">AIzaSyBgjouGBlzMWyRmf2BNdFdzPvN9TpmdubM</string>
+    <string name="maps_key">KEY_HERE</string>
 </resources>

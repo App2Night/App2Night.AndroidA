@@ -56,15 +56,7 @@ public class PostPartyTask extends AsyncTask<Void,Void,Party> implements ApiPart
                 String result =  RestBackendCommunication.getInstance().getRequest(url+"/id="+id);
                 Party party = new Gson().fromJson(result, Party.class);
                 return party;
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (BackendCommunicationException e) {
-            e.printStackTrace();
-        } catch (NetworkUnavailableException e) {
-            e.printStackTrace();
-        } catch (NoTokenFoundException e) {
-            e.printStackTrace();
-        } catch (RefreshTokenFailedException e) {
+         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
@@ -72,11 +64,9 @@ public class PostPartyTask extends AsyncTask<Void,Void,Party> implements ApiPart
 
     @Override
     protected void onPostExecute(Party result ){
-        if (result != null){
+        if (result != null)
             fragment.onSuccessPostParty(result);
-    }
         else
             fragment.onFailPostParty(displayParty);
-    }
-
+}
 }

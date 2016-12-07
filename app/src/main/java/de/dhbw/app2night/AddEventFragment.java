@@ -24,14 +24,19 @@ import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 import de.dhbw.backendTasks.party.AdressValidate;
 import de.dhbw.backendTasks.party.AdressValidateTask;
 import de.dhbw.backendTasks.party.PostParty;
 import de.dhbw.backendTasks.party.PostPartyTask;
+import de.dhbw.model.MusicGenre;
 import de.dhbw.model.Party;
 import de.dhbw.model.PartyDisplay;
+import de.dhbw.model.PartyType;
 
 /**
  * Created by Flo on 31.10.2016.
@@ -56,6 +61,7 @@ public class AddEventFragment extends Fragment implements View.OnTouchListener, 
     DatePickerDialog dpd;
     TimePickerDialog tpd;
     Button okButton;
+    Calendar now;
 
 
     public AddEventFragment() {
@@ -97,24 +103,12 @@ public class AddEventFragment extends Fragment implements View.OnTouchListener, 
         progressBar = (ProgressBar) rootView.findViewById(R.id.location_check_progress);
 
         spinnerPartyType = (Spinner) rootView.findViewById(R.id.spinner_party_type);
-        // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> adapterPartyType = ArrayAdapter.createFromResource(this.getActivity(),
-                R.array.party_type, android.R.layout.simple_spinner_item);
-        // Specify the layout to use when the list of choices appears
-        adapterPartyType.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
-        spinnerPartyType.setAdapter(adapterPartyType);
+        spinnerPartyType.setAdapter(new ArrayAdapter<PartyType>(getActivity(), android.R.layout.simple_spinner_dropdown_item, PartyType.values()));
 
         spinnerMusicGenre = (Spinner) rootView.findViewById(R.id.spinner_music_genre);
-        // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> adapterMusicGenre = ArrayAdapter.createFromResource(this.getActivity(),
-                R.array.music_genre, android.R.layout.simple_spinner_item);
-        // Specify the layout to use when the list of choices appears
-        adapterMusicGenre.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
-        spinnerMusicGenre.setAdapter(adapterMusicGenre);
+        spinnerMusicGenre.setAdapter(new ArrayAdapter<MusicGenre>(getActivity(), android.R.layout.simple_spinner_dropdown_item, MusicGenre.values()));
 
-        Calendar now = Calendar.getInstance();
+        now = Calendar.getInstance();
         dpd = DatePickerDialog.newInstance(
                 AddEventFragment.this,
                 now.get(Calendar.YEAR),
@@ -122,12 +116,16 @@ public class AddEventFragment extends Fragment implements View.OnTouchListener, 
                 now.get(Calendar.DAY_OF_MONTH)
         );
 
+        dpd.setMinDate(now);
+
         tpd = TimePickerDialog.newInstance(
                 AddEventFragment.this,
                 now.get(Calendar.HOUR_OF_DAY),
                 now.get(Calendar.MINUTE),
                 true
         );
+
+        tpd.setMinTime(now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE), now.get(Calendar.SECOND));
 
         okButton = (Button) rootView.findViewById(R.id.addevent_button_ok);
         okButton.setOnClickListener(this);
@@ -196,6 +194,7 @@ public class AddEventFragment extends Fragment implements View.OnTouchListener, 
         PartyDisplay partyDisplay = new PartyDisplay();
         Boolean correctInput = true;
 
+
         if(!editTextPartyName.getText().toString().trim().equals("")) {
             editTextPartyName.setError(null);
             tilPartyName.setError(null);
@@ -262,6 +261,29 @@ public class AddEventFragment extends Fragment implements View.OnTouchListener, 
             if(!textTime.getText().equals("")) {
                 partyDateTime = partyDate + partyTime;
                 partyDisplay.setPartyDate(partyDateTime);
+
+                String sPDate = partyDate;
+                Date pdate = null;
+                Date nowDate = null;
+                now = Calendar.getInstance();
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                try {
+                    pdate = format.parse(sPDate);
+                    nowDate = format.parse(format.format(now.getTime()));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                if(pdate.equals(nowDate)) {
+                    String[] timeToCheck = textTime.getText().toString().split(":");
+                    int hourToCheck = Integer.parseInt(timeToCheck[0]);
+                    int minToCheck = Integer.parseInt(timeToCheck[1]);
+                    if ((minToCheck < now.get(Calendar.MINUTE) && hourToCheck < now.get(Calendar.HOUR_OF_DAY)) || hourToCheck < now.get(Calendar.HOUR_OF_DAY)) {
+                        textTime.setError("\"" + getString(R.string.party_time) + "\"" + " darf nicht in der Vergangenheit liegen");
+                        correctInput = false;
+                    }
+
+                }
             }else{
                 textTime.setError("\"" + getString(R.string.party_time) + "\"" + " darf nicht leer sein");
                 correctInput = false;
@@ -275,21 +297,12 @@ public class AddEventFragment extends Fragment implements View.OnTouchListener, 
             correctInput = false;
         }
 
-        if(spinnerPartyType.getSelectedItemPosition()!= 0) {
-            ((TextView)spinnerPartyType.getChildAt(0)).setError(null);
-            partyDisplay.setPartyType(spinnerPartyType.getSelectedItemPosition() - 1);
-        }else{
-            ((TextView)spinnerPartyType.getChildAt(0)).setError("\"" + getString(R.string.party_type) + "\"" + " darf nicht leer sein");
-            correctInput = false;
-        }
 
-        if(spinnerMusicGenre.getSelectedItemPosition()!= 0) {
-            ((TextView)spinnerMusicGenre.getChildAt(0)).setError(null);
-            partyDisplay.setMusicGenre(spinnerMusicGenre.getSelectedItemPosition() - 1);
-        }else{
-            ((TextView)spinnerMusicGenre.getChildAt(0)).setError("\"" + getString(R.string.music_genre) + "\"" + " darf nicht leer sein");
-            correctInput = false;
-        }
+
+        partyDisplay.setPartyType(spinnerPartyType.getSelectedItemPosition());
+
+        partyDisplay.setMusicGenre(spinnerMusicGenre.getSelectedItemPosition());
+
 
         if(!editTextDescription.getText().toString().trim().equals("")) {
             editTextDescription.setError(null);

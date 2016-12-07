@@ -56,23 +56,14 @@ public class ChangePartyByIdTask extends AsyncTask<Void, Void, Boolean> implemen
     @Override
     protected Boolean  doInBackground(Void... params) {
         try {
-
                 String id = partyDisplay.getPartyId();
                 partyDisplay.setPartyId(null);
                 String jString = new Gson().toJson(partyDisplay);
                 return RestBackendCommunication.getInstance().putRequest(buildPutUrl(id), jString);
-        } catch (IOException e) {
+        } catch (Exception e) {
             return false;
-        } catch (BackendCommunicationException e) {
-            return false;
-        } catch (NetworkUnavailableException e) {
-            return false;
-        } catch (NoTokenFoundException e) {
-            e.printStackTrace();
-        } catch (RefreshTokenFailedException e) {
-            e.printStackTrace();
         }
-        return false;
+
     }
 
     @Override
