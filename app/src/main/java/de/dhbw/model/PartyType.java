@@ -17,7 +17,7 @@ public enum PartyType {
         }
     }
 
-    public static int toEnum(PartyType partyType){
+    public static int toInt(PartyType partyType){
         switch(partyType){
             case Bar: return 0;
             case Disco: return 1;

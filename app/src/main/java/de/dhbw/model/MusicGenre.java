@@ -19,7 +19,7 @@ All, Rock, Pop, HipHop, Rap, Electro;
         }
     }
 
-    public static int toEnum(MusicGenre genre){
+    public static int toInt(MusicGenre genre){
         switch(genre){
             case All: return 0;
             case Rock: return 1;

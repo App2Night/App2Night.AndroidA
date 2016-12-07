@@ -48,7 +48,7 @@ public class SetCommitmentStateTask extends AsyncTask<Void,Void,Boolean> impleme
 
         try {
             JSONObject jObj = new JSONObject();
-            jObj.put("eventCommitment",CommitmentState.toEnum(commitmentState));
+            jObj.put("eventCommitment",CommitmentState.toInt(commitmentState));
             return RestBackendCommunication.getInstance().putRequest(buildPutUrl(), jObj.toString());
         } catch (Exception e) {
             e.printStackTrace();
