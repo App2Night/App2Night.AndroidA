@@ -21,19 +21,24 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import de.dhbw.backendTasks.party.GetPartyList;
+import de.dhbw.backendTasks.party.GetPartyListTask;
 import de.dhbw.exceptions.GPSUnavailableException;
+import de.dhbw.model.Party;
 import de.dhbw.utils.Gps;
 
 /**
  * Created by Flo on 31.10.2016.
  */
-public class FindEventFragment extends Fragment {
+public class FindEventFragment extends Fragment implements GetPartyList {
 
     MapView mMapView;
     private GoogleMap googleMap;
     Gps gps;
     Marker userPosition;
     LatLng pos;
+    private double latitudeUser;
+    private double longtitudeUser;
 
     @Nullable
     @Override
@@ -46,7 +51,10 @@ public class FindEventFragment extends Fragment {
         gps = Gps.getInstance();
 
         try {
-            gps.getGPSCoordinates();
+            double[] gpsKoord = gps.getGPSCoordinates();
+            latitudeUser = gpsKoord[0];
+            longtitudeUser = gpsKoord[1];
+            new GetPartyListTask(this, latitudeUser, longtitudeUser);
         } catch (GPSUnavailableException e) {
             showSettingsAlert();
         }
@@ -55,7 +63,7 @@ public class FindEventFragment extends Fragment {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+/*
         mMapView.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(GoogleMap mMap) {
@@ -79,7 +87,7 @@ public class FindEventFragment extends Fragment {
                 }
             }
         });
-
+*/
         return rootView;
     }
 
@@ -128,6 +136,44 @@ public class FindEventFragment extends Fragment {
             }
         });
         alertDialog.show();
+    }
+
+    @Override
+    public void onSuccessGetPartyList(final Party[] parties) {
+        try {
+            MapsInitializer.initialize(getActivity().getApplicationContext());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        mMapView.getMapAsync(new OnMapReadyCallback() {
+            @Override
+            public void onMapReady(GoogleMap mMap) {
+                googleMap = mMap;
+
+                // For showing a move to my location button
+
+                //googleMap.setMyLocationEnabled(true); //TODO: Fixen von setMyLocationEnabled
+
+                // For dropping a marker at a point on the Map
+
+
+                   for (Party p : parties) {
+                       pos = new LatLng(p.getLocation().getLatitude(), p.getLocation().getLongitude());
+                       userPosition = googleMap.addMarker(new MarkerOptions().position(pos).title(p.getPartyName()).snippet(""));
+                   }
+                pos = new LatLng(latitudeUser, longtitudeUser);
+                CameraPosition cameraPosition = new CameraPosition.Builder().target(pos).zoom(11).build();
+                googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+
+
+                }
+        });
+    }
+
+    @Override
+    public void onFailGetPartyList() {
+
     }
 }
 

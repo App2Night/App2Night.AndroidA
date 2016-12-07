@@ -36,6 +36,10 @@ public class ChangePartyByIdTask extends AsyncTask<Void, Void, Boolean> implemen
         this.fragment = fragment;
         this.partyDisplay = partyDisplay;
 
+        //Wenn keine ID angegeben ist, kann nicht geputet werden
+        if (partyDisplay.getPartyId()== null)
+            return;
+
         prepare();
     }
     public void setUrl(String urlParm){
