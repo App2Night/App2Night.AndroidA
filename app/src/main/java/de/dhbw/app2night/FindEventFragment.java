@@ -120,18 +120,19 @@ public class FindEventFragment extends Fragment implements GetPartyList {
     public void showSettingsAlert() {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
 
-        alertDialog.setTitle("GPS");
+        alertDialog.setTitle("GPS nicht verfügbar");
 
-        alertDialog.setMessage("GPS is not enabled. Do you want to go to settings menu?");
+        alertDialog.setMessage("App2Night benötigt deinen derzeitgen Aufenthaltsort, um dir Partys in deiner Nähe anzuzeigen.");
 
-        alertDialog.setPositiveButton("Settings", new DialogInterface.OnClickListener() {
+        alertDialog.setPositiveButton("Zu den Einstellungen", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                 getActivity().startActivity(intent);
             }
         });
-        alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        alertDialog.setNegativeButton("Später", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
+                //TODO: Gespeicherte Locations anzeigen
                 dialog.cancel();
             }
         });
