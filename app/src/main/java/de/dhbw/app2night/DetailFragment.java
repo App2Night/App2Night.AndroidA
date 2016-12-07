@@ -165,6 +165,7 @@ public class DetailFragment extends Fragment implements View.OnClickListener{
                 break;
             case Host:
                 buttonCancelEvent.setVisibility(View.VISIBLE);
+                buttonEdit.setVisibility(View.VISIBLE);
                 break;
             case Bookmarked:
                 buttonParticipate.setVisibility(View.VISIBLE);
