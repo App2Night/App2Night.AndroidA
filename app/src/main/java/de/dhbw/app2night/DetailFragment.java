@@ -24,6 +24,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import de.dhbw.backendTasks.party.DeletePartyById;
 import de.dhbw.backendTasks.party.DeletePartyByIdTask;
+import de.dhbw.backendTasks.userparty.CommitmentState;
+import de.dhbw.backendTasks.userparty.CommitmentStateTask;
 import de.dhbw.exceptions.GPSUnavailableException;
 import de.dhbw.model.Party;
 import de.dhbw.utils.CustomMapView;
@@ -33,7 +35,7 @@ import de.dhbw.utils.Gps;
  * Created by Bro on 25.11.2016.
  */
 
-public class DetailFragment extends Fragment implements View.OnClickListener, DeletePartyById{
+public class DetailFragment extends Fragment implements View.OnClickListener, DeletePartyById, CommitmentState{
 
     public static final String ARG_PARTY = "arg_party";
 
@@ -49,6 +51,9 @@ public class DetailFragment extends Fragment implements View.OnClickListener, De
     Button buttonEdit, buttonParticipate, buttonVote, buttonCancelParticipation, buttonCancelEvent;
 
     Status status;
+
+
+
     private enum Status{
         Host, Participant, NotParticipant, Bookmarked, Unknown
     }
@@ -236,10 +241,7 @@ public class DetailFragment extends Fragment implements View.OnClickListener, De
                 break;
             case R.id.detail_view_button_participate:
                 //Übertrage neuen Status, verstecke Teilnahmebutton, zeige Absagebutton und Votebutton, sobald Party beginnt
-                buttonParticipate.setVisibility(View.GONE);
-                buttonCancelParticipation.setVisibility(View.VISIBLE);
-                //TODO: Abfrage, ob Party bereits angefangen hat
-                buttonVote.setVisibility(View.VISIBLE);
+                new CommitmentStateTask(this, partyToDisplay.getPartyId(), 0);
                 break;
             case R.id.detail_view_button_vote:
                 //Zeige Votedialog
@@ -257,12 +259,27 @@ public class DetailFragment extends Fragment implements View.OnClickListener, De
     }
 
     @Override
-    public void onSuccessDeletePartyById(boolean result) {
+    public void onSuccessCommitmentState() {
+        partyToDisplay.setUserCommitmentState("0");
+            buttonCancelParticipation.setVisibility(View.VISIBLE);
 
+            //TODO Zeit prüfen
+            buttonVote.setVisibility(View.VISIBLE);
+            buttonParticipate.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onFailCommitmentState() {
+            //TODO Fehler Toast
+    }
+
+    @Override
+    public void onSuccessDeletePartyById(boolean result) {
+            //TODO Success Toast und Fragment beenden
     }
 
     @Override
     public void onFailDeletePartyById(boolean result) {
-
+            //TODO Toast ausgeben
     }
 }

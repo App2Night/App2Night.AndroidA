@@ -30,7 +30,7 @@ public class CommitmentStateTask extends AsyncTask<Void,Void,Boolean> implements
 
     public CommitmentStateTask(CommitmentState commitmentState, String partyId, int commitmentStateValue){
         this.commitmentStateValue = commitmentStateValue;
-        this.partyId = "81a93271-591b-4b72-1bc5-08d4193d1de2";//partyId;
+        this.partyId = partyId;
         this.commitmentState=commitmentState;
         prepare();
     }
@@ -46,7 +46,7 @@ public class CommitmentStateTask extends AsyncTask<Void,Void,Boolean> implements
     }
 
     private String buildPutUrl(){
-        return url+"/id="+partyId;
+        return url+"?id="+partyId;
     }
 
     @Override

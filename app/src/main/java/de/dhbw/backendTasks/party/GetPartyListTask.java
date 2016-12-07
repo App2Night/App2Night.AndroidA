@@ -8,12 +8,14 @@ import java.io.IOException;
 
 import de.dhbw.BackEndCommunication.RestBackendCommunication;
 import de.dhbw.exceptions.BackendCommunicationException;
+import de.dhbw.exceptions.IllegalKeyException;
 import de.dhbw.exceptions.NetworkUnavailableException;
 import de.dhbw.exceptions.NoTokenFoundException;
 import de.dhbw.exceptions.RefreshTokenFailedException;
 import de.dhbw.model.Party;
 import de.dhbw.utils.GetPartyListSave;
 import de.dhbw.utils.PropertyUtil;
+import de.dhbw.utils.SettingsUtil;
 
 /**
  * Created by Tobias Berner on 21.10.2016.
@@ -37,11 +39,15 @@ public class GetPartyListTask extends AsyncTask<Void, Void, String> implements A
         url = urlParm;
     }
 
-    public GetPartyListTask(GetPartyList fragment, double latitude, double longtitude, float radius) {
+    public GetPartyListTask(GetPartyList fragment, double latitude, double longtitude) {
         this.fragment = fragment;
         this.latitude = latitude;
         this.longtitude = longtitude;
-        this.radius = radius;
+        try {
+            this.radius =  Float.parseFloat(SettingsUtil.getInstance().getSetting("radius"));
+        } catch (IllegalKeyException e) {
+            this.radius = 100;
+        }
         prepare();
     }
 

@@ -79,7 +79,7 @@ public class HomeFragment extends Fragment implements GetPartyList {
         adaptParties(GetPartyListSave.getInstance().getList());
         try {
             double[] gpsResult = Gps.getInstance().getGPSCoordinates();
-            new GetPartyListTask(this,gpsResult[0],gpsResult[1],100);
+            new GetPartyListTask(this,gpsResult[0],gpsResult[1]);
         } catch (GPSUnavailableException e) {
             //TODO: Behandlung im Fall, dass GPS nicht verfügbar ist
             e.printStackTrace();
@@ -132,7 +132,7 @@ public class HomeFragment extends Fragment implements GetPartyList {
     {
         try {
             double[] gpsResult = Gps.getInstance().getGPSCoordinates();
-            new GetPartyListTask(this,gpsResult[0],gpsResult[1],100);
+            new GetPartyListTask(this,gpsResult[0],gpsResult[1]);
         } catch (GPSUnavailableException e) {
             //TODO: Behandlung im Fall, dass GPS nicht verfügbar ist
             e.printStackTrace();
