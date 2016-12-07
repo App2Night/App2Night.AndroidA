@@ -33,9 +33,7 @@ public class RegisterUserTask extends AsyncTask<Void, Void, Boolean> {
     protected Boolean doInBackground(Void... params) {
         try {
             return RestBackendCommunication.getInstance().register(username,password,email);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (BackendCommunicationException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return false;

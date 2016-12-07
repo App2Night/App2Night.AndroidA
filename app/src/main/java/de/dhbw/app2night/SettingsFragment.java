@@ -1,21 +1,14 @@
 package de.dhbw.app2night;
 
-import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
-import android.preference.PreferenceScreen;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.pavelsikun.seekbarpreference.SeekBarPreference;
-import com.pavelsikun.seekbarpreference.SeekBarPreferenceCompat;
-
 import de.dhbw.exceptions.IllegalKeyException;
-import de.dhbw.utils.PropertyUtil;
 import de.dhbw.utils.SettingsUtil;
 
 /**

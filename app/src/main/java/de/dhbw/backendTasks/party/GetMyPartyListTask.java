@@ -49,15 +49,7 @@ public class GetMyPartyListTask extends AsyncTask<Void, Void, String> implements
     protected String doInBackground(Void... params) {
         try {
             return RestBackendCommunication.getInstance().getRequest(url);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (BackendCommunicationException e) {
-            e.printStackTrace();
-        } catch (NetworkUnavailableException e) {
-            e.printStackTrace();
-        } catch (RefreshTokenFailedException e) {
-            e.printStackTrace();
-        } catch (NoTokenFoundException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
@@ -66,7 +58,7 @@ public class GetMyPartyListTask extends AsyncTask<Void, Void, String> implements
     @Override
     protected void onPostExecute(String result){
         if (result != null){
-            Party[] parties = new Gson().fromJson(result, Party[].class);
+            Party parties = new Gson().fromJson(result, Party.class);
             fragment.onSuccessGetMyPartyList(parties);
         }
 

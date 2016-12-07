@@ -53,22 +53,10 @@ public class DeletePartyByIdTask extends AsyncTask<Void,Void,Boolean> implements
     protected Boolean  doInBackground(Void... params) {
         try {
             return RestBackendCommunication.getInstance().deleteRequest(buildDeleteUrl());
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
-            return false;
-          } catch (BackendCommunicationException e) {
-            e.printStackTrace();
-            return false;
-        } catch (NetworkUnavailableException e) {
-            e.printStackTrace();
-            return false;
-        } catch (NoTokenFoundException e) {
-            e.printStackTrace();
-            return false;
-        } catch (RefreshTokenFailedException e) {
-            e.printStackTrace();
-            return false;
         }
+        return false;
     }
 
     @Override

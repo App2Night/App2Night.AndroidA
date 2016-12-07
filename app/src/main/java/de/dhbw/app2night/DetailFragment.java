@@ -22,16 +22,22 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import de.dhbw.backendTasks.party.DeletePartyById;
+import de.dhbw.backendTasks.party.DeletePartyByIdTask;
+import de.dhbw.backendTasks.userparty.SetCommitmentState;
+import de.dhbw.backendTasks.userparty.SetCommitmentStateTask;
 import de.dhbw.exceptions.GPSUnavailableException;
+import de.dhbw.model.CommitmentState;
 import de.dhbw.model.Party;
 import de.dhbw.utils.CustomMapView;
+import de.dhbw.utils.DateUtil;
 import de.dhbw.utils.Gps;
 
 /**
  * Created by Bro on 25.11.2016.
  */
 
-public class DetailFragment extends Fragment implements View.OnClickListener{
+public class DetailFragment extends Fragment implements View.OnClickListener, DeletePartyById, SetCommitmentState {
 
     public static final String ARG_PARTY = "arg_party";
 
@@ -47,6 +53,9 @@ public class DetailFragment extends Fragment implements View.OnClickListener{
     Button buttonEdit, buttonParticipate, buttonVote, buttonCancelParticipation, buttonCancelEvent;
 
     Status status;
+
+
+
     private enum Status{
         Host, Participant, NotParticipant, Bookmarked, Unknown
     }
@@ -116,9 +125,9 @@ public class DetailFragment extends Fragment implements View.OnClickListener{
         tvCountryName.setText(partyToDisplay.getLocation().getCountyName());
 
         tvDate = (TextView)rootView.findViewById(R.id.detail_view_text_party_date);
-        tvDate.setText(partyToDisplay.getPartyDate());
+        tvDate.setText(DateUtil.getInstance().getDate(partyToDisplay.getPartyDate()));
         tvTime = (TextView)rootView.findViewById(R.id.detail_view_text_party_time);
-        tvTime.setText(partyToDisplay.getPartyDate());
+        tvTime.setText(DateUtil.getInstance().getTime(partyToDisplay.getPartyDate()));
 
         tvPartyType = (TextView)rootView.findViewById(R.id.detail_view_text_party_type);
         tvPartyType.setText(Integer.toString(partyToDisplay.getPartyType()));
@@ -235,24 +244,51 @@ public class DetailFragment extends Fragment implements View.OnClickListener{
                 break;
             case R.id.detail_view_button_participate:
                 //Übertrage neuen Status, verstecke Teilnahmebutton, zeige Absagebutton und Votebutton, sobald Party beginnt
-                buttonParticipate.setVisibility(View.GONE);
-                buttonCancelParticipation.setVisibility(View.VISIBLE);
-                //TODO: Abfrage, ob Party bereits angefangen hat
-                buttonVote.setVisibility(View.VISIBLE);
+                new SetCommitmentStateTask(this, partyToDisplay.getPartyId(), CommitmentState.Commited);
                 break;
             case R.id.detail_view_button_vote:
                 //Zeige Votedialog
                 break;
             case R.id.detail_view_button_cancel_participation:
-                //Übertrage neuen Status, verstecke Absagebutton und Votebutton und zeige Teilnehmebutton
-                buttonCancelParticipation.setVisibility(View.GONE);
-                buttonVote.setVisibility(View.GONE);
-                buttonParticipate.setVisibility(View.VISIBLE);
+                new SetCommitmentStateTask(this, partyToDisplay.getPartyId(), CommitmentState.NotCommited);
                 break;
             case R.id.detail_view_button_cancel_event:
-                //TODO: Task mit deleteEvent
+                new DeletePartyByIdTask(this, partyToDisplay.getPartyId());
 
         }
     }
 
+    @Override
+    public void onSuccessCommitmentState(CommitmentState newCommitmentState) {
+        partyToDisplay.setUserCommitmentState(Integer.toString(CommitmentState.toEnum(newCommitmentState)));
+        if (newCommitmentState == CommitmentState.Commited) {
+            buttonCancelParticipation.setVisibility(View.VISIBLE);
+            //TODO Zeit prüfen
+            buttonVote.setVisibility(View.VISIBLE);
+            buttonParticipate.setVisibility(View.GONE);
+        } else if (newCommitmentState == CommitmentState.NotCommited){
+            buttonCancelParticipation.setVisibility(View.GONE);
+            buttonVote.setVisibility(View.GONE);
+            buttonParticipate.setVisibility(View.VISIBLE);
+        }else if ( newCommitmentState == CommitmentState.Bookmarked){
+
+            //TODO
+        }
+
+    }
+
+    @Override
+    public void onFailCommitmentState() {
+            //TODO Fehler Toast
+    }
+
+    @Override
+    public void onSuccessDeletePartyById(boolean result) {
+            //TODO Success Toast und Fragment beenden
+    }
+
+    @Override
+    public void onFailDeletePartyById(boolean result) {
+            //TODO Toast ausgeben
+    }
 }
