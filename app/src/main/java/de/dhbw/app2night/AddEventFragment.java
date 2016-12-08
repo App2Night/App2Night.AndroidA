@@ -83,7 +83,7 @@ public class AddEventFragment extends Fragment implements View.OnTouchListener, 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.fragment_addevent, container, false);
+        rootView = inflater.inflate(R.layout.fragment_addchangeevent, container, false);
 
         initializeViews();
 
@@ -129,6 +129,7 @@ public class AddEventFragment extends Fragment implements View.OnTouchListener, 
 
         okButton = (Button) rootView.findViewById(R.id.addevent_button_ok);
         okButton.setOnClickListener(this);
+        okButton.setText("Veranstaltung erstellen");
 
         editTextPartyName = (EditText) rootView.findViewById(R.id.input_party_name);
         editTextStreetName = (EditText) rootView.findViewById(R.id.input_street_name);

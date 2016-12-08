@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity
                 displayView(R.layout.fragment_home);
                 break;
             case R.id.nav_addEvent:
-                displayView(R.layout.fragment_addevent);
+                displayView(R.layout.fragment_addchangeevent);
                 break;
             case R.id.nav_findEvent:
                 displayView(R.layout.fragment_findevent);
@@ -126,7 +126,7 @@ public class MainActivity extends AppCompatActivity
                 fragment = new HomeFragment();
                 title = getString(R.string.title_home);
                 break;
-            case R.layout.fragment_addevent:
+            case R.layout.fragment_addchangeevent:
                 fragment = new AddEventFragment();
                 title = getString(R.string.title_addevent);
                 break;

@@ -89,7 +89,7 @@ public class ChangeEventFragment extends Fragment implements View.OnTouchListene
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.fragment_addevent, container, false);
+        rootView = inflater.inflate(R.layout.fragment_addchangeevent, container, false);
 
         initializeViews();
 
@@ -165,6 +165,7 @@ public class ChangeEventFragment extends Fragment implements View.OnTouchListene
 
         okButton = (Button) rootView.findViewById(R.id.addevent_button_ok);
         okButton.setOnClickListener(this);
+        okButton.setText("Änderungen bestätigen");
 
         //Erstellen eines bearbeitbaren PartyDisplays aus der geladenen zu ändernden Party
         partyDisplay = new PartyDisplay(partyToChange);

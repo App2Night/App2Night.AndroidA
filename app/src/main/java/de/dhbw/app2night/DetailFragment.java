@@ -53,7 +53,9 @@ public class DetailFragment extends Fragment implements View.OnClickListener, De
     Marker userPosition;
     LatLng pos;
     Party partyToDisplay;
-    TextView tvPartyName, tvStreetName, tvHouseNumber, tvZipCode, tvCityName, tvCountryName, tvDate, tvTime, tvPartyType, tvMusicGenre, tvDescription;
+    TextView tvPartyName, tvStreetName, tvHouseNumber,
+            tvZipCode, tvCityName, tvCountryName, tvDate, tvTime, tvPartyType, tvMusicGenre, tvDescription,
+            tvVotingGeneral, tvVotingLocation, tvVotingPrice, tvVotingMood;
     ScrollView scrollViewDetailView;
     Button buttonEdit, buttonParticipate, buttonVote, buttonCancelParticipation, buttonCancelEvent;
 
@@ -135,6 +137,42 @@ public class DetailFragment extends Fragment implements View.OnClickListener, De
         tvMusicGenre.setText(Integer.toString(partyToDisplay.getMusicGenre()));
         tvDescription = (TextView)rootView.findViewById(R.id.detail_view_text_description);
         tvDescription.setText(partyToDisplay.getDescription());
+
+        tvVotingGeneral = (TextView)rootView.findViewById(R.id.detail_view_text_voting_general);
+        int generalUpVotes = partyToDisplay.getGeneralUpVoting();
+        int generalDownVotes = partyToDisplay.getGeneralDownVoting();
+        if(generalUpVotes+generalDownVotes != 0) {
+            tvVotingGeneral.setText(Integer.toString(generalUpVotes / (generalUpVotes + generalDownVotes)));
+        }else{
+            tvVotingGeneral.setText("-");
+        }
+
+        tvVotingLocation = (TextView)rootView.findViewById(R.id.detail_view_text_voting_location);
+        int locationUpVotes = partyToDisplay.getLocationUpVoting();
+        int locationDownVotes = partyToDisplay.getLocationDownVoting();
+        if(locationUpVotes+generalDownVotes != 0) {
+            tvVotingLocation.setText(Integer.toString(locationUpVotes / (locationUpVotes + locationDownVotes)));
+        }else{
+            tvVotingLocation.setText("-");
+        }
+
+        tvVotingPrice = (TextView)rootView.findViewById(R.id.detail_view_text_voting_price);
+        int priceUpVotes = partyToDisplay.getPriceUpVoting();
+        int priceDownVotes = partyToDisplay.getPriceDownVoting();
+        if(priceUpVotes+priceDownVotes != 0) {
+            tvVotingPrice.setText(Integer.toString(priceUpVotes / (priceUpVotes + priceDownVotes)));
+        }else{
+            tvVotingPrice.setText("-");
+        }
+
+        tvVotingMood = (TextView)rootView.findViewById(R.id.detail_view_text_voting_mood);
+        int moodUpVotes = partyToDisplay.getMoodUpVoting();
+        int moodDownVotes = partyToDisplay.getMoodDownVoting();
+        if(moodUpVotes+moodDownVotes != 0) {
+            tvVotingMood.setText(Integer.toString(moodUpVotes / (moodUpVotes + moodDownVotes)));
+        }else{
+            tvVotingMood.setText("-");
+        }
 
         buttonEdit = (Button)rootView.findViewById(R.id.detail_view_button_edit);
         buttonEdit.setOnClickListener(this);

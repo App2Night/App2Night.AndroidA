@@ -196,6 +196,144 @@
                         android:text="@string/music_genre"/>
 
                 </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_standard">
+
+                    <TextView
+                        android:id="@+id/detail_view_text_price_description"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="6"
+                        android:textSize="@dimen/text_view_normal"
+                        android:textStyle="bold"
+                        android:maxLines="1"
+                        android:text="@string/price" />
+                    <TextView
+                        android:id="@+id/detail_view_text_price"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="4"
+                        android:textSize="@dimen/text_view_normal"
+                        android:maxLines="1"
+                        android:text="@string/price"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_standard">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_standard">
+
+                    <TextView
+                        android:id="@+id/detail_view_text_voting_general_description"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="7"
+                        android:textSize="@dimen/text_view_normal"
+                        android:textStyle="bold"
+                        android:maxLines="1"
+                        android:text="@string/voting_general"/>
+                    <TextView
+                        android:id="@+id/detail_view_text_voting_general"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:textSize="@dimen/text_view_normal"
+                        android:maxLines="1"
+                        android:text="@string/voting_general"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_standard">
+
+                    <TextView
+                        android:id="@+id/detail_view_text_voting_price_description"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="7"
+                        android:textSize="@dimen/text_view_normal"
+                        android:textStyle="bold"
+                        android:maxLines="1"
+                        android:text="@string/voting_price"/>
+                    <TextView
+                        android:id="@+id/detail_view_text_voting_price"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:textSize="@dimen/text_view_normal"
+                        android:maxLines="1"
+                        android:text="@string/voting_price"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_standard">
+
+                <TextView
+                    android:id="@+id/detail_view_text_voting_location_description"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="7"
+                    android:textSize="@dimen/text_view_normal"
+                    android:textStyle="bold"
+                    android:maxLines="1"
+                    android:text="@string/voting_location"/>
+
+                <TextView
+                    android:id="@+id/detail_view_text_voting_location"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:textSize="@dimen/text_view_normal"
+                    android:maxLines="1"
+                    android:text="@string/voting_location"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_standard">
+
+                    <TextView
+                        android:id="@+id/detail_view_text_voting_mood_description"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="7"
+                        android:textSize="@dimen/text_view_normal"
+                        android:textStyle="bold"
+                        android:maxLines="1"
+                        android:text="@string/voting_mood"/>
+
+                    <TextView
+                        android:id="@+id/detail_view_text_voting_mood"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:textSize="@dimen/text_view_normal"
+                        android:maxLines="1"
+                        android:text="@string/voting_mood"/>
+                </LinearLayout>
+                </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -237,8 +375,10 @@
                         android:visibility="gone"/>
 
                     </LinearLayout>
+
+
                 </LinearLayout>
 
-            </LinearLayout>
+        </LinearLayout>
     </ScrollView>
 </LinearLayout>
