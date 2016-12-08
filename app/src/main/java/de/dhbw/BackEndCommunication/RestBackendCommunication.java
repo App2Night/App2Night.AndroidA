@@ -73,8 +73,6 @@ public class RestBackendCommunication {
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestProperty("Content-Type", "application/json");
                 conn.setRequestProperty("Authorization", TokenUtil.getInstance().getAuthorization());
-                conn.setReadTimeout(10000 /* milliseconds */);
-                conn.setConnectTimeout(15000 /* milliseconds */);
                 conn.setRequestMethod("POST");
                 conn.setDoInput(true);
                 conn.setDoOutput(true);
@@ -179,8 +177,6 @@ public class RestBackendCommunication {
            try {
                URL url = new URL(myurl);
                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-               conn.setReadTimeout(10000 /* milliseconds */);
-               conn.setConnectTimeout(15000 /* milliseconds */);
                conn.setRequestProperty("Authorization", TokenUtil.getInstance().getAuthorization());
                conn.setRequestMethod("GET");
                conn.setDoInput(true);
@@ -197,8 +193,6 @@ public class RestBackendCommunication {
                }
                return jStringFromServer;
 
-           } catch (Exception e){
-               throw new BackendCommunicationException("Unerwartete Exception");
            }
            finally {
                //Stream schließen
@@ -234,8 +228,6 @@ public class RestBackendCommunication {
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestProperty("Content-Type", "application/json");
                 conn.setRequestProperty("Authorization", TokenUtil.getInstance().getAuthorization());
-                conn.setReadTimeout(10000 /* milliseconds */);
-                conn.setConnectTimeout(15000 /* milliseconds */);
                 conn.setRequestMethod("POST");
                 conn.setDoInput(true);
                 conn.setDoOutput(true);
@@ -295,8 +287,6 @@ public class RestBackendCommunication {
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestProperty("Content-Type", "application/json");
                 conn.setRequestProperty("Authorization", TokenUtil.getInstance().getAuthorization());
-                conn.setReadTimeout(10000 /* milliseconds */);
-                conn.setConnectTimeout(15000 /* milliseconds */);
                 conn.setRequestMethod("PUT");
                 conn.setDoInput(true);
                 conn.setDoOutput(true);
@@ -345,8 +335,6 @@ public class RestBackendCommunication {
             try{
                 URL url = new URL(myurl);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                conn.setReadTimeout(10000 /* milliseconds */);
-                conn.setConnectTimeout(15000 /* milliseconds */);
                 conn.setRequestMethod("DELETE");
                 conn.setRequestProperty("Authorization", TokenUtil.getInstance().getAuthorization());
                 conn.connect();

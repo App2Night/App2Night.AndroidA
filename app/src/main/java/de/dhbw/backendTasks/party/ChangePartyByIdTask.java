@@ -72,6 +72,9 @@ public class ChangePartyByIdTask extends AsyncTask<Void, Void, Boolean> implemen
 
     @Override
     protected void onPostExecute(Boolean result){
-        fragment.onSuccessChangePartyById();
+        if (result)
+            fragment.onSuccessChangePartyById();
+        else
+            fragment.onFailChangePartyById();
     }
 }
