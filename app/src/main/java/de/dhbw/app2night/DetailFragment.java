@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.annotation.IntegerRes;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,7 +29,9 @@ import de.dhbw.backendTasks.userparty.SetCommitmentState;
 import de.dhbw.backendTasks.userparty.SetCommitmentStateTask;
 import de.dhbw.exceptions.GPSUnavailableException;
 import de.dhbw.model.CommitmentState;
+import de.dhbw.model.MusicGenre;
 import de.dhbw.model.Party;
+import de.dhbw.model.PartyType;
 import de.dhbw.utils.CustomMapView;
 import de.dhbw.utils.DateUtil;
 import de.dhbw.utils.Gps;
@@ -55,7 +58,7 @@ public class DetailFragment extends Fragment implements View.OnClickListener, De
     Party partyToDisplay;
     TextView tvPartyName, tvStreetName, tvHouseNumber,
             tvZipCode, tvCityName, tvCountryName, tvDate, tvTime, tvPartyType, tvMusicGenre, tvDescription,
-            tvVotingGeneral, tvVotingLocation, tvVotingPrice, tvVotingMood;
+            tvVotingGeneral, tvVotingLocation, tvVotingPrice, tvVotingMood, tvPreis;
     ScrollView scrollViewDetailView;
     Button buttonEdit, buttonParticipate, buttonVote, buttonCancelParticipation, buttonCancelEvent;
 
@@ -132,11 +135,13 @@ public class DetailFragment extends Fragment implements View.OnClickListener, De
         tvTime.setText(DateUtil.getInstance().getTime(partyToDisplay.getPartyDate()));
 
         tvPartyType = (TextView)rootView.findViewById(R.id.detail_view_text_party_type);
-        tvPartyType.setText(Integer.toString(partyToDisplay.getPartyType()));
+        tvPartyType.setText(PartyType.toEnum(partyToDisplay.getPartyType()).toString());
         tvMusicGenre = (TextView)rootView.findViewById(R.id.detail_view_text_music_genre);
-        tvMusicGenre.setText(Integer.toString(partyToDisplay.getMusicGenre()));
+        tvMusicGenre.setText(MusicGenre.toEnum(partyToDisplay.getMusicGenre()).toString());
         tvDescription = (TextView)rootView.findViewById(R.id.detail_view_text_description);
         tvDescription.setText(partyToDisplay.getDescription());
+        tvPreis = (TextView)rootView.findViewById(R.id.detail_view_text_price);
+        tvPreis.setText(Integer.toString(partyToDisplay.getPrice()));
 
         tvVotingGeneral = (TextView)rootView.findViewById(R.id.detail_view_text_voting_general);
         int generalUpVotes = partyToDisplay.getGeneralUpVoting();

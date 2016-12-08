@@ -69,7 +69,7 @@
     <string name="detail_view_button_vote">Voten</string>
     <string name="detail_view_button_cancel_participation">Absagen</string>
     <string name="detail_view_button_cancel_event">Event absagen</string>
-    <string name="price">Preis der Veranstaltung</string>
+    <string name="price">Preis</string>
     <string name="voting_general">Gesamtbewertung</string>
     <string name="voting_location">Location</string>
     <string name="voting_price">Preis</string>

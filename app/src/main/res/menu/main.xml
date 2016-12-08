@@ -7,11 +7,4 @@
         android:title="@string/action_settings"
         app:showAsAction="never" />
 
-    <item
-        android:id="@+id/action_search"
-        android:orderInCategory="200"
-        android:title="Search"
-        android:icon="@drawable/ic_search_white_24dp"
-        app:showAsAction="ifRoom"
-        ></item>
 </menu>

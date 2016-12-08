@@ -53,8 +53,8 @@ public class ChangeEventFragment extends Fragment implements View.OnTouchListene
 
     OnPutPartySuccessful mCallback;
 
-    EditText editTextPartyName, editTextStreetName, editTextHouseNumber, editTextZipCode, editTextCityName, editTextCountryName, editTextDescription;
-    TextInputLayout tilPartyName, tilStreetName, tilHouseNumber, tilZipcode, tilCityName, tilCountryName, tilDescription;
+    EditText editTextPartyName, editTextStreetName, editTextHouseNumber, editTextZipCode, editTextCityName, editTextCountryName, editTextDescription, editTextPrice;
+    TextInputLayout tilPartyName, tilStreetName, tilHouseNumber, tilZipcode, tilCityName, tilCountryName, tilDescription, tilPrice;
     TextView tvDate, tvTime;
     ScrollView scrollViewAddEvent;
     Spinner spinnerPartyType, spinnerMusicGenre;
@@ -134,6 +134,8 @@ public class ChangeEventFragment extends Fragment implements View.OnTouchListene
         editTextCityName.setText(partyToChange.getLocation().getCityName());
         editTextCountryName = (EditText) rootView.findViewById(R.id.input_country_name);
         editTextCountryName.setText(partyToChange.getLocation().getCountyName());
+        editTextPrice = (EditText) rootView.findViewById(R.id.input_price);
+        editTextPrice.setText(Integer.toString(partyToChange.getPrice()));
 
         tilPartyName = (TextInputLayout) rootView.findViewById(R.id.input_layout_party_name);
         tilStreetName = (TextInputLayout) rootView.findViewById(R.id.input_layout_street_name);
@@ -142,6 +144,7 @@ public class ChangeEventFragment extends Fragment implements View.OnTouchListene
         tilCityName = (TextInputLayout) rootView.findViewById(R.id.input_layout_city_name);
         tilCountryName = (TextInputLayout) rootView.findViewById(R.id.input_layout_country_name);
         tilDescription = (TextInputLayout) rootView.findViewById(R.id.input_layout_description);
+        tilPrice = (TextInputLayout) rootView.findViewById(R.id.input_layout_price);
 
 
         now = Calendar.getInstance();
