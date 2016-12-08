@@ -28,17 +28,17 @@ import java.io.Serializable;
         private int LocationDownVoting;
         private int MoodUpVoting;
         private int MoodDownVoting;
-        private String UserCommitmentState;
+        private int UserCommitmentState;
         private User[] CommmittedUser;
 
 
 
 
-    public String getUserCommitmentState() {
+    public int getUserCommitmentState() {
         return UserCommitmentState;
     }
 
-    public void setUserCommitmentState(String userCommitmentState) {
+    public void setUserCommitmentState(int userCommitmentState) {
         UserCommitmentState = userCommitmentState;
     }
     public boolean isHostedByUser() {
