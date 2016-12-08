@@ -46,7 +46,6 @@ public class PartyDisplay {
         zipcode = p.getLocation().getZipcode();
         partyType = p.getPartyType();
         description = p.getDescription();
-        partyId=null;
     }
 
     public String getPartyName() {
