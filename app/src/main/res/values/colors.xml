@@ -11,4 +11,5 @@
     <color name = "fab5_color">#1ab7ea</color>
     <color name = "screen_background">#eceff1</color>
     <color name = "button_blue">#e3f2fd</color>
+    <color name= "nogps_header">#CCe3f2fd</color>
 </resources>

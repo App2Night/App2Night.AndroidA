@@ -13,6 +13,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -42,6 +45,8 @@ public class HomeFragment extends Fragment implements GetPartyList {
     private RecyclerView recyclerView;
     private PartiesAdapter pAdapter;
     private PartiesAdapter.OnItemClickListener itemClickListener;
+    private LinearLayout nogps_header;
+    Animation nogps_fade_in, nogps_fade_out;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -71,6 +76,7 @@ public class HomeFragment extends Fragment implements GetPartyList {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
+        nogps_header = (LinearLayout) rootView.findViewById(R.id.nogps_header);
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
         mSwipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeRefreshLayout);
         pAdapter = new PartiesAdapter(partyList, itemClickListener);
@@ -79,12 +85,14 @@ public class HomeFragment extends Fragment implements GetPartyList {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(pAdapter);
 
+        nogps_fade_in = AnimationUtils.loadAnimation(getActivity(), R.anim.image_fade_in);
+        nogps_fade_out = AnimationUtils.loadAnimation(getActivity(), R.anim.image_fade_out);
+
         adaptParties(GetPartyListSave.getInstance().getList());
         try {
             double[] gpsResult = Gps.getInstance().getGPSCoordinates();
             new GetPartyListTask(this,gpsResult[0],gpsResult[1]);
         } catch (GPSUnavailableException e) {
-
             showGpsUnavailableDialog();
             e.printStackTrace();
         }
@@ -92,6 +100,9 @@ public class HomeFragment extends Fragment implements GetPartyList {
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                nogps_header.startAnimation(nogps_fade_out);
+                nogps_header.setVisibility(View.INVISIBLE);
+                nogps_header.setClickable(false);
                 refreshItems();
             }
         });
@@ -130,8 +141,8 @@ public class HomeFragment extends Fragment implements GetPartyList {
         alert.setPositiveButton("Später", new DialogInterface.OnClickListener() {
 
             public void onClick(DialogInterface dialog, int which) {
-                //TODO: Gespeicherte Daten anzeigen
-                dialog.dismiss();}
+                dialog.dismiss();
+            }
         });
 
         alert.setNegativeButton("Zu den Einstellungen", new DialogInterface.OnClickListener() {
@@ -172,6 +183,9 @@ public class HomeFragment extends Fragment implements GetPartyList {
         if (getActivity() != null) {
             Toast.makeText(getActivity(), "Parties wurden erfolgreich geladen", Toast.LENGTH_SHORT).show();
             mSwipeRefreshLayout.setRefreshing(false);
+            nogps_header.startAnimation(nogps_fade_out);
+            nogps_header.setVisibility(View.INVISIBLE);
+            nogps_header.setClickable(false);
         }
     }
 
@@ -180,6 +194,9 @@ public class HomeFragment extends Fragment implements GetPartyList {
         if (getActivity() != null) {
             Toast.makeText(getActivity(), "Parties laden ist fehlgeschlagen. Alte Liste wurde geladen.", Toast.LENGTH_SHORT).show();
             mSwipeRefreshLayout.setRefreshing(false);
+            nogps_header.setVisibility(View.VISIBLE);
+            nogps_header.startAnimation(nogps_fade_in);
+            nogps_header.setClickable(true);
         }
     }
 }
