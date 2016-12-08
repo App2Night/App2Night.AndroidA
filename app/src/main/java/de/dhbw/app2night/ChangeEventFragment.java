@@ -33,8 +33,6 @@ import de.dhbw.backendTasks.party.AdressValidate;
 import de.dhbw.backendTasks.party.AdressValidateTask;
 import de.dhbw.backendTasks.party.ChangePartyById;
 import de.dhbw.backendTasks.party.ChangePartyByIdTask;
-import de.dhbw.backendTasks.party.PostParty;
-import de.dhbw.backendTasks.party.PostPartyTask;
 import de.dhbw.model.MusicGenre;
 import de.dhbw.model.Party;
 import de.dhbw.model.PartyDisplay;
@@ -108,7 +106,7 @@ public class ChangeEventFragment extends Fragment implements View.OnTouchListene
         editTextDescription.setText(partyToChange.getDescription());
         tvDate = (TextView) rootView.findViewById(R.id.input_party_date);
         tvDate.setOnClickListener(this);
-        tvDate.setText(DateUtil.getInstance().getDateInFormat(partyToChange.getPartyDate()));
+        tvDate.setText(DateUtil.getInstance().getDateToDisplay(partyToChange.getPartyDate()));
         tvTime = (TextView) rootView.findViewById(R.id.input_party_time);
         tvTime.setOnClickListener(this);
         tvTime.setText(DateUtil.getInstance().getTime(partyToChange.getPartyDate()));
@@ -285,17 +283,25 @@ public class ChangeEventFragment extends Fragment implements View.OnTouchListene
             tvTime.setError(null);
             if(!tvTime.getText().equals("")) {
                 //TODO Abfrage für null Werte, dann alte Werte verwenden
+                if(partyDate == null){
+                    partyDate = DateUtil.getInstance().getDateInFormat(partyDisplay.getPartyDate());
+                }
+                if(partyTime == null){
+                    partyTime = "T" + DateUtil.getInstance().getTime(partyDisplay.getPartyDate()) + ":00.000Z";
+                }
+
                 partyDateTime = partyDate + partyTime;
                 partyDisplay.setPartyDate(partyDateTime);
+
 
                 String sPDate = partyDate;
                 Date pdate = null;
                 Date nowDate = null;
                 now = Calendar.getInstance();
-                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
                 try {
-                    pdate = format.parse(sPDate);
-                    nowDate = format.parse(format.format(now.getTime()));
+                    pdate = formatDate.parse(sPDate);
+                    nowDate = formatDate.parse(formatDate.format(now.getTime()));
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }

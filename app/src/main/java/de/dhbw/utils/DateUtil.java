@@ -17,13 +17,24 @@ public class DateUtil {
         return du;
     }
 
-    public String getDateInFormat(String input){
+    public String getDateToDisplay(String input){
         String day = input.substring(8,10);
         String month = input.substring(5,7);
         String year = input.substring(0,4);
         String output = day +".";
         output += month +".";
         output += year;
+
+        return output;
+    }
+
+    public String getDateInFormat(String input){
+        String day = input.substring(8,10);
+        String month = input.substring(5,7);
+        String year = input.substring(0,4);
+        String output = year +"-";
+        output += month +"-";
+        output += day;
 
         return output;
     }
