@@ -187,11 +187,11 @@ public class DetailFragment extends Fragment implements View.OnClickListener, De
 
         if(partyToDisplay.isHostedByUser()){
             status = Status.Host;
-        }else if(partyToDisplay.getUserCommitmentState().equals("2")) {
+        }else if(partyToDisplay.getUserCommitmentState()==2) {
             status = Status.NotParticipant;
-        }else if(partyToDisplay.getUserCommitmentState().equals("1")) {
+        }else if(partyToDisplay.getUserCommitmentState() == 1) {
             status = Status.Bookmarked;
-        }else if(partyToDisplay.getUserCommitmentState().equals("0")) {
+        }else if(partyToDisplay.getUserCommitmentState() == 0) {
             status = Status.Participant;
         }else{
             status = Status.Unknown;
@@ -299,7 +299,7 @@ public class DetailFragment extends Fragment implements View.OnClickListener, De
 
     @Override
     public void onSuccessCommitmentState(CommitmentState newCommitmentState) {
-        partyToDisplay.setUserCommitmentState(Integer.toString(CommitmentState.toInt(newCommitmentState)));
+        partyToDisplay.setUserCommitmentState(CommitmentState.toInt(newCommitmentState));
         if (newCommitmentState == CommitmentState.Commited) {
             buttonCancelParticipation.setVisibility(View.VISIBLE);
             //TODO Zeit prüfen

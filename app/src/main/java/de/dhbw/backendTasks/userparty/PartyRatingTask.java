@@ -29,7 +29,7 @@ public class PartyRatingTask extends AsyncTask<Void,Void,Boolean> implements Api
 
     public PartyRatingTask(PartyRating partyRating, String partyId, Rating rating){
         this.rating = rating;
-        this.partyId = "81a93271-591b-4b72-1bc5-08d4193d1de2";//partyId;
+        this.partyId = partyId;
         this.partyRating = partyRating;
         prepare();
     }

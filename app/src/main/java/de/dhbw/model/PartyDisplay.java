@@ -22,6 +22,7 @@ public class PartyDisplay {
     private String zipcode;
     private int    partyType;
     private String description;
+    private int price;
 
     public String getPartyId() {
         return partyId;
@@ -46,6 +47,7 @@ public class PartyDisplay {
         zipcode = p.getLocation().getZipcode();
         partyType = p.getPartyType();
         description = p.getDescription();
+        price = p.getPrice();
     }
 
     public String getPartyName() {
