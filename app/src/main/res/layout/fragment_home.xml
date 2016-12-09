@@ -32,13 +32,14 @@
         android:background="@color/nogps_header"
         android:orientation="horizontal"
         android:id="@+id/nogps_header"
-        android:visibility="invisible"
+        android:visibility="visible"
         android:clickable="false">
 
         <ImageView
+            android:contentDescription="@string/error_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_gps_disabled"
+            android:src="@drawable/ic_error"
             android:layout_marginStart="5dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
@@ -51,7 +52,8 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="17dp"
             android:layout_marginBottom="17dp"
-            />
+            android:textStyle="normal|italic"
+            android:textSize="13sp" />
 
     </LinearLayout>
 

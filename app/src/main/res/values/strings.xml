@@ -62,7 +62,8 @@
     <string name="party_row_time">Das ist der Veranstaltungszeitpunkt</string>
     <string name="party_banner">Party Banner</string>
     <string name="party_price_tag">Preis Tag</string>
-    <string name="party_nogps">GPS ist nicht aktiviert, alte Daten wurden geladen</string>
+    <string name="party_nogps">Es ist ein Fehler aufgetreten, alte Daten wurden geladen</string>
+    <string name="error_description">Error Icon</string>
 
     <!--Strings related to DetailView-->
     <string name="detail_view_button_edit">Bearbeiten</string>
