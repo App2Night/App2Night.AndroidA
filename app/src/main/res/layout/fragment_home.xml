@@ -32,7 +32,7 @@
         android:background="@color/nogps_header"
         android:orientation="horizontal"
         android:id="@+id/nogps_header"
-        android:visibility="visible"
+        android:visibility="invisible"
         android:clickable="false">
 
         <ImageView
