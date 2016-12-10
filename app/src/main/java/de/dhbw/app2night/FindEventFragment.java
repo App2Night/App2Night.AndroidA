@@ -132,7 +132,6 @@ public class FindEventFragment extends Fragment implements GetPartyList {
         });
         alertDialog.setNegativeButton("Später", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                //TODO: Gespeicherte Locations anzeigen
                 dialog.cancel();
             }
         });

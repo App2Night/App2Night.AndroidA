@@ -2,6 +2,7 @@ package de.dhbw.app2night;
 
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -40,11 +41,12 @@ public class ContactFragment extends Fragment {
         einreichen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*name.getText();
-                mail.getText();
-                message.getText();*/
-
-                //TODO: Implementieren des Abschickens
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("plain/text");
+                intent.putExtra(Intent.EXTRA_EMAIL, new String[] { "app2night@email.adress" }); //TODO: Valide eMail einrichten
+                intent.putExtra(Intent.EXTRA_SUBJECT, "Kontaktformular");
+                intent.putExtra(Intent.EXTRA_TEXT, "Von: " + name.getText() + "\n" + "Mail: " + mail.getText() + "\n" + "Nachricht: " + message.getText());
+                startActivity(Intent.createChooser(intent, "E-Mail client wählen: "));
             }
         });
 
