@@ -183,9 +183,11 @@ public class HomeFragment extends Fragment implements GetPartyList {
         if (getActivity() != null) {
             Toast.makeText(getActivity(), "Parties wurden erfolgreich geladen", Toast.LENGTH_SHORT).show();
             mSwipeRefreshLayout.setRefreshing(false);
-            error_header.startAnimation(error_fade_out);
-            error_header.setVisibility(View.INVISIBLE);
-            error_header.setClickable(false);
+            if (error_header.getVisibility() == View.VISIBLE) {
+                error_header.startAnimation(error_fade_out);
+                error_header.setVisibility(View.INVISIBLE);
+                error_header.setClickable(false);
+            }
         }
     }
 
@@ -194,9 +196,11 @@ public class HomeFragment extends Fragment implements GetPartyList {
         if (getActivity() != null) {
             Toast.makeText(getActivity(), "Parties laden ist fehlgeschlagen. Alte Liste wurde geladen.", Toast.LENGTH_SHORT).show();
             mSwipeRefreshLayout.setRefreshing(false);
-            error_header.setVisibility(View.VISIBLE);
-            error_header.startAnimation(error_fade_in);
-            error_header.setClickable(true);
+            if (error_header.getVisibility() == View.INVISIBLE){
+                error_header.setVisibility(View.VISIBLE);
+                error_header.startAnimation(error_fade_in);
+                error_header.setClickable(true);
+            }
         }
     }
 }
