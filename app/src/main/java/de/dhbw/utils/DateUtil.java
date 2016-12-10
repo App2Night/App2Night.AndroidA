@@ -17,6 +17,12 @@ public class DateUtil {
         return du;
     }
 
+    /**
+     * Gibt Datum in DD.MM.YYYY Format zurück.
+     *
+     * @param input Datum einer Party
+     * @return formatiertes Datum
+     */
     public String getDateToDisplay(String input){
         String day = input.substring(8,10);
         String month = input.substring(5,7);
@@ -28,6 +34,12 @@ public class DateUtil {
         return output;
     }
 
+    /**
+     * Gibt Datum in YYYY-MM-DD Format zurück.
+     *
+     * @param input Datum einer Party
+     * @return formatiertes Datum
+     */
     public String getDateInFormat(String input){
         String day = input.substring(8,10);
         String month = input.substring(5,7);
@@ -39,6 +51,12 @@ public class DateUtil {
         return output;
     }
 
+    /**
+     * Gibt Datum in anzeigbarer Formatierung aus.
+     *
+     * @param input Datum aus einer Party
+     * @return formatiertes Datum
+     */
     public String getDate(String input){
         String day = input.substring(8,10);
         String month = input.substring(5,7);

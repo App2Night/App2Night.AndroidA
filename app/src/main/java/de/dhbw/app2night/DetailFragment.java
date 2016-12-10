@@ -23,6 +23,11 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 import de.dhbw.backendTasks.party.DeletePartyById;
 import de.dhbw.backendTasks.party.DeletePartyByIdTask;
 import de.dhbw.backendTasks.userparty.SetCommitmentState;
@@ -224,13 +229,47 @@ public class DetailFragment extends Fragment implements View.OnClickListener, De
      * @return
      */
     private String calculatePercentage(int upVotes, int downVotes) {
-        return Integer.toString(upVotes / (upVotes + downVotes) * 100);
+        double percentage = (double)upVotes / ((double)upVotes + (double)downVotes) * 100.00;
+        return Integer.toString((int)percentage);
+    }
+
+
+    /**
+     * Evaluiert ob Party am heutigen Tag ist oder gestern war.
+     * @return true, wenn party heute oder gestern war; sonst false
+     */
+    private boolean showVoteButton(){
+        String sPDate = DateUtil.getInstance().getDateInFormat(partyToDisplay.getPartyDate());
+        Calendar now;
+        Date pDate = null;
+        Date nowDate = null;
+        now = Calendar.getInstance();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            pDate = format.parse(sPDate);
+            nowDate = format.parse(format.format(now.getTime()));
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        long startTime = pDate.getTime();
+        long endTime = nowDate.getTime();
+        long diffTime = endTime - startTime;
+        long diffDays = diffTime / (1000 * 60 * 60 * 24);
+
+        if (diffDays == 0 || diffDays == 1)
+            return true;
+
+        return false;
+
     }
 
     private void initializeButtons() {
         switch(status){
             case Participant:
-                buttonVote.setVisibility(View.VISIBLE);
+                if (showVoteButton())
+                    buttonVote.setVisibility(View.VISIBLE);
                 buttonCancelParticipation.setVisibility(View.VISIBLE);
                 break;
             case NotParticipant:
@@ -323,11 +362,14 @@ public class DetailFragment extends Fragment implements View.OnClickListener, De
     }
 
     @Override
+    /**
+     * Setzt Buttons entsprechen dem neuen Commitment State
+     */
     public void onSuccessCommitmentState(CommitmentState newCommitmentState) {
         partyToDisplay.setUserCommitmentState(CommitmentState.toInt(newCommitmentState));
         if (newCommitmentState == CommitmentState.Commited) {
-            buttonCancelParticipation.setVisibility(View.VISIBLE);
-            //TODO Zeit prüfen
+            if (showVoteButton())
+                buttonVote.setVisibility(View.VISIBLE);
             buttonVote.setVisibility(View.VISIBLE);
             buttonParticipate.setVisibility(View.GONE);
         } else if (newCommitmentState == CommitmentState.NotCommited){
@@ -335,7 +377,7 @@ public class DetailFragment extends Fragment implements View.OnClickListener, De
             buttonVote.setVisibility(View.GONE);
             buttonParticipate.setVisibility(View.VISIBLE);
         }else if ( newCommitmentState == CommitmentState.Bookmarked){
-            //TODO
+            //Kommt in der APP nicht vor
         }
 
     }

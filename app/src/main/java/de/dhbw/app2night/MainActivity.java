@@ -159,6 +159,9 @@ public class MainActivity extends AppCompatActivity
         }
         if (fragment != null) {
             FragmentManager fragmentManager = getFragmentManager();
+            for(int i = 0; i < fragmentManager.getBackStackEntryCount(); ++i) {
+                fragmentManager.popBackStack();
+            }
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.main_container_body, fragment);
             fragmentTransaction.commit();
