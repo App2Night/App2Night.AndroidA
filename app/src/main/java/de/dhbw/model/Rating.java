@@ -26,7 +26,7 @@ public class Rating {
         return moodRating;
     }
 
-    public Rating(int generalRating, int locationRating, int priceRating, int moodRating){
+    public Rating(int generalRating, int priceRating, int locationRating, int moodRating){
         if (generalRating > 0)
             this.generalRating=1;
         else if (generalRating < 0)

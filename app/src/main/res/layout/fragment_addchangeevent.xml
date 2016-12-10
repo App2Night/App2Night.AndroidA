@@ -204,7 +204,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:hint="@string/price"
-                    android:inputType="text"
+                    android:inputType="number"
                     android:maxLines="1"
                     android:scrollHorizontally="true" />
             </android.support.design.widget.TextInputLayout>

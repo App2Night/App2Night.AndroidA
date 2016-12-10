@@ -122,6 +122,10 @@ public class PartyDisplay {
         this.partyType = partyType;
     }
 
+    public int getPrice() { return price; }
+
+    public void setPrice(int price){ this.price = price; }
+
     public String getDescription() {
         return description;
     }

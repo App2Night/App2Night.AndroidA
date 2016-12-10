@@ -111,5 +111,6 @@
     <string name="location_rating">Location Rating</string>
     <string name="party_rating">Party Rating</string>
     <string name="thumb_icon">Thumb Icon</string>
+    <string name="vote_dialog_title">Vote für die Party</string>
 
 </resources>

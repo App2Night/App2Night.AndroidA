@@ -45,7 +45,7 @@ public class PartyRatingTask extends AsyncTask<Void,Void,Boolean> implements Api
     }
 
     private String buildPutUrl(){
-        return url+"/id="+partyId;
+        return url+"?id="+partyId;
     }
 
     @Override

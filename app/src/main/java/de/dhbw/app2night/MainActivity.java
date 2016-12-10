@@ -23,7 +23,8 @@ import de.dhbw.utils.ContextManager;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, HomeFragment.OnItemClickListener,
-        AddEventFragment.OnPostPartySuccessful, DetailFragment.OnChangePartyListener, ChangeEventFragment.OnPutPartySuccessful{
+        AddEventFragment.OnPostPartySuccessful, DetailFragment.OnChangePartyListener, ChangeEventFragment.OnPutPartySuccessful,
+        DetailFragment.OpenVoteDialog{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -201,5 +202,15 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void putPartySuccessful() {
         displayView(R.layout.fragment_home);
+    }
+
+    @Override
+    public void openVoteDialog(String partyId) {
+        FragmentManager fm = getFragmentManager();
+        VoteDialog voteDialog = new VoteDialog();
+        Bundle args = new Bundle();
+        args.putString(VoteDialog.ARG_PARTYID, partyId);
+        voteDialog.setArguments(args);
+        voteDialog.show(fm, getString(R.string.vote_dialog_title));
     }
 }

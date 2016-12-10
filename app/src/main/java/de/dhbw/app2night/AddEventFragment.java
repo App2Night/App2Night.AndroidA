@@ -306,6 +306,16 @@ public class AddEventFragment extends Fragment implements View.OnTouchListener, 
 
         partyDisplay.setMusicGenre(spinnerMusicGenre.getSelectedItemPosition());
 
+        if(!editTextPrice.getText().toString().trim().equals("")) {
+            editTextPrice.setError(null);
+            tilPrice.setError(null);
+            partyDisplay.setPrice(Integer.parseInt(editTextPrice.getText().toString()));
+        }else{
+            editTextPrice.setError("\"" + getString(R.string.price) + "\"" + " darf nicht leer sein");
+            tilPrice.setError(getString(R.string.price));
+            correctInput = false;
+        }
+
 
         if(!editTextDescription.getText().toString().trim().equals("")) {
             editTextDescription.setError(null);

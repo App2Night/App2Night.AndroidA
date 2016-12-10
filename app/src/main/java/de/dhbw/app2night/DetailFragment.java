@@ -1,11 +1,11 @@
 package de.dhbw.app2night;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.support.annotation.IntegerRes;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,7 +27,6 @@ import de.dhbw.backendTasks.party.DeletePartyById;
 import de.dhbw.backendTasks.party.DeletePartyByIdTask;
 import de.dhbw.backendTasks.userparty.SetCommitmentState;
 import de.dhbw.backendTasks.userparty.SetCommitmentStateTask;
-import de.dhbw.exceptions.GPSUnavailableException;
 import de.dhbw.model.CommitmentState;
 import de.dhbw.model.MusicGenre;
 import de.dhbw.model.Party;
@@ -46,9 +45,14 @@ public class DetailFragment extends Fragment implements View.OnClickListener, De
         void onClickChangePartyButton(Party partyToChange);
     }
 
+    public interface OpenVoteDialog {
+        void openVoteDialog(String partyId);
+    }
+
     public static final String ARG_PARTY = "arg_party";
 
     OnChangePartyListener mCallback;
+    OpenVoteDialog mVoteCallback;
     View rootView;
     CustomMapView mMapView;
     private GoogleMap googleMap;
@@ -79,7 +83,14 @@ public class DetailFragment extends Fragment implements View.OnClickListener, De
             mCallback = (DetailFragment.OnChangePartyListener) getActivity();
         } catch (ClassCastException e) {
             throw new ClassCastException(getActivity().toString()
-                    + " must implement onPostPartySuccessful");
+                    + " must implement onChangePartyListener");
+        }
+
+        try {
+            mVoteCallback = (DetailFragment.OpenVoteDialog) getActivity();
+        } catch (ClassCastException e) {
+            throw new ClassCastException(getActivity().toString()
+                    + " must implement OpenVoteDialog");
         }
     }
 
@@ -147,7 +158,7 @@ public class DetailFragment extends Fragment implements View.OnClickListener, De
         int generalUpVotes = partyToDisplay.getGeneralUpVoting();
         int generalDownVotes = partyToDisplay.getGeneralDownVoting();
         if(generalUpVotes+generalDownVotes != 0) {
-            tvVotingGeneral.setText(Integer.toString(generalUpVotes / (generalUpVotes + generalDownVotes)));
+            tvVotingGeneral.setText(calculatePercentage(generalUpVotes, generalDownVotes) + " %");
         }else{
             tvVotingGeneral.setText("-");
         }
@@ -156,7 +167,7 @@ public class DetailFragment extends Fragment implements View.OnClickListener, De
         int locationUpVotes = partyToDisplay.getLocationUpVoting();
         int locationDownVotes = partyToDisplay.getLocationDownVoting();
         if(locationUpVotes+generalDownVotes != 0) {
-            tvVotingLocation.setText(Integer.toString(locationUpVotes / (locationUpVotes + locationDownVotes)));
+            tvVotingLocation.setText(calculatePercentage(locationUpVotes, locationDownVotes)+ " %");
         }else{
             tvVotingLocation.setText("-");
         }
@@ -165,7 +176,7 @@ public class DetailFragment extends Fragment implements View.OnClickListener, De
         int priceUpVotes = partyToDisplay.getPriceUpVoting();
         int priceDownVotes = partyToDisplay.getPriceDownVoting();
         if(priceUpVotes+priceDownVotes != 0) {
-            tvVotingPrice.setText(Integer.toString(priceUpVotes / (priceUpVotes + priceDownVotes)));
+            tvVotingPrice.setText(calculatePercentage(priceUpVotes, priceDownVotes)+ " %");
         }else{
             tvVotingPrice.setText("-");
         }
@@ -174,7 +185,7 @@ public class DetailFragment extends Fragment implements View.OnClickListener, De
         int moodUpVotes = partyToDisplay.getMoodUpVoting();
         int moodDownVotes = partyToDisplay.getMoodDownVoting();
         if(moodUpVotes+moodDownVotes != 0) {
-            tvVotingMood.setText(Integer.toString(moodUpVotes / (moodUpVotes + moodDownVotes)));
+            tvVotingMood.setText(calculatePercentage(moodUpVotes, moodDownVotes)+ " %");
         }else{
             tvVotingMood.setText("-");
         }
@@ -204,6 +215,16 @@ public class DetailFragment extends Fragment implements View.OnClickListener, De
 
         initializeButtons();
 
+    }
+
+    /**
+     * Berechnet den Prozentsatz von den upVotes zu den gesamten Votes
+     * @param upVotes
+     * @param downVotes
+     * @return
+     */
+    private String calculatePercentage(int upVotes, int downVotes) {
+        return Integer.toString(upVotes / (upVotes + downVotes) * 100);
     }
 
     private void initializeButtons() {
@@ -280,7 +301,6 @@ public class DetailFragment extends Fragment implements View.OnClickListener, De
     public void onClick(View v) {
         int id = v.getId();
 
-        //TODO: Events auslösen
         switch (id){
             case R.id.detail_view_button_edit:
                 //Öffne EditFragement
@@ -291,14 +311,14 @@ public class DetailFragment extends Fragment implements View.OnClickListener, De
                 new SetCommitmentStateTask(this, partyToDisplay.getPartyId(), CommitmentState.Commited);
                 break;
             case R.id.detail_view_button_vote:
-                //Zeige Votedialog
+                //Zeige Votedialog uber MainActivity per Callback
+                mVoteCallback.openVoteDialog(partyToDisplay.getPartyId());
                 break;
             case R.id.detail_view_button_cancel_participation:
                 new SetCommitmentStateTask(this, partyToDisplay.getPartyId(), CommitmentState.NotCommited);
                 break;
             case R.id.detail_view_button_cancel_event:
                 new DeletePartyByIdTask(this, partyToDisplay.getPartyId());
-
         }
     }
 
@@ -315,7 +335,6 @@ public class DetailFragment extends Fragment implements View.OnClickListener, De
             buttonVote.setVisibility(View.GONE);
             buttonParticipate.setVisibility(View.VISIBLE);
         }else if ( newCommitmentState == CommitmentState.Bookmarked){
-
             //TODO
         }
 

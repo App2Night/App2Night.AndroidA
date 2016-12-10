@@ -131,7 +131,7 @@
                         android:textSize="@dimen/text_view_normal"
                         android:maxLines="1"
                         android:text="@string/party_date"
-                        android:layout_weight="5" />
+                        android:layout_weight="7" />
 
                     <TextView
                         android:id="@+id/detail_view_text_party_time"
@@ -140,7 +140,8 @@
                         android:textSize="@dimen/text_view_normal"
                         android:maxLines="1"
                         android:text="@string/party_time"
-                        android:layout_weight="5"/>
+                        android:layout_weight="3"
+                        android:gravity="end"/>
 
                 </LinearLayout>
 
@@ -166,7 +167,8 @@
                         android:layout_weight="3"
                         android:textSize="@dimen/text_view_normal"
                         android:maxLines="1"
-                        android:text="@string/party_type"/>
+                        android:text="@string/party_type"
+                        android:gravity="end"/>
 
                 </LinearLayout>
 
@@ -193,7 +195,8 @@
                         android:layout_weight="3"
                         android:textSize="@dimen/text_view_normal"
                         android:maxLines="1"
-                        android:text="@string/music_genre"/>
+                        android:text="@string/music_genre"
+                        android:gravity="end"/>
 
                 </LinearLayout>
 
@@ -219,7 +222,8 @@
                         android:layout_weight="3"
                         android:textSize="@dimen/text_view_normal"
                         android:maxLines="1"
-                        android:text="@string/price"/>
+                        android:text="@string/price"
+                        android:gravity="end"/>
 
                 </LinearLayout>
 
@@ -251,7 +255,8 @@
                         android:layout_weight="3"
                         android:textSize="@dimen/text_view_normal"
                         android:maxLines="1"
-                        android:text="@string/voting_general"/>
+                        android:text="@string/voting_general"
+                        android:gravity="end"/>
 
                 </LinearLayout>
 
@@ -277,7 +282,8 @@
                         android:layout_weight="3"
                         android:textSize="@dimen/text_view_normal"
                         android:maxLines="1"
-                        android:text="@string/voting_price"/>
+                        android:text="@string/voting_price"
+                        android:gravity="end"/>
 
                 </LinearLayout>
 
@@ -304,7 +310,8 @@
                     android:layout_weight="3"
                     android:textSize="@dimen/text_view_normal"
                     android:maxLines="1"
-                    android:text="@string/voting_location"/>
+                    android:text="@string/voting_location"
+                    android:gravity="end"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -330,7 +337,8 @@
                         android:layout_weight="3"
                         android:textSize="@dimen/text_view_normal"
                         android:maxLines="1"
-                        android:text="@string/voting_mood"/>
+                        android:text="@string/voting_mood"
+                        android:gravity="end"/>
                 </LinearLayout>
                 </LinearLayout>
 
@@ -342,35 +350,35 @@
                         android:text="@string/detail_view_button_cancel_participation"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="right"
+                        android:layout_gravity="end"
                         android:id="@+id/detail_view_button_cancel_participation"
                         android:visibility="gone"/>
                     <Button
                         android:text="@string/detail_view_button_cancel_event"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="right"
+                        android:layout_gravity="end"
                         android:id="@+id/detail_view_button_cancel_event"
                         android:visibility="gone"/>
                     <Button
                         android:text="@string/detail_view_button_edit"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="right"
+                        android:layout_gravity="end"
                         android:id="@+id/detail_view_button_edit"
                         android:visibility="gone"/>
                     <Button
                         android:text="@string/detail_view_button_participate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="right"
+                        android:layout_gravity="end"
                         android:id="@+id/detail_view_button_participate"
                         android:visibility="gone"/>
                     <Button
                         android:text="@string/detail_view_button_vote"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="right"
+                        android:layout_gravity="end"
                         android:id="@+id/detail_view_button_vote"
                         android:visibility="gone"/>
 

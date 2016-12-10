@@ -1,10 +1,7 @@
 
 package de.dhbw.app2night;
 
-import android.app.Dialog;
 import android.app.DialogFragment;
-import android.app.Fragment;
-import android.media.Image;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -12,26 +9,42 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.animation.ScaleAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
+
+import de.dhbw.backendTasks.userparty.PartyRating;
+import de.dhbw.backendTasks.userparty.PartyRatingTask;
+import de.dhbw.model.Rating;
 
 /**
  * Created by SchmidtRo on 06.12.2016.
  */
 
-public class VoteDialog extends DialogFragment {
+public class VoteDialog extends DialogFragment implements PartyRating, View.OnClickListener{
 
+    public final static String ARG_PARTYID = "arg_partyid";
     ImageView party_up, party_down, location_up, location_down, mood_up, mood_down, price_up, price_down;
     boolean party_voted = false;
     boolean location_voted = false;
     boolean mood_voted = false;
     boolean price_voted = false;
     Button ok_button, cancel_button;
+    String partyId;
+    int generalRating = 0;
+    int locationRating = 0;
+    int priceRating = 0;
+    int moodRating = 0;
+
+
+    public VoteDialog(){
+
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        partyId = getArguments().getString(ARG_PARTYID);
     }
 
 
@@ -49,21 +62,11 @@ public class VoteDialog extends DialogFragment {
         mood_down = (ImageView) v.findViewById(R.id.mood_down);
         price_up = (ImageView) v.findViewById(R.id.price_up);
         price_down = (ImageView) v.findViewById(R.id.price_down);
-
         ok_button = (Button) v.findViewById(R.id.vote_button_ok);
-        ok_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //TODO: Implementieren von OK
-            }
-        });
-        cancel_button = (Button) v.findViewById(R.id.vote_cancel_button);
-        cancel_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //TODO Implementieren von CANCEL
-            }
-        });
+
+        ok_button.setOnClickListener(this);
+        cancel_button = (Button) v.findViewById(R.id.vote_button_cancel);
+        cancel_button.setOnClickListener(this);
 
         final Animation fade_in = AnimationUtils.loadAnimation(getActivity(), R.anim.image_fade_in);
         final Animation fade_out = AnimationUtils.loadAnimation(getActivity(), R.anim.image_fade_out);
@@ -92,6 +95,10 @@ public class VoteDialog extends DialogFragment {
                             location_up.setImageResource(R.drawable.thumb_up_96);
                             mood_up.setImageResource(R.drawable.thumb_up_96);
                             price_up.setImageResource(R.drawable.thumb_up_96);
+                            generalRating = 1;
+                            locationRating = 1;
+                            priceRating = 1;
+                            moodRating = 1;
                             break;
                         case R.id.party_thumb_down:
                             party_up.setVisibility(v.INVISIBLE);
@@ -110,6 +117,10 @@ public class VoteDialog extends DialogFragment {
                             location_down.setImageResource(R.drawable.thumbs_down_96);
                             mood_down.setImageResource(R.drawable.thumbs_down_96);
                             price_down.setImageResource(R.drawable.thumbs_down_96);
+                            generalRating = -1;
+                            locationRating = -1;
+                            priceRating = -1;
+                            moodRating = -1;
                             break;
                     }
                     party_voted = true;
@@ -192,6 +203,10 @@ public class VoteDialog extends DialogFragment {
                             price_down.setImageResource(R.drawable.ic_thumb_down);
                             break;
                     }
+                    generalRating = 0;
+                    locationRating = 0;
+                    priceRating = 0;
+                    moodRating = 0;
                     party_voted = false;
                     location_voted = false;
                     mood_voted = false;
@@ -212,6 +227,7 @@ public class VoteDialog extends DialogFragment {
                     location_down.startAnimation(fade_out);
                     location_down.setClickable(false);
                     location_up.setImageResource(R.drawable.thumb_up_96);
+                    locationRating = 1;
                     location_voted=true;
 
                 }else if (location_voted == true)
@@ -220,6 +236,7 @@ public class VoteDialog extends DialogFragment {
                     location_down.startAnimation(fade_in);
                     location_down.setClickable(true);
                     location_up.setImageResource(R.drawable.ic_thumb_up);
+                    locationRating = 0;
                     location_voted = false;
                 }
             }
@@ -234,6 +251,7 @@ public class VoteDialog extends DialogFragment {
                     location_up.startAnimation(fade_out);
                     location_up.setClickable(false);
                     location_down.setImageResource(R.drawable.thumbs_down_96);
+                    locationRating = -1;
                     location_voted = true;
                 }else if (location_voted == true)
                 {
@@ -241,6 +259,7 @@ public class VoteDialog extends DialogFragment {
                     location_up.startAnimation(fade_in);
                     location_up.setClickable(true);
                     location_down.setImageResource(R.drawable.ic_thumb_down);
+                    locationRating = 0;
                     location_voted = false;
                 }
             }
@@ -255,6 +274,7 @@ public class VoteDialog extends DialogFragment {
                     mood_down.startAnimation(fade_out);
                     mood_down.setClickable(false);
                     mood_up.setImageResource(R.drawable.thumb_up_96);
+                    moodRating = 1;
                     mood_voted = true;
 
                 }else if (mood_voted == true)
@@ -263,6 +283,7 @@ public class VoteDialog extends DialogFragment {
                     mood_down.startAnimation(fade_in);
                     mood_down.setClickable(true);
                     mood_up.setImageResource(R.drawable.ic_thumb_up);
+                    moodRating = 0;
                     mood_voted = false;
                 }
             }
@@ -277,6 +298,7 @@ public class VoteDialog extends DialogFragment {
                     mood_up.startAnimation(fade_out);
                     mood_up.setClickable(false);
                     mood_down.setImageResource(R.drawable.thumbs_down_96);
+                    moodRating = -1;
                     mood_voted = true;
                 }else if (mood_voted == true)
                 {
@@ -284,6 +306,7 @@ public class VoteDialog extends DialogFragment {
                     mood_up.startAnimation(fade_in);
                     mood_up.setClickable(true);
                     mood_down.setImageResource(R.drawable.ic_thumb_down);
+                    moodRating = 0;
                     mood_voted = false;
                 }
             }
@@ -298,6 +321,7 @@ public class VoteDialog extends DialogFragment {
                     price_down.startAnimation(fade_out);
                     price_down.setClickable(false);
                     price_up.setImageResource(R.drawable.thumb_up_96);
+                    priceRating = 1;
                     price_voted = true;
                 }else if (price_voted == true)
                 {
@@ -305,6 +329,7 @@ public class VoteDialog extends DialogFragment {
                     price_down.startAnimation(fade_in);
                     price_down.setClickable(true);
                     price_up.setImageResource(R.drawable.ic_thumb_up);
+                    priceRating = 0;
                     price_voted = false;
                 }
             }
@@ -319,6 +344,7 @@ public class VoteDialog extends DialogFragment {
                     price_up.startAnimation(fade_out);
                     price_up.setClickable(false);
                     price_down.setImageResource(R.drawable.thumbs_down_96);
+                    priceRating = -1;
                     price_voted = true;
                 }else if (price_voted == true)
                 {
@@ -326,11 +352,40 @@ public class VoteDialog extends DialogFragment {
                     price_up.startAnimation(fade_in);
                     price_up.setClickable(true);
                     price_down.setImageResource(R.drawable.ic_thumb_down);
+                    priceRating = 0;
                     price_voted = false;
                 }
             }
         });
 
         return v;
+    }
+
+    @Override
+    public void onSuccessPartyRating() {
+        if (getActivity() != null) {
+            Toast.makeText(getActivity(), "Rating war erfolgreich", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onFailPartyRating() {
+        if (getActivity() != null) {
+            Toast.makeText(getActivity(), "Rating war nicht erfolgreich", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        int id = v.getId();
+        switch(id){
+            case R.id.vote_button_ok:
+                new PartyRatingTask(this, partyId, new Rating(generalRating, priceRating, locationRating,  moodRating));
+                dismiss();
+                break;
+            case R.id.vote_button_cancel:
+                dismiss();
+                break;
+        }
     }
 }
