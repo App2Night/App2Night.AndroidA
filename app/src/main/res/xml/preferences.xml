@@ -37,6 +37,7 @@
             sample:msbp_measurementUnit="km"
             sample:msbp_dialogEnabled="false"/>
 
+
     </PreferenceCategory>
 
 </PreferenceScreen>

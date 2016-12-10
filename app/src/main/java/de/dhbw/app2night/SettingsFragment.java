@@ -7,7 +7,9 @@ import android.preference.PreferenceFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.pavelsikun.seekbarpreference.SeekBarPreference;
+
 import de.dhbw.exceptions.IllegalKeyException;
 import de.dhbw.utils.SettingsUtil;
 
@@ -24,6 +26,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         super.onCreate(savedInstanceState);
         settingsUtil = SettingsUtil.getInstance();
         addPreferencesFromResource(R.xml.preferences);
+
     }
 
     @Override
@@ -34,35 +37,41 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 
-        if (key.equals("radius"))
-        {
+        if (key.equals("radius")) {
             SeekBarPreference range = (SeekBarPreference) findPreference(key);
             String value = Integer.toString(range.getCurrentValue());
-
-            try
-            {
+            try {
                 settingsUtil.putSettingString(key, value);
-            }catch(IllegalKeyException e) {
+            } catch (IllegalKeyException e) {
             }
         }
 
-        if (key.equals("gps_preference"))
-        {
+        if (key.equals("gps_preference")) {
             Preference gps = findPreference(key);
             //TODO: Implementieren von Settings
         }
 
-        if (key.equals("wlan_preference"))
-        {
+        if (key.equals("wlan_preference")) {
             Preference gps = findPreference(key);
             //TODO: Implementieren von Settings
         }
 
-        if (key.equals("benachrichtung_preference"))
-        {
+        if (key.equals("benachrichtung_preference")) {
             Preference gps = findPreference(key);
             //TODO: Implementieren von Settings
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        getPreferenceManager().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
     }
 }
 
