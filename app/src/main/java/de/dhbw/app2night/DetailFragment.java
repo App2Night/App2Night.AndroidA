@@ -224,7 +224,8 @@ public class DetailFragment extends Fragment implements View.OnClickListener, De
      * @return
      */
     private String calculatePercentage(int upVotes, int downVotes) {
-        return Integer.toString(upVotes / (upVotes + downVotes) * 100);
+        double percentage = (double)upVotes / ((double)upVotes + (double)downVotes) * 100.00;
+        return Integer.toString((int)percentage);
     }
 
     private void initializeButtons() {
