@@ -46,20 +46,6 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
             }
         }
 
-        if (key.equals("gps_preference")) {
-            Preference gps = findPreference(key);
-            //TODO: Implementieren von Settings
-        }
-
-        if (key.equals("wlan_preference")) {
-            Preference gps = findPreference(key);
-            //TODO: Implementieren von Settings
-        }
-
-        if (key.equals("benachrichtung_preference")) {
-            Preference gps = findPreference(key);
-            //TODO: Implementieren von Settings
-        }
     }
 
     @Override

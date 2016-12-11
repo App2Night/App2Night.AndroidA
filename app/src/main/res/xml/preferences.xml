@@ -1,28 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:sample="http://schemas.android.com/apk/res-auto">
+    xmlns:sample="http://schemas.android.com/apk/res-auto"
+    >
 
-    <PreferenceCategory android:title="General">
-
-        <SwitchPreference
-            android:title="GPS"
-            android:key="gps_preference"
-            android:summary="Enales the GPS tracking of your device"
-            android:defaultValue="true"
-            />
-
-        <SwitchPreference
-            android:title="WLAN"
-            android:key="wlan_preference"
-            android:summary="Enables the WLAN usage"
-            android:defaultValue="true"/>
-
-        <CheckBoxPreference
-            android:title="Benachrichtigungen"
-            android:key="benachrichtigung_preference"
-            android:summary="Enables the Push messages"
-            android:defaultValue="true"
-            />
+    <PreferenceCategory android:title="General"
+        android:summary="Allgemeine Einstellungen"
+        >
 
         <com.pavelsikun.seekbarpreference.SeekBarPreference
             android:key="radius"

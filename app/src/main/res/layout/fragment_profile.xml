@@ -30,7 +30,7 @@
 
         </LinearLayout>
 
-        <ScrollView
+        <android.support.v4.widget.NestedScrollView
             android:id="@+id/profile_body"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -92,11 +92,12 @@
                     android:layout_marginTop="20dp"
                     />
 
-                <TextView
+                <EditText
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:hint="@string/profile_name"
                     android:background="@drawable/shadow_edittext"
+                    android:focusable="false"
                     android:layout_marginStart="50dp"
                     android:layout_toEndOf="@id/profile_name"
                     android:layout_alignTop="@id/profile_name"
@@ -110,7 +111,7 @@
                     android:textAllCaps="false" />
 
 
-                <TextView
+                <EditText
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:hint="@string/profile_phone"
@@ -120,6 +121,7 @@
                     android:layout_alignTop="@id/profile_phone"
                     android:layout_alignBottom="@id/profile_phone"
                     android:id="@+id/profile_phone_view"
+                    android:focusable="false"
                     android:layout_alignParentEnd="true"
                     android:shadowColor="@color/mdtp_dark_gray"
                     android:textAlignment="center"
@@ -127,13 +129,14 @@
                     android:textSize="18sp"
                     android:textAllCaps="false" />
 
-                <TextView
+                <EditText
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:hint="@string/profile_mail"
                     android:background="@drawable/shadow_edittext"
                     android:layout_marginStart="50dp"
                     android:id="@+id/profile_mail_view"
+                    android:focusable="false"
                     android:layout_toEndOf="@id/profile_mail"
                     android:layout_alignTop="@id/profile_mail"
                     android:layout_alignBottom="@id/profile_mail"
@@ -144,13 +147,14 @@
                     android:textSize="18sp"
                     android:textAllCaps="false" />
 
-                <TextView
+                <EditText
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:hint="@string/profile_adress"
                     android:background="@drawable/shadow_edittext"
                     android:layout_marginStart="50dp"
                     android:id="@+id/profile_adress_view"
+                    android:focusable="false"
                     android:layout_toEndOf="@id/profile_adress"
                     android:layout_alignTop="@id/profile_adress"
                     android:layout_alignBottom="@id/profile_adress"
@@ -161,7 +165,7 @@
                     android:textSize="18sp"
                     android:textAllCaps="false" />
 
-                <TextView
+                <EditText
                     android:layout_width="wrap_content"
                     android:layout_height="200dp"
                     android:hint="@string/profile_description"
@@ -169,6 +173,7 @@
                     android:layout_marginStart="50dp"
                     android:id="@+id/profile_description_view"
                     android:layout_toEndOf="@id/profile_description"
+                    android:focusable="false"
                     android:layout_alignTop="@id/profile_description"
                     android:layout_alignParentEnd="true"
                     android:shadowColor="@color/mdtp_dark_gray"
@@ -178,12 +183,12 @@
                     android:textAllCaps="false" />
             </RelativeLayout>
 
-        </ScrollView>
+        </android.support.v4.widget.NestedScrollView>
 
     </LinearLayout>
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
+        android:id="@+id/profile_edit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
