@@ -395,7 +395,7 @@ public class DetailFragment extends Fragment implements View.OnClickListener, De
         if (newCommitmentState == CommitmentState.Commited) {
             if (showVoteButton())
                 buttonVote.setVisibility(View.VISIBLE);
-            buttonVote.setVisibility(View.VISIBLE);
+            buttonCancelParticipation.setVisibility(View.VISIBLE);
             buttonParticipate.setVisibility(View.GONE);
         } else if (newCommitmentState == CommitmentState.NotCommited){
             buttonCancelParticipation.setVisibility(View.GONE);
@@ -407,6 +407,9 @@ public class DetailFragment extends Fragment implements View.OnClickListener, De
 
     }
 
+    /**
+     * Bei fehlgeschlagener Übertragung des CommitmentState erhält der Nutzer eine Fehlermeldung
+     */
     @Override
     public void onFailCommitmentState() {
         if (getActivity() != null) {
@@ -414,6 +417,10 @@ public class DetailFragment extends Fragment implements View.OnClickListener, De
         }
     }
 
+    /**
+     * Bei erfoglreichem Löschen der Veranstaltung -> Toast mit Erfolgsmeldung und Callbackaufruf zur Rückkehr zum HomeFragment
+     * @param result
+     */
     @Override
     public void onSuccessDeletePartyById(boolean result) {
         if (getActivity() != null) {
