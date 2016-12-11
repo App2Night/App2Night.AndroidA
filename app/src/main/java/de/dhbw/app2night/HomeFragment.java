@@ -47,6 +47,7 @@ public class HomeFragment extends Fragment implements GetPartyList {
     private PartiesAdapter.OnItemClickListener itemClickListener;
     private LinearLayout error_header;
     Animation error_fade_in, error_fade_out;
+    View rootView;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -74,8 +75,16 @@ public class HomeFragment extends Fragment implements GetPartyList {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_home, container, false);
+        rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
+        initializeViews();
+
+
+        // Inflate the layout for this fragment
+        return rootView;
+    }
+
+    private void initializeViews() {
         error_header = (LinearLayout) rootView.findViewById(R.id.nogps_header);
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
         mSwipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeRefreshLayout);
@@ -106,10 +115,6 @@ public class HomeFragment extends Fragment implements GetPartyList {
                 refreshItems();
             }
         });
-
-
-        // Inflate the layout for this fragment
-        return rootView;
     }
 
     @Override

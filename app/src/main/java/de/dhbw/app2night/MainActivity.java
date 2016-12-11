@@ -24,7 +24,7 @@ import de.dhbw.utils.ContextManager;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, HomeFragment.OnItemClickListener,
         AddEventFragment.OnPostPartySuccessful, DetailFragment.OnChangePartyListener, ChangeEventFragment.OnPutPartySuccessful,
-        DetailFragment.OpenVoteDialog{
+        DetailFragment.OpenVoteDialog, DetailFragment.ReturnToHomeFragment{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,9 +110,6 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_settings:
                 displayView(R.layout.fragment_settings);
                 break;
-            case R.id.nav_test:
-                displayView(R.layout.fragment_test);
-                break;
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -142,10 +139,6 @@ public class MainActivity extends AppCompatActivity
             case R.layout.fragment_settings:
                 fragment = new SettingsFragment();
                 title = getString(R.string.title_settings);
-                break;
-            case R.layout.fragment_test:
-                fragment = new VoteDialog();
-                title = getString(R.string.title_test);
                 break;
             case R.layout.fragment_contact:
                 fragment = new ContactFragment();
@@ -215,5 +208,17 @@ public class MainActivity extends AppCompatActivity
         args.putString(VoteDialog.ARG_PARTYID, partyId);
         voteDialog.setArguments(args);
         voteDialog.show(fm, getString(R.string.vote_dialog_title));
+    }
+
+    /**
+     * Führt die Rückkehr zum HomeFragment durch
+     */
+    @Override
+    public void returnToHomeFragment() {
+            Fragment fragment = new HomeFragment();
+            FragmentManager fm = getFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
+            ft.replace(R.id.main_container_body, fragment);
+            ft.commit();
     }
 }

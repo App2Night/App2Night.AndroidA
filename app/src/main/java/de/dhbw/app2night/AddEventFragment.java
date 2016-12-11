@@ -73,6 +73,7 @@ public class AddEventFragment extends Fragment implements View.OnTouchListener, 
         super.onCreate(savedInstanceState);
 
         try {
+            //Verbinde Callback mit MainActivity, um Status postPartySuccessful an HomeFragment zu übertragen
             mCallback = (AddEventFragment.OnPostPartySuccessful) getActivity();
         } catch (ClassCastException e) {
             throw new ClassCastException(getActivity().toString()
@@ -91,6 +92,9 @@ public class AddEventFragment extends Fragment implements View.OnTouchListener, 
         return rootView;
     }
 
+    /**
+     * Initialisiert alle Elemente des Views und verknüpft OnClickListener
+     */
     private void initializeViews() {
         editTextDescription = (EditText) rootView.findViewById(R.id.input_description);
         editTextDescription.setOnTouchListener(this);
@@ -108,6 +112,7 @@ public class AddEventFragment extends Fragment implements View.OnTouchListener, 
         spinnerMusicGenre = (Spinner) rootView.findViewById(R.id.spinner_music_genre);
         spinnerMusicGenre.setAdapter(new ArrayAdapter<MusicGenre>(getActivity(), android.R.layout.simple_spinner_dropdown_item, MusicGenre.values()));
 
+        //Aktuelle Zeit und Datum fuer die Startparameter des Date und TimePickerDialogs
         now = Calendar.getInstance();
         dpd = DatePickerDialog.newInstance(
                 AddEventFragment.this,
@@ -116,6 +121,7 @@ public class AddEventFragment extends Fragment implements View.OnTouchListener, 
                 now.get(Calendar.DAY_OF_MONTH)
         );
 
+        //Einschraenkung des Datums auf den heutigen Tag, um Eventerstellung in der Vergangenheit zu vermeiden
         dpd.setMinDate(now);
 
         tpd = TimePickerDialog.newInstance(
@@ -124,8 +130,6 @@ public class AddEventFragment extends Fragment implements View.OnTouchListener, 
                 now.get(Calendar.MINUTE),
                 true
         );
-
-        tpd.setMinTime(now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE), now.get(Calendar.SECOND));
 
         okButton = (Button) rootView.findViewById(R.id.addevent_button_ok);
         okButton.setOnClickListener(this);
@@ -160,6 +164,13 @@ public class AddEventFragment extends Fragment implements View.OnTouchListener, 
 
     }
 
+
+    /**
+     * Der onTouchListener verhindert das Scrollen des übergeordneten ScrollViews, sobald das Descriptionfeld berührt wird
+     * @param view : View auf den der onTouchListener gelegt wird
+     * @param motionEvent : Das auslösende Bewegungsevent
+     * @return
+     */
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
         scrollViewAddEvent.requestDisallowInterceptTouchEvent(true);
@@ -175,6 +186,10 @@ public class AddEventFragment extends Fragment implements View.OnTouchListener, 
         return false;
     }
 
+    /**
+     * OnClickListener öffnet je nach geklicktem View Date-, TimeDialog oder startet die Überprüfung einer Feier
+     * @param view
+     */
     @Override
     public void onClick(View view) {
         int id = view.getId();
@@ -192,6 +207,7 @@ public class AddEventFragment extends Fragment implements View.OnTouchListener, 
 
     /**
      * Methode ueberprueft die Eingabefelder ->Party versenden oder Nutzer zu Korrekturen auffordern
+     * Bei falschen Eingaben -> Fehlermarkierung am Feld, bei korrekten Werten -> Variablen der zu erstellenden Party setzen
      */
     private void runPartyCheck() {
         PartyDisplay partyDisplay = new PartyDisplay();
@@ -265,6 +281,10 @@ public class AddEventFragment extends Fragment implements View.OnTouchListener, 
                 partyDateTime = partyDate + partyTime;
                 partyDisplay.setPartyDate(partyDateTime);
 
+                /*Zur Überprüfung einer eingetragenen Uhrzeit wird das Datum der party und das aktuelle Datum geparst und verglichen
+                stimmen die Daten überein, so muss geprüft werden, ob die Uhrzeit vor der aktuellen Uhrzeit liegt
+                -> Party in der Vergangenheit darf nicht erstellt werden -> Fehler anzeigen
+                 */
                 String sPDate = partyDate;
                 Date pdate = null;
                 Date nowDate = null;
@@ -300,8 +320,6 @@ public class AddEventFragment extends Fragment implements View.OnTouchListener, 
             correctInput = false;
         }
 
-
-
         partyDisplay.setPartyType(spinnerPartyType.getSelectedItemPosition());
 
         partyDisplay.setMusicGenre(spinnerMusicGenre.getSelectedItemPosition());
@@ -333,6 +351,13 @@ public class AddEventFragment extends Fragment implements View.OnTouchListener, 
         }
     }
 
+    /**
+     * Ausgelöste Methode nach dem Setzen des Datums im Datepicker
+     * @param view
+     * @param year
+     * @param monthOfYear
+     * @param dayOfMonth
+     */
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
         //Speichern des erfassten Datums fuer Party und setzen in Eingabefeld
@@ -345,6 +370,13 @@ public class AddEventFragment extends Fragment implements View.OnTouchListener, 
         textDate.setText(day + "." + month + "." + year);
     }
 
+    /**
+     * Ausgelöste Methode nach dem Setzen der Uhrzeit im Timepicker
+     * @param view
+     * @param hourOfDay
+     * @param minuteInt
+     * @param second
+     */
     @Override
     public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minuteInt, int second) {
         //Speichern der erfassten Zeit fuer Party und setzen in Eingabefeld
@@ -356,6 +388,11 @@ public class AddEventFragment extends Fragment implements View.OnTouchListener, 
         textTime.setText(hour + ":" + minute);
     }
 
+    /**
+     * Aufruf nach erfolgreichem Posten der Party
+     * Callbackaufruf an MainActivity, um HomeFragment zu laden
+     * @param party
+     */
     @Override
     public void onSuccessPostParty(Party party) {
         mCallback.postedPartySuccessful();
@@ -367,6 +404,11 @@ public class AddEventFragment extends Fragment implements View.OnTouchListener, 
         Toast.makeText(context, text, duration).show();
     }
 
+    /**
+     * Aufruf nach fehlgeschlagenem Posten der Party
+     * Progressanzeige wird entfernt und Fehlermeldung ausgegeben
+     * @param party
+     */
     @Override
     public void onFailPostParty(PartyDisplay party) {
         showProgress(false);
@@ -378,12 +420,20 @@ public class AddEventFragment extends Fragment implements View.OnTouchListener, 
         Toast.makeText(context, text, duration).show();
     }
 
+    /**
+     * Eingegeben Adresse wurde erfolgreich verifiziert
+     * @param partyDisplay
+     */
     @Override
     public void onSuccessAddressValidate(PartyDisplay partyDisplay) {
         new PostPartyTask(this, partyDisplay);
     }
 
-
+    /**
+     * Aufruf bei fehlgeschlagener Überprüfung der Adresse, z.B. bei ungültigen Werten
+     * Markierung der Felder mit Fehlern
+     * @param partyDisplay
+     */
     @Override
     public void onFailAddressValidate(PartyDisplay partyDisplay) {
         showProgress(false);
@@ -400,6 +450,10 @@ public class AddEventFragment extends Fragment implements View.OnTouchListener, 
         tilCountryName.setError(getString(R.string.country_name));
     }
 
+    /**
+     * Anzeige eines ProgressViews mit Animation
+     * @param show
+     */
     public void showProgress(final boolean show) {
             int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 

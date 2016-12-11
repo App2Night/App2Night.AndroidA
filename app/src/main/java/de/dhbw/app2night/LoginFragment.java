@@ -132,7 +132,7 @@ public class LoginFragment extends Fragment implements LoaderManager.LoaderCallb
             @Override
             public void onClick(View view) {
                 InputMethodManager inputManager = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                inputManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+                inputManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
                 attemptLogin();
             }
         });
@@ -142,7 +142,7 @@ public class LoginFragment extends Fragment implements LoaderManager.LoaderCallb
             @Override
             public void onClick(View view) {
                 InputMethodManager inputManager = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                inputManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+                inputManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
                 if(editTextUserName.getText()!=null) {
                     mCallback.onInput(editTextUserName.getText().toString());
                 }else
@@ -312,6 +312,7 @@ public class LoginFragment extends Fragment implements LoaderManager.LoaderCallb
             mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
             mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
         }
+
     }
 
     @Override
@@ -350,7 +351,6 @@ public class LoginFragment extends Fragment implements LoaderManager.LoaderCallb
 
     private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
         //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
-        //TODO: Hier nochmal wegen getActivity pruefen, ob ContextManager besser ist
         ArrayAdapter<String> adapter =
                 new ArrayAdapter<>(getActivity(),
                         android.R.layout.simple_dropdown_item_1line, emailAddressCollection);

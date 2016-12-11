@@ -16,13 +16,12 @@
     <string name="action_contact">Kontakt</string>
     <string name="action_test">Test</string>
 
-    <string name="title_home">HomeFragment</string>
-    <string name="title_settings">SettingsFragment</string>
-    <string name="title_addevent">AddEventFragment</string>
-    <string name="title_findevent">FindEventFragment</string>
-    <string name="title_profile">ProfileFragment</string>
-    <string name="title_contact">ContactFragment</string>
-    <string name="title_test">TestFragment</string>
+    <string name="title_home">Übersicht</string>
+    <string name="title_settings">Einstellungen</string>
+    <string name="title_addevent">Hinzufügen</string>
+    <string name="title_findevent">Event finden</string>
+    <string name="title_profile">Profil</string>
+    <string name="title_contact">Kontakt</string>
     <string name="title_activity_login">Sign in</string>
 
     <!-- Strings related to login -->

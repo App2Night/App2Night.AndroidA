@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -54,10 +55,15 @@ public class DetailFragment extends Fragment implements View.OnClickListener, De
         void openVoteDialog(String partyId);
     }
 
+    public interface ReturnToHomeFragment {
+        void returnToHomeFragment();
+    }
+
     public static final String ARG_PARTY = "arg_party";
 
     OnChangePartyListener mCallback;
     OpenVoteDialog mVoteCallback;
+    ReturnToHomeFragment mReturnHomeCallback;
     View rootView;
     CustomMapView mMapView;
     private GoogleMap googleMap;
@@ -73,8 +79,6 @@ public class DetailFragment extends Fragment implements View.OnClickListener, De
 
     Status status;
 
-
-
     private enum Status{
         Host, Participant, NotParticipant, Bookmarked, Unknown
     }
@@ -82,9 +86,11 @@ public class DetailFragment extends Fragment implements View.OnClickListener, De
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //Darzustellende Party wird aus mitgegebenen Argumenten ausgelesen
         partyToDisplay = (Party)getArguments().getSerializable("arg_party");
 
         try {
+            //Callbackverbindung zum Öffnen des ChangePartyFragments
             mCallback = (DetailFragment.OnChangePartyListener) getActivity();
         } catch (ClassCastException e) {
             throw new ClassCastException(getActivity().toString()
@@ -92,10 +98,19 @@ public class DetailFragment extends Fragment implements View.OnClickListener, De
         }
 
         try {
+            //Callbackverbindung zum Öffnen des VoteDialogFragments
             mVoteCallback = (DetailFragment.OpenVoteDialog) getActivity();
         } catch (ClassCastException e) {
             throw new ClassCastException(getActivity().toString()
                     + " must implement OpenVoteDialog");
+        }
+
+        try {
+            //Callbackverbindung zum Zurückkehren zum HomeFragment
+            mReturnHomeCallback = (DetailFragment.ReturnToHomeFragment) getActivity();
+        } catch (ClassCastException e) {
+            throw new ClassCastException(getActivity().toString()
+                    + " must implement ReturnToHomeFragment");
         }
     }
 
@@ -104,6 +119,7 @@ public class DetailFragment extends Fragment implements View.OnClickListener, De
         rootView = inflater.inflate(R.layout.fragment_detail_view, container, false);
         scrollViewDetailView = (ScrollView)rootView.findViewById(R.id.detail_view_scrollview_main);
 
+        //Verknüpfung des MapViews mit MapLifecycle
         mMapView = (CustomMapView) rootView.findViewById(R.id.detail_view_mapView);
         mMapView.onCreate(savedInstanceState);
         mMapView.onResume(); // needed to get the map to display immediately
@@ -131,6 +147,9 @@ public class DetailFragment extends Fragment implements View.OnClickListener, De
         return rootView;
     }
 
+    /**
+     * Initialisiert alle Elemente des Views und verknüpft benötigte OnClickListener
+     */
     private void initializeViews() {
         tvPartyName = (TextView)rootView.findViewById(R.id.detail_view_text_party_name);
         tvPartyName.setText(partyToDisplay.getPartyName());
@@ -265,6 +284,9 @@ public class DetailFragment extends Fragment implements View.OnClickListener, De
 
     }
 
+    /**
+     * Initialisiert je nach Benutzer die anzuzeigenden Buttons
+     */
     private void initializeButtons() {
         switch(status){
             case Participant:
@@ -354,17 +376,20 @@ public class DetailFragment extends Fragment implements View.OnClickListener, De
                 mVoteCallback.openVoteDialog(partyToDisplay.getPartyId());
                 break;
             case R.id.detail_view_button_cancel_participation:
+                //Starte Task für die Übermittelung des Teilnehmestatus
                 new SetCommitmentStateTask(this, partyToDisplay.getPartyId(), CommitmentState.NotCommited);
                 break;
             case R.id.detail_view_button_cancel_event:
+                //Starte Task zum Löschen einer Veranstaltung
                 new DeletePartyByIdTask(this, partyToDisplay.getPartyId());
         }
     }
 
-    @Override
+
     /**
-     * Setzt Buttons entsprechen dem neuen Commitment State
+     * Setzt Buttons entsprechend dem neuen Commitment State, nach erfolgreicher Übertragung des CommitmentStates per Task
      */
+    @Override
     public void onSuccessCommitmentState(CommitmentState newCommitmentState) {
         partyToDisplay.setUserCommitmentState(CommitmentState.toInt(newCommitmentState));
         if (newCommitmentState == CommitmentState.Commited) {
@@ -384,16 +409,28 @@ public class DetailFragment extends Fragment implements View.OnClickListener, De
 
     @Override
     public void onFailCommitmentState() {
-            //TODO Fehler Toast
+        if (getActivity() != null) {
+            Toast.makeText(getActivity(), "Übertragung des Teilnehmestatus ist fehlgeschlagen. Bitte versuchen Sie es erneut", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
     public void onSuccessDeletePartyById(boolean result) {
-            //TODO Success Toast und Fragment beenden
+        if (getActivity() != null) {
+            Toast.makeText(getActivity(), "Veranstaltung wurde erfolgreich gelöscht.", Toast.LENGTH_SHORT).show();
+        }
+        //Löst die Rückkehr zum HomeFragment aus
+        mReturnHomeCallback.returnToHomeFragment();
     }
 
+    /**
+     * Löschen einer Veranstaltung fehlgeschlagen -> Taskabbruch und Ausführung
+     * @param result
+     */
     @Override
     public void onFailDeletePartyById(boolean result) {
-            //TODO Toast ausgeben
+        if (getActivity() != null) {
+            Toast.makeText(getActivity(), "Fehler! Veranstaltung wurde nicht gelöscht. Bitte versuchen Sie es erneut", Toast.LENGTH_SHORT).show();
+        }
     }
 }

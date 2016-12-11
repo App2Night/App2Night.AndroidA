@@ -63,31 +63,7 @@ public class FindEventFragment extends Fragment implements GetPartyList {
         } catch (Exception e) {
             e.printStackTrace();
         }
-/*
-        mMapView.getMapAsync(new OnMapReadyCallback() {
-            @Override
-            public void onMapReady(GoogleMap mMap) {
-                googleMap = mMap;
 
-                // For showing a move to my location button
-
-                //googleMap.setMyLocationEnabled(true); //TODO: Fixen von setMyLocationEnabled
-
-                // For dropping a marker at a point on the Map
-
-                try{
-                    double[] gpsCoords = gps.getGPSCoordinates();
-                    pos = new LatLng(gpsCoords[0], gpsCoords[1]);
-                    userPosition = googleMap.addMarker(new MarkerOptions().position(pos).title("Ihre Position").snippet(""));
-                    CameraPosition cameraPosition = new CameraPosition.Builder().target(pos).zoom(12).build();
-                    googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-
-                } catch (GPSUnavailableException e) {
-
-                }
-            }
-        });
-*/
         return rootView;
     }
 
