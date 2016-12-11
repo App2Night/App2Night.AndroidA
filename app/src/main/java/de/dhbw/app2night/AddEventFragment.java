@@ -437,7 +437,6 @@ public class AddEventFragment extends Fragment implements View.OnTouchListener, 
     @Override
     public void onFailAddressValidate(PartyDisplay partyDisplay) {
         showProgress(false);
-        //TODO: Felder markieren, Meldung das Adresse nicht korrekt
         editTextStreetName.setError("Adresse enthält Fehler");
         tilStreetName.setError(getString(R.string.street_name));
         editTextHouseNumber.setError("Adresse enthält Fehler");

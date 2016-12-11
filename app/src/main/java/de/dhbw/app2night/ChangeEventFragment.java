@@ -302,7 +302,6 @@ public class ChangeEventFragment extends Fragment implements View.OnTouchListene
             tvDate.setError(null);
             tvTime.setError(null);
             if(!tvTime.getText().equals("")) {
-                //TODO Abfrage für null Werte, dann alte Werte verwenden
                 if(partyDate == null){
                     partyDate = DateUtil.getInstance().getDateInFormat(partyDisplay.getPartyDate());
                 }
@@ -400,7 +399,6 @@ public class ChangeEventFragment extends Fragment implements View.OnTouchListene
 
         if(monthOfYear+1<10) month = "0" + (monthOfYear+1);
         if(dayOfMonth<10) day = "0" + dayOfMonth;
-        //TODO SimpleDateFormat verwenden
         partyDate = year + "-" + month + "-" + day;
         tvDate.setText(day + "." + month + "." + year);
     }
@@ -473,7 +471,6 @@ public class ChangeEventFragment extends Fragment implements View.OnTouchListene
     @Override
     public void onFailAddressValidate(PartyDisplay partyDisplay) {
         showProgress(false);
-        //TODO: Felder markieren, Meldung das Adresse nicht korrekt
         editTextStreetName.setError("Adresse enthält Fehler");
         tilStreetName.setError(getString(R.string.street_name));
         editTextHouseNumber.setError("Adresse enthält Fehler");
