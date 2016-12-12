@@ -18,6 +18,7 @@ import de.dhbw.model.User;
  */
 public class ProfileFragment extends Fragment {
 
+    //Variablen
     EditText profile_name, profile_phone, profile_mail, profile_adress, profile_description;
     FloatingActionButton edit;
     View.OnClickListener save, change;
@@ -27,17 +28,29 @@ public class ProfileFragment extends Fragment {
         // Required empty public constructor
     }
 
+    /**
+     * Wird beim erstellen aufgerufen
+     * @param savedInstanceState
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
     }
 
+    /**
+     * Wird beim erstellen der View aufgerufen
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_profile, container, false);
 
+        //Zuweisungen der EditTexts
         profile_name = (EditText) rootView.findViewById(R.id.profile_name_view);
         profile_phone =  (EditText) rootView.findViewById(R.id.profile_phone_view);
         profile_mail = (EditText) rootView.findViewById(R.id.profile_mail_view);
@@ -48,17 +61,17 @@ public class ProfileFragment extends Fragment {
         //TODO: Name des Users in TextFeld anzeigen
 
 
+        //Button Image Ändern und anderen OnClickListener zuweisen
          save = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
 
                 edit.setImageResource(R.drawable.ic_settings_black_24dp);
                 edit.setOnClickListener(change);
             }
         };
 
+        //Button Image Ändern und anderen OnClickListener zuweisen
         change = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,8 +83,6 @@ public class ProfileFragment extends Fragment {
 
         edit = (FloatingActionButton) rootView.findViewById(R.id.profile_edit);
         edit.setOnClickListener(change);
-
-
 
         // Inflate the layout for this fragment
         return rootView;

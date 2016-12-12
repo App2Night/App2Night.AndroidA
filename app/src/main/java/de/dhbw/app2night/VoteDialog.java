@@ -23,6 +23,7 @@ import de.dhbw.model.Rating;
 
 public class VoteDialog extends DialogFragment implements PartyRating, View.OnClickListener{
 
+    //Variablen
     public final static String ARG_PARTYID = "arg_partyid";
     ImageView party_up, party_down, location_up, location_down, mood_up, mood_down, price_up, price_down;
     boolean party_voted = false;
@@ -38,9 +39,13 @@ public class VoteDialog extends DialogFragment implements PartyRating, View.OnCl
 
 
     public VoteDialog(){
-
+        // Required empty public constructor
     }
 
+    /**
+     * Beim erstellen Aufgerufen
+     * @param savedInstanceState
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,12 +53,20 @@ public class VoteDialog extends DialogFragment implements PartyRating, View.OnCl
     }
 
 
+    /**
+     * Beim erstellen der View aufgerufen
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.dialog_voting, container, false);
 
+        //Vote Buttons
         party_up = (ImageView) v.findViewById(R.id.party_thumb_up);
         party_down = (ImageView) v.findViewById(R.id.party_thumb_down);
         location_up = (ImageView) v.findViewById(R.id.location_up);
@@ -68,9 +81,11 @@ public class VoteDialog extends DialogFragment implements PartyRating, View.OnCl
         cancel_button = (Button) v.findViewById(R.id.vote_button_cancel);
         cancel_button.setOnClickListener(this);
 
+        //Animationen laden
         final Animation fade_in = AnimationUtils.loadAnimation(getActivity(), R.anim.image_fade_in);
         final Animation fade_out = AnimationUtils.loadAnimation(getActivity(), R.anim.image_fade_out);
 
+        //Wenn die Party nicht gesamt gevotet ist, je nachdem wie abgestimmt wurde die anderen Buttons ausblenden, unklickbar machen. Farbe der Buttons die gewählt wurden ändern.
         View.OnClickListener party_vote = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -128,6 +143,7 @@ public class VoteDialog extends DialogFragment implements PartyRating, View.OnCl
                     mood_voted = true;
                     price_voted = true;
 
+                    // Wenn Party schon gevoted wurde wieder Buttons richtig einblenden, klickbar machen und farben ändern.
                 } else if (party_voted) {
 
                     switch(v.getId())
@@ -215,9 +231,12 @@ public class VoteDialog extends DialogFragment implements PartyRating, View.OnCl
             }
         };
 
+        // Zuweisungen der OnClickListener
         party_up.setOnClickListener(party_vote);
         party_down.setOnClickListener(party_vote);
 
+        // Anderen Button unsichtbar machen, nicht klickbar. Farbe des gewählten Buttons ändern
+        // Falls schon gevoted wurde, anderen Button wieder einblenden, klickbar machen, Farben ändern
         location_up.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -242,6 +261,8 @@ public class VoteDialog extends DialogFragment implements PartyRating, View.OnCl
             }
         });
 
+        // Anderen Button unsichtbar machen, nicht klickbar. Farbe des gewählten Buttons ändern
+        // Falls schon gevoted wurde, anderen Button wieder einblenden, klickbar machen, Farben ändern
         location_down.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -265,6 +286,8 @@ public class VoteDialog extends DialogFragment implements PartyRating, View.OnCl
             }
         });
 
+        // Anderen Button unsichtbar machen, nicht klickbar. Farbe des gewählten Buttons ändern
+        // Falls schon gevoted wurde, anderen Button wieder einblenden, klickbar machen, Farben ändern
         mood_up.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -289,6 +312,8 @@ public class VoteDialog extends DialogFragment implements PartyRating, View.OnCl
             }
         });
 
+        // Anderen Button unsichtbar machen, nicht klickbar. Farbe des gewählten Buttons ändern
+        // Falls schon gevoted wurde, anderen Button wieder einblenden, klickbar machen, Farben ändern
         mood_down.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -312,6 +337,8 @@ public class VoteDialog extends DialogFragment implements PartyRating, View.OnCl
             }
         });
 
+        // Anderen Button unsichtbar machen, nicht klickbar. Farbe des gewählten Buttons ändern
+        // Falls schon gevoted wurde, anderen Button wieder einblenden, klickbar machen, Farben ändern
         price_up.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -335,6 +362,8 @@ public class VoteDialog extends DialogFragment implements PartyRating, View.OnCl
             }
         });
 
+        // Anderen Button unsichtbar machen, nicht klickbar. Farbe des gewählten Buttons ändern
+        // Falls schon gevoted wurde, anderen Button wieder einblenden, klickbar machen, Farben ändern
         price_down.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -361,6 +390,10 @@ public class VoteDialog extends DialogFragment implements PartyRating, View.OnCl
         return v;
     }
 
+    /**
+     * Wird aufgerufen wenn das Rating erfolgreich war, erzeugt eine Nachricht
+     * Dies darf nur dann geschehen, solange die Activity greifbar ist. Ansonsten kommt es zu abstürzen.
+     */
     @Override
     public void onSuccessPartyRating() {
         if (getActivity() != null) {
@@ -368,6 +401,10 @@ public class VoteDialog extends DialogFragment implements PartyRating, View.OnCl
         }
     }
 
+    /**
+     * Wird aufgerufen wenn das Rating fehlgeschlagen ist, erzeugt eine Nachricht
+     * Dies darf nur dann geschehen, solange die Activity greifbar ist. Ansonsten kommt es zu abstürzen.
+     */
     @Override
     public void onFailPartyRating() {
         if (getActivity() != null) {
@@ -375,6 +412,10 @@ public class VoteDialog extends DialogFragment implements PartyRating, View.OnCl
         }
     }
 
+    /**
+     * Neue Backend Task erzeugen -> PartyRatingTask, sofern "Ok" gedrückt wurde oder ausblenden, falls "Cancel" gedrückt wurde
+     * @param v
+     */
     @Override
     public void onClick(View v) {
         int id = v.getId();

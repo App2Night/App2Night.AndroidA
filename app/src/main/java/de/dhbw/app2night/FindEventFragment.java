@@ -32,6 +32,7 @@ import de.dhbw.utils.Gps;
  */
 public class FindEventFragment extends Fragment implements GetPartyList {
 
+    //Variablen
     MapView mMapView;
     private GoogleMap googleMap;
     Gps gps;
@@ -40,6 +41,13 @@ public class FindEventFragment extends Fragment implements GetPartyList {
     private double latitudeUser;
     private double longtitudeUser;
 
+    /**
+     * Wird aufgerufen, sobald die View erstellt wird
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -50,6 +58,7 @@ public class FindEventFragment extends Fragment implements GetPartyList {
 
         gps = Gps.getInstance();
 
+        // Koordinaten des Users holen, falls es fehlschlägt Alert Dialog anzeigen
         try {
             double[] gpsKoord = gps.getGPSCoordinates();
             latitudeUser = gpsKoord[0];
@@ -58,6 +67,7 @@ public class FindEventFragment extends Fragment implements GetPartyList {
         } catch (GPSUnavailableException e) {
             showSettingsAlert();
         }
+        // Map initialisieren
         try {
             MapsInitializer.initialize(getActivity().getApplicationContext());
         } catch (Exception e) {
@@ -93,6 +103,9 @@ public class FindEventFragment extends Fragment implements GetPartyList {
         mMapView.onLowMemory();
     }
 
+    /**
+     * Alert Dialog, der dem Nutzer mitteilt, dass das GPS nicht aktiviert ist. Bietet die Möglichkeit direkt zu den Settings zu wechseln oder dies erst Später zu ändern.
+     */
     public void showSettingsAlert() {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
 
@@ -114,6 +127,10 @@ public class FindEventFragment extends Fragment implements GetPartyList {
         alertDialog.show();
     }
 
+    /**
+     * Wird aufgerufen, wenn die PartyListe erfolgreich geladen werden konnte. Updated die Position des Users, der Kamera und zeigt die Parties auf der Map an.
+     * @param parties: Alle Parties, die geladen wurden
+     */
     @Override
     public void onSuccessGetPartyList(final Party[] parties) {
         try {
