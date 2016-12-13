@@ -16,7 +16,7 @@
         android:layout_marginBottom="8dp"
         android:visibility="gone" />
 
-    <android.support.v4.widget.NestedScrollViewScrollView
+    <ScrollView
         android:id="@+id/addevent_scrollview_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -241,6 +241,6 @@
                 android:text="@string/addevent_button_ok" />
         </LinearLayout>
 
-    </android.support.v4.widget.NestedScrollViewScrollView>
+    </ScrollView>
 </LinearLayout>
 

@@ -29,6 +29,9 @@ public class MainActivity extends AppCompatActivity
         AddEventFragment.OnPostPartySuccessful, DetailFragment.OnChangePartyListener, ChangeEventFragment.OnPutPartySuccessful,
         DetailFragment.OpenVoteDialog, DetailFragment.ReturnToHomeFragment, HomeFragment.OnFloatButtonClickListener{
 
+    //Variables
+    FragmentManager fragmentManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         ContextManager.getInstance().setContext(this);
@@ -49,21 +52,24 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         // display the home fragment view on app launch
+        fragmentManager = getFragmentManager();
         displayView(R.layout.fragment_home);
-
-
-
     }
 
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        Fragment currentFragment = fragmentManager.findFragmentById(R.id.main_container_body);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else {
-            //TODO: Modifiziertes Back -> Wenn !Home -> HomeFragment, schließe sonst
+        } else if(fragmentManager.getBackStackEntryCount() > 0) {
             super.onBackPressed();
+        }else if(currentFragment.getClass() == HomeFragment.class){
+            super.onBackPressed();
+        }else{
+            returnToHomeFragment();
         }
+
     }
 
     @Override
@@ -100,9 +106,6 @@ public class MainActivity extends AppCompatActivity
                 break;
             case R.id.nav_addEvent:
                 displayView(R.layout.fragment_addchangeevent);
-                break;
-            case R.id.nav_findEvent:
-                displayView(R.layout.fragment_findevent);
                 break;
             case R.id.nav_profile:
                 displayView(R.layout.fragment_profile);
@@ -154,7 +157,7 @@ public class MainActivity extends AppCompatActivity
                 break;
         }
         if (fragment != null) {
-            FragmentManager fragmentManager = getFragmentManager();
+            fragmentManager = getFragmentManager();
             for(int i = 0; i < fragmentManager.getBackStackEntryCount(); ++i) {
                 fragmentManager.popBackStack();
             }
@@ -174,7 +177,7 @@ public class MainActivity extends AppCompatActivity
         args.putSerializable(DetailFragment.ARG_PARTY, party);
         fragment.setArguments(args);
 
-        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.main_container_body, fragment).addToBackStack("home");
         fragmentTransaction.commit();
@@ -192,7 +195,7 @@ public class MainActivity extends AppCompatActivity
         args.putSerializable(ChangeEventFragment.ARG_PARTY, partyToChange);
         fragment.setArguments(args);
 
-        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.main_container_body, fragment).addToBackStack("detailView");
         fragmentTransaction.commit();
@@ -205,12 +208,12 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void openVoteDialog(String partyId) {
-        FragmentManager fm = getFragmentManager();
+        fragmentManager = getFragmentManager();
         VoteDialog voteDialog = new VoteDialog();
         Bundle args = new Bundle();
         args.putString(VoteDialog.ARG_PARTYID, partyId);
         voteDialog.setArguments(args);
-        voteDialog.show(fm, getString(R.string.vote_dialog_title));
+        voteDialog.show(fragmentManager, getString(R.string.vote_dialog_title));
     }
 
     /**
@@ -219,10 +222,12 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void returnToHomeFragment() {
             Fragment fragment = new HomeFragment();
-            FragmentManager fm = getFragmentManager();
-            FragmentTransaction ft = fm.beginTransaction();
+            fragmentManager = getFragmentManager();
+            FragmentTransaction ft = fragmentManager.beginTransaction();
             ft.replace(R.id.main_container_body, fragment);
             ft.commit();
+
+            getSupportActionBar().setTitle(getString(R.string.title_home));
     }
 
     /**
@@ -236,7 +241,7 @@ public class MainActivity extends AppCompatActivity
         args.putSerializable(FindEventFragment.ARG_PARTYLIST, parties);
         fragment.setArguments(args);
 
-        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.main_container_body, fragment).addToBackStack("HomeFragment");
         fragmentTransaction.commit();

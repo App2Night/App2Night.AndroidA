@@ -11,10 +11,6 @@
             android:icon="@drawable/ic_add_circle_outline_black_24dp"
             android:title="@string/action_addevent" />
         <item
-            android:id="@+id/nav_findEvent"
-            android:icon="@drawable/ic_menu_search"
-            android:title="@string/action_findevent" />
-        <item
             android:id="@+id/nav_profile"
             android:icon="@drawable/ic_person_outline_black_24dp"
             android:title="@string/action_profile" />
