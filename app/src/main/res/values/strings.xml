@@ -64,6 +64,10 @@
     <string name="party_nogps">Es ist ein Fehler aufgetreten, alte Daten geladen</string>
     <string name="error_description">Error Icon</string>
 
+    <!-- Strings related to Settings -->
+    <string name="wechseln">Wechseln</string>
+    <string name="settings">Settings</string>
+
     <!--Strings related to DetailView-->
     <string name="detail_view_button_edit">Bearbeiten</string>
     <string name="detail_view_button_participate">Teilnehmen</string>

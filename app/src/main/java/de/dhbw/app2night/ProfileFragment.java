@@ -15,6 +15,7 @@ import de.dhbw.model.User;
 
 /**
  * Created by Flo on 31.10.2016.
+ *
  */
 public class ProfileFragment extends Fragment {
 

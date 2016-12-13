@@ -5,7 +5,7 @@
     >
 
     <Button
-        android:text="Wechseln"
+        android:text="@string/wechseln"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -14,7 +14,7 @@
         android:id="@+id/fragment_settings_button_switch" />
 
     <TextView
-        android:text="Settings"
+        android:text="@string/settings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="33dp"
