@@ -71,7 +71,7 @@
             android:layout_marginBottom="@dimen/fab_margin"
             app:backgroundTint="@color/fab4_color"
             android:layout_marginEnd="@dimen/fab_margin"
-            android:src="@drawable/ic_location"/>
+            android:src="@drawable/ic_world_map"/>
 
     </android.support.design.widget.CoordinatorLayout>
 

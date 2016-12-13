@@ -120,6 +120,7 @@
                     android:layout_toEndOf="@id/profile_phone"
                     android:layout_alignTop="@id/profile_phone"
                     android:layout_alignBottom="@id/profile_phone"
+                    android:inputType="phone"
                     android:id="@+id/profile_phone_view"
                     android:focusable="false"
                     android:layout_alignParentEnd="true"
