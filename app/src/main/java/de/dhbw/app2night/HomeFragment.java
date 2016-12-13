@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -44,6 +45,7 @@ public class HomeFragment extends Fragment implements GetPartyList {
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private RecyclerView recyclerView;
     private PartiesAdapter pAdapter;
+    private FloatingActionButton fab_map;
     private PartiesAdapter.OnItemClickListener itemClickListener;
     private LinearLayout error_header;
     Animation error_fade_in, error_fade_out;
@@ -84,6 +86,7 @@ public class HomeFragment extends Fragment implements GetPartyList {
         return rootView;
     }
 
+
     private void initializeViews() {
         error_header = (LinearLayout) rootView.findViewById(R.id.nogps_header);
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
@@ -94,6 +97,15 @@ public class HomeFragment extends Fragment implements GetPartyList {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(pAdapter);
 
+        fab_map = (FloatingActionButton) rootView.findViewById(R.id.fab_map);
+        fab_map.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO: Flo Map Fragment anzeigen
+            }
+        });
+
+
         error_fade_in = AnimationUtils.loadAnimation(getActivity(), R.anim.image_fade_in);
         error_fade_out = AnimationUtils.loadAnimation(getActivity(), R.anim.image_fade_out);
 
@@ -101,17 +113,29 @@ public class HomeFragment extends Fragment implements GetPartyList {
         try {
             double[] gpsResult = Gps.getInstance().getGPSCoordinates();
             new GetPartyListTask(this,gpsResult[0],gpsResult[1]);
+            if (error_header.getVisibility() == View.VISIBLE) {
+                error_header.startAnimation(error_fade_out);
+                error_header.setVisibility(View.INVISIBLE);
+                error_header.setClickable(false);
+            }
         } catch (GPSUnavailableException e) {
             showGpsUnavailableDialog();
+            if (error_header.getVisibility() == View.INVISIBLE){
+                error_header.setVisibility(View.VISIBLE);
+                error_header.startAnimation(error_fade_in);
+                error_header.setClickable(true);
+            }
             e.printStackTrace();
         }
 
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                error_header.startAnimation(error_fade_out);
-                error_header.setVisibility(View.INVISIBLE);
-                error_header.setClickable(false);
+                if (error_header.getVisibility() == View.VISIBLE) {
+                    error_header.startAnimation(error_fade_out);
+                    error_header.setVisibility(View.INVISIBLE);
+                    error_header.setClickable(false);
+                }
                 refreshItems();
             }
         });
@@ -176,8 +200,19 @@ public class HomeFragment extends Fragment implements GetPartyList {
         try {
             double[] gpsResult = Gps.getInstance().getGPSCoordinates();
             new GetPartyListTask(this,gpsResult[0],gpsResult[1]);
+            if (error_header.getVisibility() == View.VISIBLE) {
+                error_header.startAnimation(error_fade_out);
+                error_header.setVisibility(View.INVISIBLE);
+                error_header.setClickable(false);
+            }
         } catch (GPSUnavailableException e) {
             showGpsUnavailableDialog();
+            if (error_header.getVisibility() == View.INVISIBLE){
+                error_header.setVisibility(View.VISIBLE);
+                error_header.startAnimation(error_fade_in);
+                error_header.setClickable(true);
+            }
+            mSwipeRefreshLayout.setRefreshing(false);
             e.printStackTrace();
         }
     }
@@ -188,11 +223,6 @@ public class HomeFragment extends Fragment implements GetPartyList {
         if (getActivity() != null) {
             Toast.makeText(getActivity(), "Parties wurden erfolgreich geladen", Toast.LENGTH_SHORT).show();
             mSwipeRefreshLayout.setRefreshing(false);
-            if (error_header.getVisibility() == View.VISIBLE) {
-                error_header.startAnimation(error_fade_out);
-                error_header.setVisibility(View.INVISIBLE);
-                error_header.setClickable(false);
-            }
         }
     }
 
@@ -201,11 +231,6 @@ public class HomeFragment extends Fragment implements GetPartyList {
         if (getActivity() != null) {
             Toast.makeText(getActivity(), "Parties laden ist fehlgeschlagen. Alte Liste wurde geladen.", Toast.LENGTH_SHORT).show();
             mSwipeRefreshLayout.setRefreshing(false);
-            if (error_header.getVisibility() == View.INVISIBLE){
-                error_header.setVisibility(View.VISIBLE);
-                error_header.startAnimation(error_fade_in);
-                error_header.setClickable(true);
-            }
         }
     }
 }
