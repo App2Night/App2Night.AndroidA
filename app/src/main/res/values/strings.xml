@@ -9,7 +9,7 @@
 
 
     <string name="action_home">Home</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">Einstellungen</string>
     <string name="action_addevent">Veranstaltung erstellen</string>
     <string name="action_findevent">Veranstaltung finden</string>
     <string name="action_profile">Profil</string>
@@ -104,7 +104,11 @@
     <string name="icon_edit">Description Icon</string>
 
 
+    <!--Strings related to AddEvent -->
     <string name="addevent_button_ok">Veranstaltung erstellen</string>
+
+    <!--Strings related to ChangeEvent -->
+    <string name="change_event_button_ok">Änderungen bestätigen</string>
 
     <!--Strings related to VoteDialog-->
     <string name="OK">OK</string>

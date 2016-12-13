@@ -19,6 +19,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,8 +41,13 @@ public class HomeFragment extends Fragment implements GetPartyList {
         void onClick(Party party);
     }
 
-    OnItemClickListener mCallback;
-    private List<Party> partyList = new ArrayList<>();
+    public interface OnFloatButtonClickListener {
+        void onFloatButtonClick(ArrayList<Party> parties);
+    }
+
+    OnItemClickListener mItemClickCallback;
+    OnFloatButtonClickListener mFloatButtonClickCallback;
+    private ArrayList<Party> partyList = new ArrayList<>();
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private RecyclerView recyclerView;
     private PartiesAdapter pAdapter;
@@ -62,16 +68,24 @@ public class HomeFragment extends Fragment implements GetPartyList {
         itemClickListener = new PartiesAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Party party) {
-                mCallback.onClick(party);
+                mItemClickCallback.onClick(party);
             }
         };
 
         try {
-            mCallback = (HomeFragment.OnItemClickListener) getActivity();
+            mItemClickCallback = (HomeFragment.OnItemClickListener) getActivity();
         } catch (ClassCastException e) {
             throw new ClassCastException(getActivity().toString()
                     + " must implement onItemClickListener");
         }
+
+        try {
+            mFloatButtonClickCallback = (HomeFragment.OnFloatButtonClickListener) getActivity();
+        } catch (ClassCastException e) {
+            throw new ClassCastException(getActivity().toString()
+                    + " must implement onFloatButtonClickListener");
+        }
+
     }
 
     @Override
@@ -102,7 +116,7 @@ public class HomeFragment extends Fragment implements GetPartyList {
         fab_map.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO: Flo Map Fragment anzeigen
+                mFloatButtonClickCallback.onFloatButtonClick(partyList);
             }
         });
 

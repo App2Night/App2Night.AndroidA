@@ -133,7 +133,7 @@ public class AddEventFragment extends Fragment implements View.OnTouchListener, 
 
         okButton = (Button) rootView.findViewById(R.id.addevent_button_ok);
         okButton.setOnClickListener(this);
-        okButton.setText("Veranstaltung erstellen");
+        okButton.setText(getString(R.string.addevent_button_ok));
 
         editTextPartyName = (EditText) rootView.findViewById(R.id.input_party_name);
         editTextStreetName = (EditText) rootView.findViewById(R.id.input_street_name);

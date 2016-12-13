@@ -76,7 +76,7 @@ public class ChangeEventFragment extends Fragment implements View.OnTouchListene
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        partyToChange = (Party)getArguments().getSerializable("arg_party");
+        partyToChange = (Party)getArguments().getSerializable(ARG_PARTY);
 
         try {
             //Verbinde Callback mit MainActivity, um Status ChangePartySuccessful an DetailFragment zu übertragen
@@ -173,7 +173,7 @@ public class ChangeEventFragment extends Fragment implements View.OnTouchListene
 
         okButton = (Button) rootView.findViewById(R.id.addevent_button_ok);
         okButton.setOnClickListener(this);
-        okButton.setText("Änderungen bestätigen");
+        okButton.setText(getString(R.string.change_event_button_ok));
 
         //Erstellen eines bearbeitbaren PartyDisplays aus der geladenen zu ändernden Party
         partyDisplay = new PartyDisplay(partyToChange);

@@ -13,6 +13,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import de.dhbw.model.Party;
 import de.dhbw.utils.ContextManager;
 
@@ -24,7 +27,7 @@ import de.dhbw.utils.ContextManager;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, HomeFragment.OnItemClickListener,
         AddEventFragment.OnPostPartySuccessful, DetailFragment.OnChangePartyListener, ChangeEventFragment.OnPutPartySuccessful,
-        DetailFragment.OpenVoteDialog, DetailFragment.ReturnToHomeFragment{
+        DetailFragment.OpenVoteDialog, DetailFragment.ReturnToHomeFragment, HomeFragment.OnFloatButtonClickListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -220,5 +223,22 @@ public class MainActivity extends AppCompatActivity
             FragmentTransaction ft = fm.beginTransaction();
             ft.replace(R.id.main_container_body, fragment);
             ft.commit();
+    }
+
+    /**
+     * Öffnet die FindEvent-Übersicht mit Markierungen der Parties
+     * @param parties
+     */
+    @Override
+    public void onFloatButtonClick(ArrayList<Party> parties) {
+        Fragment fragment = new FindEventFragment();
+        Bundle args = new Bundle();
+        args.putSerializable(FindEventFragment.ARG_PARTYLIST, parties);
+        fragment.setArguments(args);
+
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.main_container_body, fragment).addToBackStack("HomeFragment");
+        fragmentTransaction.commit();
     }
 }

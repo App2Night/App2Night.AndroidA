@@ -39,10 +39,19 @@ import de.dhbw.utils.Gps;
 public class FindEventFragment extends Fragment {
 
     //Variablen
+    final static String ARG_PARTYLIST = "arg_partylist";
+    ArrayList<Party> partyList;
     MapView mMapView;
     private GoogleMap googleMap;
     Marker userPosition;
     LatLng pos;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        partyList = (ArrayList<Party>) getArguments().getSerializable(ARG_PARTYLIST);
+
+    }
 
     /**
      * Wird aufgerufen, sobald die View erstellt wird
@@ -64,6 +73,8 @@ public class FindEventFragment extends Fragment {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        showPartiesOnMap(partyList);
         return rootView;
     }
 
@@ -120,7 +131,7 @@ public class FindEventFragment extends Fragment {
      *
      * @param parties Anzuzeigende Paries
      */
-    public void showPartiesOnMap(final Party[] parties){
+    public void showPartiesOnMap(final ArrayList<Party> parties){
         mMapView.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(GoogleMap mMap) {
@@ -154,7 +165,7 @@ public class FindEventFragment extends Fragment {
                     //Wenn GPS nicht verfügbar, dann beziehe es nicht mit ein in Berechnung
                 }
                 LatLngBounds bounds = builder.build();
-                int padding = 0; // offset from edges of the map in pixels
+                int padding = 10; // offset from edges of the map in pixels
                 CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
                 googleMap.animateCamera(cu);
             }
