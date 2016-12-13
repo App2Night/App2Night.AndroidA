@@ -11,15 +11,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import de.dhbw.backendTasks.party.GetPartyList;
 import de.dhbw.backendTasks.party.GetPartyListTask;
@@ -30,16 +36,13 @@ import de.dhbw.utils.Gps;
 /**
  * Created by Flo on 31.10.2016.
  */
-public class FindEventFragment extends Fragment implements GetPartyList {
+public class FindEventFragment extends Fragment {
 
     //Variablen
     MapView mMapView;
     private GoogleMap googleMap;
-    Gps gps;
     Marker userPosition;
     LatLng pos;
-    private double latitudeUser;
-    private double longtitudeUser;
 
     /**
      * Wird aufgerufen, sobald die View erstellt wird
@@ -48,7 +51,6 @@ public class FindEventFragment extends Fragment implements GetPartyList {
      * @param savedInstanceState
      * @return
      */
-    @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_findevent, container, false);
@@ -56,28 +58,14 @@ public class FindEventFragment extends Fragment implements GetPartyList {
         mMapView.onCreate(savedInstanceState);
         mMapView.onResume(); // needed to get the map to display immediately
 
-        gps = Gps.getInstance();
-
-        // Koordinaten des Users holen, falls es fehlschlägt Alert Dialog anzeigen
-        try {
-            double[] gpsKoord = gps.getGPSCoordinates();
-            latitudeUser = gpsKoord[0];
-            longtitudeUser = gpsKoord[1];
-            new GetPartyListTask(this, latitudeUser, longtitudeUser);
-        } catch (GPSUnavailableException e) {
-            showSettingsAlert();
-        }
         // Map initialisieren
         try {
             MapsInitializer.initialize(getActivity().getApplicationContext());
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return rootView;
     }
-
-
 
     @Override
     public void onResume() {
@@ -128,45 +116,49 @@ public class FindEventFragment extends Fragment implements GetPartyList {
     }
 
     /**
-     * Wird aufgerufen, wenn die PartyListe erfolgreich geladen werden konnte. Updated die Position des Users, der Kamera und zeigt die Parties auf der Map an.
-     * @param parties: Alle Parties, die geladen wurden
+     * Zeig die Position aller übergebenen Parties an.
+     *
+     * @param parties Anzuzeigende Paries
      */
-    @Override
-    public void onSuccessGetPartyList(final Party[] parties) {
-        try {
-            MapsInitializer.initialize(getActivity().getApplicationContext());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+    public void showPartiesOnMap(final Party[] parties){
         mMapView.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(GoogleMap mMap) {
+                List<Marker> markers = new ArrayList<>();
                 googleMap = mMap;
-
-                // For showing a move to my location button
-
-                //googleMap.setMyLocationEnabled(true); //TODO: Fixen von setMyLocationEnabled
-
-                // For dropping a marker at a point on the Map
-
-
-                   for (Party p : parties) {
-                       pos = new LatLng(p.getLocation().getLatitude(), p.getLocation().getLongitude());
-                       userPosition = googleMap.addMarker(new MarkerOptions().position(pos).title(p.getPartyName()).snippet(""));
-                   }
-                pos = new LatLng(latitudeUser, longtitudeUser);
-                CameraPosition cameraPosition = new CameraPosition.Builder().target(pos).zoom(11).build();
-                googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-
-
+                for (Party party : parties) {
+                    pos = new LatLng(party.getLocation().getLatitude(), party.getLocation().getLongitude());
+                    userPosition = googleMap.addMarker(new MarkerOptions().
+                            position(pos).
+                            title(party.getPartyName()).
+                            snippet(""));
+                    markers.add(userPosition);
                 }
+                //Berechne richtigen Kamerazoom
+                LatLngBounds.Builder builder = new LatLngBounds.Builder();
+                for (Marker marker : markers) {
+                    builder.include(marker.getPosition());
+                }
+                //Wenn Gps Verfügbar ist füge eigene Position ein und setzt Markerfarbe auf blau
+                try{
+                    double[] koord = Gps.getInstance().getGPSCoordinates();
+                    pos = new LatLng(koord[0], koord[1]);
+                    userPosition = googleMap.addMarker(new MarkerOptions().
+                            position(pos).
+                            title(getString(R.string.user_position)).
+                            snippet("").
+                            icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN)));
+                    //Damit Zoom auch in Abhängigkeit von User Id angezeigt wird
+                    builder.include(userPosition.getPosition());
+                }catch (GPSUnavailableException e){
+                    //Wenn GPS nicht verfügbar, dann beziehe es nicht mit ein in Berechnung
+                }
+                LatLngBounds bounds = builder.build();
+                int padding = 0; // offset from edges of the map in pixels
+                CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+                googleMap.animateCamera(cu);
+            }
         });
-    }
-
-    @Override
-    public void onFailGetPartyList() {
-
     }
 }
 

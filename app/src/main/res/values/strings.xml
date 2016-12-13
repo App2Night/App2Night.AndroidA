@@ -24,6 +24,10 @@
     <string name="title_contact">Kontakt</string>
     <string name="title_activity_login">Sign in</string>
 
+
+    <!-- Strings related to FindEvent -->
+    <string name="user_position">Standort</string>
+
     <!-- Strings related to login -->
     <string name="prompt_user_name">Benutzername</string>
     <string name="prompt_password">Passwort</string>
