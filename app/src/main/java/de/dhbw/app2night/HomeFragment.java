@@ -97,6 +97,26 @@ public class HomeFragment extends Fragment implements GetPartyList {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(pAdapter);
 
+        //Floating Action Button beim scrollen aus- bzw. einblenden
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy){
+                if (dy > 0 ||dy<0 && fab_map.isShown())
+                    fab_map.hide();
+            }
+
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+
+                if (newState == RecyclerView.SCROLL_STATE_IDLE){
+                    fab_map.show();
+                }
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+
+        });
+
         fab_map = (FloatingActionButton) rootView.findViewById(R.id.fab_map);
         fab_map.setOnClickListener(new View.OnClickListener() {
             @Override

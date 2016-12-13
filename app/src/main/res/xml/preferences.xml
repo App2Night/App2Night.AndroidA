@@ -3,7 +3,7 @@
     xmlns:sample="http://schemas.android.com/apk/res-auto"
     >
 
-    <PreferenceCategory android:title="General"
+    <PreferenceCategory android:title="Allgemein"
         android:summary="Allgemeine Einstellungen"
         >
 

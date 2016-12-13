@@ -65,7 +65,8 @@ public class PartiesAdapter extends RecyclerView.Adapter<PartiesAdapter.MyViewHo
         holder.date.setText(DateUtil.getInstance().getDate(party.getPartyDate()) + " " + DateUtil.getInstance().getTime(party.getPartyDate()));
         holder.location.setText(party.getLocation().getCityName() + ", " + party.getLocation().getStreetName() + ' ' + party.getLocation().getHouseNumber());
         holder.organizer.setText(party.getHost().getUserName());
-        holder.price.setText( Integer.toString(party.getPrice()));
+        if (party.getPrice() == 0) holder.price.setText("Frei");
+        else holder.price.setText( Integer.toString(party.getPrice()));
         holder.bind(partyList.get(position), itemListener);
 
     }

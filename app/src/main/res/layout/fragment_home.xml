@@ -67,7 +67,6 @@
             android:id="@+id/fab_map"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_behavior="de.dhbw.app2night.FabBehavior"
             android:layout_gravity="bottom|end"
             android:layout_marginBottom="@dimen/fab_margin"
             android:backgroundTint="@color/fab4_color"
