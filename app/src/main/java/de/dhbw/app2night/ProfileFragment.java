@@ -59,9 +59,6 @@ public class ProfileFragment extends Fragment {
         profile_description = (EditText) rootView.findViewById(R.id.profile_description_view);
 
 
-        //TODO: Name des Users in TextFeld anzeigen
-
-
         //Button Image Ändern und anderen OnClickListener zuweisen
          save = new View.OnClickListener() {
             @Override

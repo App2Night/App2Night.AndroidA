@@ -52,7 +52,7 @@ public class ContactFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_SEND);
                 intent.setType("plain/text");
-                intent.putExtra(Intent.EXTRA_EMAIL, new String[] { "app2night@email.adress" }); //TODO: Valide eMail einrichten
+                intent.putExtra(Intent.EXTRA_EMAIL, new String[] { "app2night@email.adress" });
                 intent.putExtra(Intent.EXTRA_SUBJECT, "Kontaktformular");
                 intent.putExtra(Intent.EXTRA_TEXT, "Von: " + name.getText() + "\n" + "Mail: " + mail.getText() + "\n" + "Nachricht: " + message.getText());
                 startActivity(Intent.createChooser(intent, "E-Mail client wählen: "));
