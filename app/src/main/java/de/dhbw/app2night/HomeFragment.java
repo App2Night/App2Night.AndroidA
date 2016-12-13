@@ -45,7 +45,7 @@ public class HomeFragment extends Fragment implements GetPartyList {
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private RecyclerView recyclerView;
     private PartiesAdapter pAdapter;
-    private FloatingActionButton fab_map;
+    FloatingActionButton fab_map;
     private PartiesAdapter.OnItemClickListener itemClickListener;
     private LinearLayout error_header;
     Animation error_fade_in, error_fade_out;
@@ -97,25 +97,6 @@ public class HomeFragment extends Fragment implements GetPartyList {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(pAdapter);
 
-        //Floating Action Button beim scrollen aus- bzw. einblenden
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy){
-                if (dy > 0 ||dy<0 && fab_map.isShown())
-                    fab_map.hide();
-            }
-
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-
-                if (newState == RecyclerView.SCROLL_STATE_IDLE){
-                    fab_map.show();
-                }
-                super.onScrollStateChanged(recyclerView, newState);
-            }
-
-
-        });
 
         fab_map = (FloatingActionButton) rootView.findViewById(R.id.fab_map);
         fab_map.setOnClickListener(new View.OnClickListener() {
@@ -158,6 +139,26 @@ public class HomeFragment extends Fragment implements GetPartyList {
                 }
                 refreshItems();
             }
+        });
+        
+        //Floating Action Button beim scrollen aus- bzw. einblenden
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy){
+                if (dy > 0 ||dy<0 && fab_map.isShown())
+                    fab_map.hide();
+            }
+
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+
+                if (newState == RecyclerView.SCROLL_STATE_IDLE){
+                    fab_map.show();
+                }
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+
         });
     }
 

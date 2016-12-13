@@ -69,7 +69,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_marginBottom="@dimen/fab_margin"
-            android:backgroundTint="@color/fab4_color"
             android:layout_marginEnd="@dimen/fab_margin"
             android:src="@drawable/ic_location"/>
 
