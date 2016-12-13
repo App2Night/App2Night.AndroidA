@@ -3,6 +3,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/screen_background"
     android:paddingBottom="20dp"
     android:paddingLeft="10dp"
@@ -58,5 +59,20 @@
     </LinearLayout>
 
 
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_map"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_marginBottom="@dimen/fab_margin"
+            app:backgroundTint="@color/fab4_color"
+            android:layout_marginEnd="@dimen/fab_margin"
+            android:src="@drawable/ic_location"/>
+
+    </android.support.design.widget.CoordinatorLayout>
 
 </RelativeLayout>
