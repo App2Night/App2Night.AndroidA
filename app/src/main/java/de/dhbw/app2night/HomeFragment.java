@@ -128,7 +128,7 @@ public class HomeFragment extends Fragment implements GetPartyList {
                 if (partyList.size() > 0)
                     mFloatButtonClickCallback.onFloatButtonClick(partyList);
                 else
-                    Toast.makeText(getActivity(), "Keine Partys zum anzeigen in der Liste", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Keine Partys zum Anzeigen in der Liste", Toast.LENGTH_SHORT).show();
 
             }
         });
