@@ -125,7 +125,11 @@ public class HomeFragment extends Fragment implements GetPartyList {
         fab_map.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mFloatButtonClickCallback.onFloatButtonClick(partyList);
+                if (partyList.size() > 0)
+                    mFloatButtonClickCallback.onFloatButtonClick(partyList);
+                else
+                    Toast.makeText(getActivity(), "Keine Partys zum anzeigen in der Liste", Toast.LENGTH_SHORT).show();
+
             }
         });
 
@@ -276,7 +280,7 @@ public class HomeFragment extends Fragment implements GetPartyList {
     @Override
     public void onFailGetPartyList() {
         if (getActivity() != null) {
-            Toast.makeText(getActivity(), "Parties laden ist fehlgeschlagen. Alte Liste wurde geladen.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Parties laden ist fehlgeschlagen. Alte Liste wurde geladen", Toast.LENGTH_SHORT).show();
             mSwipeRefreshLayout.setRefreshing(false);
         }
     }
