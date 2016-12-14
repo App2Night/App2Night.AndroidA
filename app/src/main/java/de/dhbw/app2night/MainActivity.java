@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity
 
         //Das sollte eigentlich deutlich sauberer gemacht werden (schönere Abfrage mit Behandlung auch wenn es abgelehtn wird;
         //Wir haben erst am letzten Tag gemerkt, dass die App ab Android 6.0 die Runtime Permissions braucht
-        //Ist so implementiert, damit es überhaupt funktioniert, wenn man eine solches Gerät verwendet
+        //Ist so implementiert, damit es überhaupt funktioniert, wenn man ein solches Gerät verwendet
         int permissionCheck = ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION);
         if (permissionCheck != PackageManager.PERMISSION_GRANTED)
         {
@@ -77,6 +77,8 @@ public class MainActivity extends AppCompatActivity
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.main_container_body, fragment);
         fragmentTransaction.commit();
+
+        getSupportActionBar().setTitle(getString(R.string.title_home));
     }
 
     @Override
