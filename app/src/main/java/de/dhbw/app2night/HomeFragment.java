@@ -45,6 +45,7 @@ public class HomeFragment extends Fragment implements GetPartyList {
         void onFloatButtonClick(ArrayList<Party> parties);
     }
 
+    public static final String ARG_STARTUP = "arg_startup";
     OnItemClickListener mItemClickCallback;
     OnFloatButtonClickListener mFloatButtonClickCallback;
     private ArrayList<Party> partyList = new ArrayList<>();
@@ -56,6 +57,7 @@ public class HomeFragment extends Fragment implements GetPartyList {
     private LinearLayout error_header;
     Animation error_fade_in, error_fade_out;
     View rootView;
+    Boolean startTask;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -64,6 +66,13 @@ public class HomeFragment extends Fragment implements GetPartyList {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //Start Parameter fuer Taskstart wird ausgelesen,wenn nichts gelesen werden kann, wird Startparameter false gesetzt
+        if(getArguments() != null ) {
+            startTask = getArguments().getBoolean(ARG_STARTUP);
+        }else{
+            startTask = false;
+        }
 
         itemClickListener = new PartiesAdapter.OnItemClickListener() {
             @Override
@@ -125,22 +134,25 @@ public class HomeFragment extends Fragment implements GetPartyList {
         error_fade_out = AnimationUtils.loadAnimation(getActivity(), R.anim.image_fade_out);
 
         adaptParties(GetPartyListSave.getInstance().getList());
-        try {
-            double[] gpsResult = Gps.getInstance().getGPSCoordinates();
-            new GetPartyListTask(this,gpsResult[0],gpsResult[1]);
-            if (error_header.getVisibility() == View.VISIBLE) {
-                error_header.startAnimation(error_fade_out);
-                error_header.setVisibility(View.INVISIBLE);
-                error_header.setClickable(false);
+        //Wenn der Startparameter startTask gesetzt wurde, da das Fragment von der MainActivity gestartet wurde, fuehre Task aus
+        if(startTask) {
+            try {
+                double[] gpsResult = Gps.getInstance().getGPSCoordinates();
+                new GetPartyListTask(this, gpsResult[0], gpsResult[1]);
+                if (error_header.getVisibility() == View.VISIBLE) {
+                    error_header.startAnimation(error_fade_out);
+                    error_header.setVisibility(View.INVISIBLE);
+                    error_header.setClickable(false);
+                }
+            } catch (GPSUnavailableException e) {
+                showGpsUnavailableDialog();
+                if (error_header.getVisibility() == View.INVISIBLE) {
+                    error_header.setVisibility(View.VISIBLE);
+                    error_header.startAnimation(error_fade_in);
+                    error_header.setClickable(true);
+                }
+                e.printStackTrace();
             }
-        } catch (GPSUnavailableException e) {
-            showGpsUnavailableDialog();
-            if (error_header.getVisibility() == View.INVISIBLE){
-                error_header.setVisibility(View.VISIBLE);
-                error_header.startAnimation(error_fade_in);
-                error_header.setClickable(true);
-            }
-            e.printStackTrace();
         }
 
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {

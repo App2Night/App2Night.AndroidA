@@ -51,9 +51,17 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        // display the home fragment view on app launch
         fragmentManager = getFragmentManager();
-        displayView(R.layout.fragment_home);
+        //Starte HomeFragment mit Argument, um GetPartyListTask beim ersten Mal zu starten
+        Fragment fragment = new HomeFragment();
+        Bundle args = new Bundle();
+        args.putSerializable(HomeFragment.ARG_STARTUP, true);
+        fragment.setArguments(args);
+
+        fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.main_container_body, fragment);
+        fragmentTransaction.commit();
     }
 
     @Override

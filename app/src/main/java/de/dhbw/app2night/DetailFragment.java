@@ -87,7 +87,7 @@ public class DetailFragment extends Fragment implements View.OnClickListener, De
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //Darzustellende Party wird aus mitgegebenen Argumenten ausgelesen
-        partyToDisplay = (Party)getArguments().getSerializable("arg_party");
+        partyToDisplay = (Party)getArguments().getSerializable(ARG_PARTY);
 
         try {
             //Callbackverbindung zum Öffnen des ChangePartyFragments
