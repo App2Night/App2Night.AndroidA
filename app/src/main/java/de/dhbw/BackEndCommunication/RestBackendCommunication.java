@@ -137,7 +137,6 @@ public class RestBackendCommunication {
                 bw.flush();
                 bw.close();
                 conn.connect();
-                String str = conn.getResponseMessage();
                 int response = conn.getResponseCode();
                 if (response == HttpURLConnection.HTTP_OK) {
                     return true;

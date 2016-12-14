@@ -36,6 +36,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
 
     /**
      * Wird aufgerufen, sobald die View erstellt wird
+     *
      * @param inflater
      * @param container
      * @param savedInstanceState

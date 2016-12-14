@@ -165,9 +165,10 @@ public class FindEventFragment extends Fragment {
                     //Wenn GPS nicht verfügbar, dann beziehe es nicht mit ein in Berechnung
                 }
                 LatLngBounds bounds = builder.build();
-                int padding = 10; // offset from edges of the map in pixels
+                int width = getResources().getDisplayMetrics().widthPixels;
+                int padding = (int) (width * 0.10);
                 CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
-                googleMap.animateCamera(cu);
+                mMap.animateCamera(cu);
             }
         });
     }
