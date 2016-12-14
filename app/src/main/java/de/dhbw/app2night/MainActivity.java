@@ -76,6 +76,10 @@ public class MainActivity extends AppCompatActivity
         fragmentTransaction.commit();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
 
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
@@ -93,6 +97,7 @@ public class MainActivity extends AppCompatActivity
             //Andere permissions
         }
     }
+
 
     @Override
     public void onBackPressed() {

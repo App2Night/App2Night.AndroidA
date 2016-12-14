@@ -32,6 +32,7 @@ public class Gps {
      * @throws GPSUnavailableException - falls die GPS Koordinaten aus irgendeinem Grund nicht abgefragt werden können
      */
     public double[] getGPSCoordinates () throws GPSUnavailableException {
+
         // Acquire a reference to the system Location Manager
         double[] rueckgabe;
         Location location;
