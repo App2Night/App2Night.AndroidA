@@ -53,6 +53,9 @@ public class MainActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
+        //Das sollte eigentlich deutlich sauberer gemacht werden (schönere Abfrage mit Behandlung auch wenn es abgelehtn wird;
+        //Wir haben erst am letzten Tag gemerkt, dass die App ab Android 6.0 die Runtime Permissions braucht
+        //Ist so implementiert, damit es überhaupt funktioniert, wenn man eine solches Gerät verwendet
         int permissionCheck = ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION);
         if (permissionCheck != PackageManager.PERMISSION_GRANTED)
         {
